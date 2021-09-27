@@ -33,13 +33,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.vten.gedeon.dao.connector.nosql.NoSQLConnector;
-import com.vten.gedeon.dao.data.OEDBObject;
+import com.vten.gedeon.dao.data.GedeonDBObject;
 import com.vten.gedeon.exception.OERuntimeException;
 
 @Configuration
-public class OpenECMElasticConnector extends NoSQLConnector{
+public class GedeonElasticConnector extends NoSQLConnector{
 	
-	private static final Logger LOG = LoggerFactory.getLogger(OpenECMElasticConnector.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GedeonElasticConnector.class);
 
 	@Value("${elasticsearch.host}")
     private String elasticsearchHost; 
@@ -84,8 +84,8 @@ public class OpenECMElasticConnector extends NoSQLConnector{
 	}
 
 	@Override
-	public OEDBObject getObject(String className, String id) {
-		OEDBObject matchObject = new OEDBObject();
+	public GedeonDBObject getObject(String className, String id) {
+		GedeonDBObject matchObject = new GedeonDBObject();
 		GetRequest getRequest = new GetRequest("gedeon-".concat(className.toLowerCase()));
 		getRequest.id(id);
 		try {
@@ -104,7 +104,7 @@ public class OpenECMElasticConnector extends NoSQLConnector{
 	}
 
 	@Override
-	public OEDBObject saveObject(String className, OEDBObject obj) {
+	public GedeonDBObject saveObject(String className, GedeonDBObject obj) {
 		try {
 			//Create index request
 			IndexRequest idxRequest = new IndexRequest("gedeon-".concat(className.toLowerCase()));

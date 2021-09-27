@@ -3,7 +3,7 @@ package com.vten.gedeon.api.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class OEConstants {
+public abstract class GedeonProperties {
 	
 	public static final String PROP_ID = "Id";
 	public static final String PROP_CLASSNAME = "ClassName";
@@ -25,6 +25,8 @@ public abstract class OEConstants {
 	public static final String PROP_PROPERTY_IS_REQUIRED = "IsRequired";
 	//PROPERTIES DEFINITION
 	public static final String PROP_PROPERTIES_DEFINITION = "PropertiesDefinitions";
+	//CLASS DEFINITION
+	public static final String PROP_IS_ABSTRACT = "IsAbstract";
 	
 	//PROPERTY
 	public static final String PROP_PROPERTY_DEFINITION = "PropertyDefinition";

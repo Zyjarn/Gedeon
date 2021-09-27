@@ -10,15 +10,15 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 
-import com.vten.gedeon.api.search.OESearch;
+import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.exception.OERuntimeException;
 
 public class OEFactory {
 
-	public static OESearch createEmptySearch() {
-		Constructor<?> constructor = retrieveConstructor(OESearch.class);
+	public static GedSearch createEmptySearch() {
+		Constructor<?> constructor = retrieveConstructor(GedSearch.class);
 		try {
-			return (OESearch) constructor.newInstance();
+			return (GedSearch) constructor.newInstance();
 		} catch (InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException e) {
 			throw new OERuntimeException("Fatal Error in API : default constructor for OESearch not available in api implementation." );
 		}

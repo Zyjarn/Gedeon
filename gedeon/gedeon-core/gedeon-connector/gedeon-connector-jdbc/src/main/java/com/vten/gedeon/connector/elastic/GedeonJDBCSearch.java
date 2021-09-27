@@ -2,23 +2,23 @@ package com.vten.gedeon.connector.elastic;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.vten.gedeon.api.search.OESearch;
+import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.search.bean.BasicSearchCondition;
 import com.vten.gedeon.api.search.bean.SearchCondition;
 import com.vten.gedeon.api.search.bean.SearchParam;
 
-public class OpenECMJDBCSearch  {
+public class GedeonJDBCSearch  {
 
 	
 	public void search() {
 		
 	}
 	
-	public String format(OESearch search) {
+	public String format(GedSearch search) {
 		return toSQL(search);
 	}
 	
-	protected String toSQL(OESearch search) {
+	protected String toSQL(GedSearch search) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT ")
 		//TOP 

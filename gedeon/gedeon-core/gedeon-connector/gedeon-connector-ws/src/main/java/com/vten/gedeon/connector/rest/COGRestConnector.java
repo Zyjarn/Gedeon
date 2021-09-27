@@ -2,11 +2,11 @@ package com.vten.gedeon.connector.rest;
 
 import org.springframework.context.annotation.Configuration;
 
-import com.vten.gedeon.dao.connector.OEDBConnector;
-import com.vten.gedeon.dao.data.OEDBObject;
+import com.vten.gedeon.dao.connector.GedeonDBConnector;
+import com.vten.gedeon.dao.data.GedeonDBObject;
 
 @Configuration
-public class COGRestConnector implements OEDBConnector{
+public class COGRestConnector implements GedeonDBConnector{
 
 	@Override
 	public int initDB() {
@@ -15,13 +15,13 @@ public class COGRestConnector implements OEDBConnector{
 	}
 
 	@Override
-	public OEDBObject getObject(String className, String id) {
+	public GedeonDBObject getObject(String className, String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public OEDBObject saveObject(String className, OEDBObject obj) {
+	public GedeonDBObject saveObject(String className, GedeonDBObject obj) {
 		// TODO Auto-generated method stub
 		return obj;
 	}

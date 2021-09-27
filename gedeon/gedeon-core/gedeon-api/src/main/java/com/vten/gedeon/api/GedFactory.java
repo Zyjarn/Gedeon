@@ -4,9 +4,9 @@ import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.property.PropertyDefinition;
 import com.vten.gedeon.api.property.PropertyTemplate;
 
-public interface OEFactory {
+public interface GedFactory {
 
-	public OEDocument createOEDocument();
+	public GedDocument createOEDocument();
 	
 	public ClassDefinition createClassDefinition();
 	
@@ -26,7 +26,7 @@ public interface OEFactory {
 	
 	public PropertyDefinition createPropertyDefinition(String propTpltName);
 
-	public OEFolder createOEFolder();
+	public GedFolder createOEFolder();
 
 	public ContainmentRelationship createContainmentRelationship();
 }

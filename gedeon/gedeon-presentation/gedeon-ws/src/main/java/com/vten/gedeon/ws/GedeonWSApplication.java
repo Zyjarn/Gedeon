@@ -8,10 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.vten.gedeon"})
 @EnableAutoConfiguration
-public class OpenGedWSApplication {
+public class GedeonWSApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OpenGedWSApplication.class, args);
+		SpringApplication.run(GedeonWSApplication.class, args);
 	}
 
 }

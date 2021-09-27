@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.vten.gedeon.api.utils.GedEvents;
-import com.vten.gedeon.api.utils.OEConstants;
+import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.utils.SaveMode;
 
-public interface PersistableObject extends OEObject{
+public interface PersistableObject extends GedObject{
 	
 	public void save(SaveMode mode);
 	public void refresh();
@@ -16,12 +16,12 @@ public interface PersistableObject extends OEObject{
 	
 	@Override
 	public default String getName() {
-		return getProperties().get(OEConstants.PROP_NAME).getStringValue();
+		return getProperties().get(GedeonProperties.PROP_NAME).getStringValue();
 	}
 	
 	@Override
 	public default void setName(String name) {
-		setPropertyValue(OEConstants.PROP_NAME,name);
+		setPropertyValue(GedeonProperties.PROP_NAME,name);
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public interface PersistableObject extends OEObject{
 	 * @param creator
 	 */
 	public default void setAddedBy(String creator){
-		setPropertyValue(OEConstants.PROP_ADDED_BY,creator);
+		setPropertyValue(GedeonProperties.PROP_ADDED_BY,creator);
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public interface PersistableObject extends OEObject{
 	 * @param creator
 	 */
 	public default String getAddedBy() {
-		return getProperties().get(OEConstants.PROP_ADDED_BY).getStringValue();
+		return getProperties().get(GedeonProperties.PROP_ADDED_BY).getStringValue();
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public interface PersistableObject extends OEObject{
 	 * @param creator
 	 */
 	public default void setAddedOn(LocalDateTime dateCreated){
-		setPropertyValue(OEConstants.PROP_DATE_ADDED_ON,dateCreated);
+		setPropertyValue(GedeonProperties.PROP_DATE_ADDED_ON,dateCreated);
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public interface PersistableObject extends OEObject{
 	 * @param creator
 	 */
 	public default LocalDateTime getAddedOn() {
-		return getProperties().get(OEConstants.PROP_DATE_ADDED_ON).getDateTime();
+		return getProperties().get(GedeonProperties.PROP_DATE_ADDED_ON).getDateTime();
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public interface PersistableObject extends OEObject{
 	 * @param creator
 	 */
 	public default void setLastModifier(String lastModifier){
-		setPropertyValue(OEConstants.PROP_LAST_MODIFIER,lastModifier);
+		setPropertyValue(GedeonProperties.PROP_LAST_MODIFIER,lastModifier);
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public interface PersistableObject extends OEObject{
 	 * @param creator
 	 */
 	public default String getLastModifier(){
-		return getProperties().get(OEConstants.PROP_LAST_MODIFIER).getStringValue();
+		return getProperties().get(GedeonProperties.PROP_LAST_MODIFIER).getStringValue();
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public interface PersistableObject extends OEObject{
 	 * @param creator
 	 */
 	public default void setDateSaved(LocalDateTime dateLastModified){
-		setPropertyValue(OEConstants.PROP_DATE_SAVED,dateLastModified);
+		setPropertyValue(GedeonProperties.PROP_DATE_SAVED,dateLastModified);
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public interface PersistableObject extends OEObject{
 	 * @param creator
 	 */
 	public default LocalDateTime getDateSaved(){
-		return getProperties().get(OEConstants.PROP_DATE_SAVED).getDateTime();
+		return getProperties().get(GedeonProperties.PROP_DATE_SAVED).getDateTime();
 	}
 	
 	/**

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.property.Properties;
-import com.vten.gedeon.api.utils.OEConstants;
+import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.apiimpl.property.PropertiesImpl;
 import com.vten.gedeon.apiimpl.property.PropertyImpl;
 import com.vten.gedeon.dao.PersistableObjectDAOImpl;
@@ -21,7 +21,7 @@ import com.vten.gedeon.utils.SaveMode;
 import lombok.Data;
 
 @RestController
-public class COGRestController {
+public class GedeonRestController {
 
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
@@ -45,8 +45,8 @@ public class COGRestController {
 		Properties props = new PropertiesImpl();
 		properties.entrySet().stream()
 			.forEach(e -> props.add(new PropertyImpl(e.getKey(),e.getValue())));
-		if(!properties.containsKey(OEConstants.PROP_CLASSNAME))
-			props.add(new PropertyImpl(OEConstants.PROP_CLASSNAME,className));
+		if(!properties.containsKey(GedeonProperties.PROP_CLASSNAME))
+			props.add(new PropertyImpl(GedeonProperties.PROP_CLASSNAME,className));
 		obj.setProperties(props);
 		dao.saveObject(obj,SaveMode.NO_REFRESH);
 		return 1;

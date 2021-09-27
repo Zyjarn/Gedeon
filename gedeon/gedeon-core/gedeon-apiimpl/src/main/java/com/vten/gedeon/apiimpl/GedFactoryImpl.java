@@ -5,17 +5,18 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Component;
 
 import com.vten.gedeon.api.ContainmentRelationship;
-import com.vten.gedeon.api.OEDocument;
-import com.vten.gedeon.api.OEFactory;
-import com.vten.gedeon.api.OEFolder;
+import com.vten.gedeon.api.GedDocument;
+import com.vten.gedeon.api.GedFactory;
+import com.vten.gedeon.api.GedFolder;
 import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.property.PropertyDefinition;
 import com.vten.gedeon.api.property.PropertyTemplate;
+import com.vten.gedeon.apiimpl.admin.ClassDefinitionImpl;
 import com.vten.gedeon.apiimpl.property.PropertyDefinitionImpl;
 import com.vten.gedeon.apiimpl.property.PropertyTemplateImpl;
 
 @Component
-public class OEFactoryImpl implements OEFactory {
+public class GedFactoryImpl implements GedFactory {
 	
 	@Autowired
 	private AutowireCapableBeanFactory springFactory;
@@ -26,8 +27,8 @@ public class OEFactoryImpl implements OEFactory {
 		return bean;
 	}
 	
-	public OEDocument createOEDocument(){
-		return initBean(new OEDocumentImpl());
+	public GedDocument createOEDocument(){
+		return initBean(new GedDocumentImpl());
 	}
 	
 	public ClassDefinition createClassDefinition(){
@@ -63,8 +64,8 @@ public class OEFactoryImpl implements OEFactory {
 		return initBean(new PropertyDefinitionImpl(propTplt));
 	}
 
-	public OEFolder createOEFolder() {
-		return initBean(new OEFolderImpl());
+	public GedFolder createOEFolder() {
+		return initBean(new GedFolderImpl());
 	}
 
 	public ContainmentRelationship createContainmentRelationship() {

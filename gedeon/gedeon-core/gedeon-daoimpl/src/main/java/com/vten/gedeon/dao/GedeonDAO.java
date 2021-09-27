@@ -7,23 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.property.Properties;
-import com.vten.gedeon.apiimpl.OEFactoryImpl;
+import com.vten.gedeon.apiimpl.GedFactoryImpl;
 import com.vten.gedeon.apiimpl.property.PropertiesImpl;
 import com.vten.gedeon.apiimpl.property.PropertyImpl;
-import com.vten.gedeon.dao.connector.OEDBConnector;
-import com.vten.gedeon.dao.data.OEDBObject;
+import com.vten.gedeon.dao.connector.GedeonDBConnector;
+import com.vten.gedeon.dao.data.GedeonDBObject;
 import com.vten.gedeon.utils.SaveMode;
 
-public abstract class OpenECMDAO {
-	protected OEFactoryImpl factory;
-	protected OEDBConnector connector;
+public abstract class GedeonDAO {
+	protected GedFactoryImpl factory;
+	protected GedeonDBConnector connector;
 
 	@Autowired
-	public OpenECMDAO(final OEDBConnector dbConnect) {
+	public GedeonDAO(final GedeonDBConnector dbConnect) {
 		this.connector = dbConnect;
 	}
 
-	private void fillPersistableObjectInstance(PersistableObject instance, OEDBObject persistObject) {
+	private void fillPersistableObjectInstance(PersistableObject instance, GedeonDBObject persistObject) {
 		Properties props = (Properties) new PropertiesImpl();
 		persistObject.getMapData().entrySet().stream()
 				.forEach(e -> props.add(new PropertyImpl((String) e.getKey(), e.getValue())));
@@ -31,7 +31,7 @@ public abstract class OpenECMDAO {
 	}
 
 	protected PersistableObject getObjectById(PersistableObject instance, String className, String id) {
-		OEDBObject persistObject = this.connector.getObject(className, id);
+		GedeonDBObject persistObject = this.connector.getObject(className, id);
 		if (StringUtils.isBlank(persistObject.getId())) {
 			return null;
 		}
@@ -40,7 +40,7 @@ public abstract class OpenECMDAO {
 	}
 
 	protected PersistableObject getObjectByName(PersistableObject instance, String className, String name) {
-		OEDBObject persistObject = this.connector.getObject(className, name);
+		GedeonDBObject persistObject = this.connector.getObject(className, name);
 		if (StringUtils.isBlank(persistObject.getId())) {
 			return null;
 		}
@@ -55,7 +55,7 @@ public abstract class OpenECMDAO {
 		}
 		obj.setDateSaved(LocalDateTime.now());
 		obj.setLastModifier("System");
-		OEDBObject objToSave = new OEDBObject(obj);
+		GedeonDBObject objToSave = new GedeonDBObject(obj);
 		this.connector.saveObject(obj.getClassName(), objToSave);
 		SaveMode.REFRESH.equals((Object) mode);
 	}

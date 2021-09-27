@@ -1,15 +1,15 @@
 package com.gedeon.connector.elastic;
 
-import com.vten.gedeon.api.search.OESearch;
-import com.vten.gedeon.connector.elastic.OpenECMElasticSearch;
+import com.vten.gedeon.api.search.GedSearch;
+import com.vten.gedeon.connector.elastic.GedeonElasticSearch;
 
 public class TestElasticSearch {
 	
-	private OpenECMElasticSearch searchManager;
+	private GedeonElasticSearch searchManager;
 
 	public void testSearch() throws ClassNotFoundException {
-		searchManager = new OpenECMElasticSearch();
-		OESearch search = new OESearch.OESearchBuilder().select("DocumentTitle").from("Document")
+		searchManager = new GedeonElasticSearch();
+		GedSearch search = new GedSearch.OESearchBuilder().select("DocumentTitle").from("Document")
 				.where()
 					.equals("PropertyType", "STRING")
 						.and()

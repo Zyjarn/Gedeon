@@ -10,7 +10,7 @@ import com.vten.gedeon.api.search.bean.SearchCondition;
 import com.vten.gedeon.api.search.bean.SearchParam;
 import com.vten.gedeon.exception.OERuntimeException;
 
-public interface OESearch {
+public interface GedSearch {
 	
 	public List<String> getSelectColumn();
 	
@@ -45,8 +45,8 @@ public interface OESearch {
 		
 		//public boolean not = false;
 		
-		public OESearch build(/*GedeonCollectionImpl*/) {
-			OESearch search = OEFactory.createEmptySearch(/*GedeonCollectionImpl*/);
+		public GedSearch build(/*GedeonCollectionImpl*/) {
+			GedSearch search = OEFactory.createEmptySearch(/*GedeonCollectionImpl*/);
 			search.setCount(count);
 			//SELECT
 			if(columns == null || columns.length == 0)

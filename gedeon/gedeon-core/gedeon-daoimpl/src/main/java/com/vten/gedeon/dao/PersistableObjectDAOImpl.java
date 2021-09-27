@@ -4,17 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.apiimpl.OEFactoryImpl;
-import com.vten.gedeon.dao.connector.OEDBConnector;
+import com.vten.gedeon.apiimpl.GedFactoryImpl;
+import com.vten.gedeon.dao.connector.GedeonDBConnector;
 import com.vten.gedeon.exception.OERuntimeException;
 
 @Service
-public class PersistableObjectDAOImpl extends OpenECMDAO implements PersistableObjectDAO
+public class PersistableObjectDAOImpl extends GedeonDAO implements PersistableObjectDAO
 {
-    private OEFactoryImpl factory;
+    private GedFactoryImpl factory;
     
     @Autowired
-    public PersistableObjectDAOImpl(final OEDBConnector dbConnect, final OEFactoryImpl factory) {
+    public PersistableObjectDAOImpl(final GedeonDBConnector dbConnect, final GedFactoryImpl factory) {
         super(dbConnect);
     }
     

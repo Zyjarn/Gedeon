@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.vten.gedeon.api.OEObject;
+import com.vten.gedeon.api.GedObject;
 import com.vten.gedeon.api.property.Property;
-import com.vten.gedeon.api.utils.OEConstants;
+import com.vten.gedeon.api.utils.GedeonProperties;
 
 import lombok.Data;
 
@@ -21,9 +21,9 @@ public class OEDBObject {
 		//Default; nothing to do
 	}
 	
-	public OEDBObject(OEObject source) {
-		if(source.getProperties().containsProperty(OEConstants.PROP_ID)) {
-			id = source.getProperties().get(OEConstants.PROP_ID).getObjectValue().toString();
+	public OEDBObject(GedObject source) {
+		if(source.getProperties().containsProperty(GedeonProperties.PROP_ID)) {
+			id = source.getProperties().get(GedeonProperties.PROP_ID).getObjectValue().toString();
 		}
 		setMapData(source.getProperties().stream()
 				.collect(Collectors.toMap(Property::getSymbolicName,p -> Arrays.asList(p.getObjectValue()))));

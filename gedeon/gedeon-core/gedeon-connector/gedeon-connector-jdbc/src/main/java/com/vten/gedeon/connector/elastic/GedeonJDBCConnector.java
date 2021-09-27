@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.vten.gedeon.dao.connector.nosql.NoSQLConnector;
-import com.vten.gedeon.dao.data.OEDBObject;
+import com.vten.gedeon.dao.data.GedeonDBObject;
 
 @Configuration
-public class OpenECMJDBCConnector extends NoSQLConnector{
+public class GedeonJDBCConnector extends NoSQLConnector{
 	
-	private static final Logger LOG = LoggerFactory.getLogger(OpenECMJDBCConnector.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GedeonJDBCConnector.class);
 
 	@Value("${elasticsearch.host}")
     private String elasticsearchHost; 
@@ -45,14 +45,14 @@ public class OpenECMJDBCConnector extends NoSQLConnector{
 	}
 
 	@Override
-	public OEDBObject getObject(String className, String id) {
-		OEDBObject matchObject = new OEDBObject();
+	public GedeonDBObject getObject(String className, String id) {
+		GedeonDBObject matchObject = new GedeonDBObject();
 		
 		return matchObject;
 	}
 
 	@Override
-	public OEDBObject saveObject(String className, OEDBObject obj) {
+	public GedeonDBObject saveObject(String className, GedeonDBObject obj) {
 
 		return null;
 	}

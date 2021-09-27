@@ -2,13 +2,13 @@ package com.vten.gedeon.connector.elastic;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.vten.gedeon.api.search.OESearch;
+import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.search.SearchOperator;
 import com.vten.gedeon.api.search.bean.SearchCondition;
 import com.vten.gedeon.api.search.bean.SearchParam;
-import com.vten.gedeon.dao.connector.OEDBSearch;
+import com.vten.gedeon.dao.connector.GedeonDBSearch;
 
-public class OpenECMElasticSearch implements OEDBSearch{
+public class GedeonElasticSearch implements GedeonDBSearch{
 /**
  * 
  * {
@@ -49,17 +49,17 @@ public class OpenECMElasticSearch implements OEDBSearch{
 }
  */
 	@Override
-	public void search(OESearch search) {
+	public void search(GedSearch search) {
 		
 	}
 
 	@Override
-	public String format(OESearch search) {
+	public String format(GedSearch search) {
 		
 		return toLucene(search);
 	}
 	
-	protected String toLucene(OESearch search) {
+	protected String toLucene(GedSearch search) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"query\": ");
 			

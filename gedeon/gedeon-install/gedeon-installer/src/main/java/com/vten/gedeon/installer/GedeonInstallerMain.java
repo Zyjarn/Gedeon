@@ -27,22 +27,22 @@ import com.vten.gedeon.exception.OEErrorCode;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.vten.gedeon"})
-public class COGInstallerMain {
+public class GedeonInstallerMain {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(COGInstallerMain.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GedeonInstallerMain.class);
 	
 	//Bean to manage installation
-	private COGInstallerManager installManager;
+	private GedeonInstallerManager installManager;
 	
 	@Value("classpath:gedeon.json")
 	private Resource resource;
 
 	public static void main(String[] args) {
-		SpringApplication.run(COGInstallerMain.class, args);
+		SpringApplication.run(GedeonInstallerMain.class, args);
 	}
 	
 	@Autowired
-	public COGInstallerMain(COGInstallerManager manager) {
+	public GedeonInstallerMain(GedeonInstallerManager manager) {
 		Assert.notNull(manager,"COGInstallerManager can't be null.");
 		installManager = manager;
 		

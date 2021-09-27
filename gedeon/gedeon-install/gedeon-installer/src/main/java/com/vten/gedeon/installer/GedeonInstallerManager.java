@@ -10,18 +10,18 @@ import org.springframework.stereotype.Component;
 import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.property.PropertyDefinition;
 import com.vten.gedeon.api.property.PropertyTemplate;
-import com.vten.gedeon.apiimpl.OEFactoryImpl;
+import com.vten.gedeon.apiimpl.GedFactoryImpl;
 import com.vten.gedeon.utils.SaveMode;
 
 @Component
-public class COGInstallerManager {
+public class GedeonInstallerManager {
 	
 	public static final String ELT_PROPERTY_TEMPLATE = "PropertyTemplate";
 	public static final String ELT_CLASS_DEFINITIONS = "ClassDefinitions";
 	public static final String ELT_PROPERTIES_DEFINITIONS = "PropertiesDefinitions";
 
 	@Autowired
-	OEFactoryImpl factory;
+	GedFactoryImpl factory;
 	
 	public static final String ELT_PROPTPLT_NAME = "Name";
 	public static final String ELT_PROPTPLT_TYPE = "Type";
