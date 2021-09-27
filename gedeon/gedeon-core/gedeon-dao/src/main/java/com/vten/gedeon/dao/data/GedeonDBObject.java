@@ -13,15 +13,15 @@ import com.vten.gedeon.api.utils.GedeonProperties;
 import lombok.Data;
 
 @Data
-public class OEDBObject {
+public class GedeonDBObject {
 	
 	private String id;
 	
-	public OEDBObject() {
+	public GedeonDBObject() {
 		//Default; nothing to do
 	}
 	
-	public OEDBObject(GedObject source) {
+	public GedeonDBObject(GedObject source) {
 		if(source.getProperties().containsProperty(GedeonProperties.PROP_ID)) {
 			id = source.getProperties().get(GedeonProperties.PROP_ID).getObjectValue().toString();
 		}
