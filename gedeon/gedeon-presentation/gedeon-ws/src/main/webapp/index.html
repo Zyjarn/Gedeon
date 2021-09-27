@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js" />
+	
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" />
+	
+</head>
+<body>
+	<div id="contents">
+
+		<div class="lead">
+			<strong>Name of Event:</strong> <span th:text="${eventName}"></span>
+		</div>
+
+	</div>
+
+</body>
+<script type="text/babel">
+    var app = new Vue({
+        el: '#contents'
+    });
+</script>
+</html>

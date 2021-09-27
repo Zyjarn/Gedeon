@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>com.vten</groupId>
+		<artifactId>gedeon-install</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>gedeon-installer</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.vten</groupId>
+			<artifactId>gedeon-daoimpl</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vten</groupId>
+			<artifactId>gedeon-apiimpl</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		<!-- TODO must be added in classpath -->
+		<dependency>
+			<groupId>com.vten</groupId>
+			<artifactId>gedeon-connector-elastic</artifactId>
+			<version>${revision}</version>
+		</dependency>
+	</dependencies>
+
+</project>

@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>com.vten</groupId>
+		<artifactId>gedeon-core</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>gedeon-connector</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>gedeon-connector-jdbc</module>
+		<module>gedeon-connector-elastic</module>
+		<module>gedeon-connector-ws</module>
+	</modules>
+
+	<dependencies>
+	
+	</dependencies>
+
+</project>
