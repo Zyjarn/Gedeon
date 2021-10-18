@@ -1,0 +1,332 @@
+{
+	"PropertyTemplate": [
+		{
+			"Name": "Name",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "PropertyType",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "IsList",
+			"PropertyType": "BOOLEAN",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "IsSystem",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "ObjectClassId",
+			"PropertyType": "ID",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "VersionsId",
+			"PropertyType": "ID",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "AddedBy",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "AddedOn",
+			"PropertyType": "DATE",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "LastModifier",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "DateSaved",
+			"PropertyType": "DATE",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "MajorVersion",
+			"PropertyType": "INTEGER",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "MinorVersion",
+			"PropertyType": "INTEGER",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "IsLocked",
+			"PropertyType": "BOOLEAN",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "LockOwner",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "ContentName",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "StoredContentSize",
+			"PropertyType": "LONG",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "MimeType",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "ParentClassId",
+			"PropertyType": "ID",
+			"IsList": false,
+			"IsSystem": true
+		}
+	],
+	"ClassDefinitions": [
+		{
+			"Name": "AbastractDocument",
+			"IsAbstract": true,
+			"IsFinal": false,
+			"PropertiesDefinitions": [
+				{
+					"PropertyTemplate": "Name",
+					"DisplayName": "Name",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "ObjectClassId",
+					"DisplayName": "Class Definition",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "VersionsId",
+					"DisplayName": "Versions Id",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "AddedBy",
+					"DisplayName": "Added By",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "onCreate"
+				},
+				{
+					"PropertyTemplate": "AddedOn",
+					"DisplayName": "Added On",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "onCreate"
+				},
+				{
+					"PropertyTemplate": "LastModifier",
+					"DisplayName": "Last Modifier",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "DateSaved",
+					"DisplayName": "Saved Date",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "MajorVersion",
+					"DisplayName": "Major Version",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "MinorVersion",
+					"DisplayName": "Minor Version",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "IsLocked",
+					"DisplayName": "Is Locked",
+					"IsRequired": true,
+					"DefaultValue": "%%false%%",
+					"Setability": "oncheckout"
+				},
+				{
+					"PropertyTemplate": "LockOwner",
+					"DisplayName": "Lock Owner",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "oncheckout"
+				},
+				{
+					"PropertyTemplate": "ContentName",
+					"DisplayName": "Content Name",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "oncheckin"
+				},
+				{
+					"PropertyTemplate": "StoredContentSize",
+					"DisplayName": "Content Size",
+					"IsRequired": true,
+					"DefaultValue": "%%false%%",
+					"Setability": "oncheckin"
+				},
+				{
+					"PropertyTemplate": "MimeType",
+					"DisplayName": "MimeType",
+					"IsRequired": true,
+					"DefaultValue": "application/octet-stream",
+					"Setability": "oncheckin"
+				}
+			]
+		},
+		{
+			"Name": "AbstractPersistableObject",
+			"IsAbstract": true,
+			"IsFinal": false,
+			"PropertiesDefinitions": [
+				{
+					"PropertyTemplate": "Name",
+					"DisplayName": "Name",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "ObjectClassId",
+					"DisplayName": "Class Definition",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "AddedBy",
+					"DisplayName": "Added By",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "onCreate"
+				},
+				{
+					"PropertyTemplate": "AddedOn",
+					"DisplayName": "Added On",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "onCreate"
+				},
+				{
+					"PropertyTemplate": "LastModifier",
+					"DisplayName": "Last Modifier",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "DateSaved",
+					"DisplayName": "Saved Date",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				}
+			]
+		},
+		{
+			"Name": "PropertyTemplate",
+			"ParentClassId": "AbstractPersistableObject",
+			"IsAbstract": false,
+			"IsFinal": true,
+			"PropertiesDefinitions": [
+				{
+					"PropertyTemplate": "PropertyType",
+					"DisplayName": "Property Type",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "IsList",
+					"DisplayName": "Is List",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "IsSystem",
+					"DisplayName": "Saved Date",
+					"IsRequired": true,
+					"DefaultValue": "null",
+					"Setability": "read/write"
+				}
+			]
+		},
+		{
+			"Name": "PropertyDefinition",
+			"ParentClassId": "AbstractPersistableObject",
+			"IsAbstract": false,
+			"IsFinal": true,
+			"PropertiesDefinitions": []
+		},
+		{
+			"Name": "ClassDefinition",
+			"ParentClassId": "AbstractPersistableObject",
+			"IsAbstract": false,
+			"IsFinal": true,
+			"PropertiesDefinitions": []
+		},
+		{
+			"Name": "GedDocument",
+			"ParentClassId": "AbastractDocument",
+			"IsAbstract": false,
+			"IsFinal": false,
+			"PropertiesDefinitions": []
+		},
+		{
+			"Name": "GedFolder",
+			"ParentClassId": "AbstractPersistableObject",
+			"IsAbstract": false,
+			"IsFinal": false,
+			"PropertiesDefinitions": []
+		},
+		{
+			"Name": "ContainmentRelationship",
+			"ParentClassId": "AbstractPersistableObject",
+			"IsAbstract": false,
+			"IsFinal": false,
+			"PropertiesDefinitions": []
+		}
+	]
+}

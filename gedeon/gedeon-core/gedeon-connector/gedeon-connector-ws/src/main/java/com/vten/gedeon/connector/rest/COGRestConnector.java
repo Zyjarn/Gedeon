@@ -1,8 +1,10 @@
 package com.vten.gedeon.connector.rest;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
 
-import com.vten.gedeon.dao.connector.GedeonDBConnector;
+import com.vten.gedeon.connector.GedeonDBConnector;
 import com.vten.gedeon.dao.data.GedeonDBObject;
 
 @Configuration
@@ -36,6 +38,12 @@ public class COGRestConnector implements GedeonDBConnector{
 	public void deleteObject(String className, String id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<GedeonDBObject> search(String className, String query) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

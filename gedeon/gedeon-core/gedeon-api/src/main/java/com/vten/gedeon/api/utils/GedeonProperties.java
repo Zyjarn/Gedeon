@@ -18,18 +18,27 @@ public abstract class GedeonProperties {
 	public static final String PROP_LAST_MODIFIER = "LastModifier";
 	
 	//PROPERTY TEMPLATE / DEFINITION
-	public static final String PROP_PROPERTY_NAME = "PropertyName";
 	public static final String PROP_PROPERTY_TYPE = "PropertyType";
-	public static final String PROP_PROPERTY_IS_LIST = "IsList";
-	public static final String PROP_PROPERTY_IS_SYSTEM = "IsSystem";
-	public static final String PROP_PROPERTY_IS_REQUIRED = "IsRequired";
-	//PROPERTIES DEFINITION
-	public static final String PROP_PROPERTIES_DEFINITION = "PropertiesDefinitions";
+	public static final String PROP_IS_LIST = "IsList";
+	public static final String PROP_IS_SYSTEM = "IsSystem";
+	
+	public static final String PROP_IS_REQUIRED = "IsRequired";
+	public static final String PROP_DISPLAY_NAME = "DisplayName";
+	public static final String PROP_DEFAULT_VALUE = "DefaultValue";
+	public static final String PROP_SETABILITY = "Setability";
+	public static final String PROP_PROPERTY_TEMPLATE_ID = "PropertyTemplateId";
+	
 	//CLASS DEFINITION
 	public static final String PROP_IS_ABSTRACT = "IsAbstract";
+	public static final String PROP_IS_FINAL = "IsFinal";
+	public static final String PROP_PARENT_CLASS_ID = "ParentClassId";
+	public static final String PROP_PROPERTIES_DEFINITION = "PropertiesDefinitions";
 	
 	//PROPERTY
 	public static final String PROP_PROPERTY_DEFINITION = "PropertyDefinition";
+	
+	// AbstractPersistable
+	public static final String PROP_OBJECT_CLASS = "ObjectClassId";
 	
 	//COGDOCUMENT
 	public static final String PROP_MAJOR_VERSION = "MajorVersion";
@@ -43,6 +52,13 @@ public abstract class GedeonProperties {
 	public static final String PROP_STORED_CONTENT = "StoredContent";
 	public static final String PROP_STORED_CONTENT_SIZE = "StoredContentSize";
 	public static final String PROP_MIME_TYPE = "MimeType";
+	
+	public static final String CLASS_CLASSDEFINITION = "ClassDefinition";
+	public static final String CLASS_GEDDOCUMENT = "GedDocument";
+	public static final String CLASS_PROPERTYDEFINITION = "PropertyDefinition";
+	public static final String CLASS_PROPERTYTEMPLATE = "PropertyTemplate";
+	public static final String CLASS_CONTAINMENTRELATIONSHIP = "ContainmentRelationship";
+	public static final String CLASS_GEDFOLDER = "GedFolder";
 	
 	public static final List<String> ALL_PROPERTIES = getAllProperties();
 	
@@ -59,10 +75,9 @@ public abstract class GedeonProperties {
 		list.add(PROP_ADDED_BY);
 		list.add(PROP_DATE_SAVED);
 		list.add(PROP_LAST_MODIFIER);
-		list.add(PROP_PROPERTY_NAME);
 		list.add(PROP_PROPERTY_TYPE);
-		list.add(PROP_PROPERTY_IS_LIST);
-		list.add(PROP_PROPERTY_IS_REQUIRED);
+		list.add(PROP_IS_LIST);
+		list.add(PROP_IS_REQUIRED);
 		list.add(PROP_PROPERTIES_DEFINITION);
 		list.add(PROP_PROPERTY_DEFINITION);
 		list.add(PROP_MAJOR_VERSION );

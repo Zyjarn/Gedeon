@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.vten.gedeon.api.list.StringList;
-import com.vten.gedeon.api.utils.OEId;
+import com.vten.gedeon.api.utils.GedId;
 
 public interface Property {
 	
@@ -20,9 +20,9 @@ public interface Property {
 	
 	public List<Integer> getListIntegerValue();
 	
-	public OEId getIdValue();
+	public GedId getIdValue();
 	
-	public List<OEId> getListIdValue();
+	public List<GedId> getListIdValue();
 	
 	public Boolean getBooleanValue();
 	

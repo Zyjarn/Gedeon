@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +24,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
-import com.vten.gedeon.exception.OEErrorCode;
+import com.vten.gedeon.exception.GedeonErrorCode;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.vten.gedeon"})
@@ -60,12 +61,12 @@ public class GedeonInstallerMain {
 			Map<String,Object> json = springParser.parseMap(asString(resource));
 			installManager.initDBFromJson(json);
 		} catch(JsonParseException|ScannerException e) {
-			LOG.error(OEErrorCode.OE3001.toString(),e);
+			LOG.error(GedeonErrorCode.OE3001.toString(),e);
 		}
 	}
 
 	private String asString(Resource resource) {
-        try (Reader reader = new InputStreamReader(resource.getInputStream(), "UTF8")) {
+        try (Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
             return FileCopyUtils.copyToString(reader);
         } catch (IOException e) {
             throw new UncheckedIOException(e);

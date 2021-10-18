@@ -16,11 +16,6 @@
 			<artifactId>gedeon-daoimpl</artifactId>
 			<version>${revision}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.vten</groupId>
-			<artifactId>gedeon-apiimpl</artifactId>
-			<version>${revision}</version>
-		</dependency>
 		<!-- TODO must be added in classpath -->
 		<dependency>
 			<groupId>com.vten</groupId>

@@ -1,11 +1,12 @@
 package com.vten.gedeon.apiimpl;
 
-import javax.persistence.Entity;
-
 import com.vten.gedeon.api.GedDocument;
+import com.vten.gedeon.api.utils.GedeonProperties;
 
-@Entity
 public class GedDocumentImpl extends AbstractDocumentImpl implements GedDocument{
 
-
+	@Override
+	public String getTableName() {
+		return GedeonProperties.CLASS_GEDDOCUMENT;
+	}
 }

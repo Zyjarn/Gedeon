@@ -2,15 +2,19 @@ package com.vten.gedeon.api;
 
 import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.property.Properties;
+import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
-import com.vten.gedeon.api.utils.OEId;
 
 public interface GedObject {
 	
 	public Properties getProperties();
 	public void setProperties(Properties properties);
 	
-	public default OEId getId() {
+	public void setPropertyValue(String propertyName, Object value);
+	
+	public default GedId getId() {
+		if(getProperties().get(GedeonProperties.PROP_ID) == null)
+			return null;
 		return getProperties().get(GedeonProperties.PROP_ID).getIdValue();
 	}
 	
@@ -19,8 +23,8 @@ public interface GedObject {
 	 * TODO throw exception for existing object
 	 * @param id
 	 */
-	public default void setId(OEId id) {
-		getProperties().get(GedeonProperties.PROP_ID).setObjectValue(id);
+	public default void setId(GedId id) {
+		setPropertyValue(GedeonProperties.PROP_ID,id);
 	}
 	
 	public String getClassName();
@@ -30,7 +34,7 @@ public interface GedObject {
 	}
 	
 	public default void setName(String name) {
-		getProperties().get(GedeonProperties.PROP_NAME).setObjectValue(name);
+		setPropertyValue(GedeonProperties.PROP_NAME,name);
 	}
 	
 	/**

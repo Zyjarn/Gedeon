@@ -1,13 +1,15 @@
 package com.vten.gedeon.connector.elastic;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.search.SearchOperator;
 import com.vten.gedeon.api.search.bean.SearchCondition;
 import com.vten.gedeon.api.search.bean.SearchParam;
-import com.vten.gedeon.dao.connector.GedeonDBSearch;
+import com.vten.gedeon.connector.GedeonDBSearch;
 
+@Service
 public class GedeonElasticSearch implements GedeonDBSearch{
 /**
  * 
@@ -48,10 +50,6 @@ public class GedeonElasticSearch implements GedeonDBSearch{
   }
 }
  */
-	@Override
-	public void search(GedSearch search) {
-		
-	}
 
 	@Override
 	public String format(GedSearch search) {
@@ -61,7 +59,7 @@ public class GedeonElasticSearch implements GedeonDBSearch{
 	
 	protected String toLucene(GedSearch search) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{\"query\": ");
+		sb.append("{\"seq_no_primary_term\": true,\"query\": ");
 			
 		
 		sb.append(toLucene(search.getSearchCondition()));

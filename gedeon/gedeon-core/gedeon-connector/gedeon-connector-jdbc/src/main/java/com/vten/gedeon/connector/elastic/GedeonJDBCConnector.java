@@ -1,5 +1,7 @@
 package com.vten.gedeon.connector.elastic;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -68,6 +70,12 @@ public class GedeonJDBCConnector extends NoSQLConnector{
 
 	@Override
 	public void cleanUp() {
+	}
+
+	@Override
+	public List<GedeonDBObject> search(String className, String query) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -2,7 +2,7 @@ package com.vten.gedeon.api;
 
 import com.vten.gedeon.api.utils.GedeonProperties;
 
-public interface Versionable extends Containable{
+public interface Versionable extends Containable,Storable{
 	
 	public void checkin(int majorMinor);
 	public void checkout();

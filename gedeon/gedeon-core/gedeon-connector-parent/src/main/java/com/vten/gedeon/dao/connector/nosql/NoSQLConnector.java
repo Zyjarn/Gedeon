@@ -1,0 +1,1 @@
+package com.vten.gedeon.dao.connector.nosql;import org.slf4j.LoggerFactory;import com.vten.gedeon.connector.GedeonDBConnector;import org.slf4j.Logger;public abstract class NoSQLConnector implements GedeonDBConnector{    protected static final Logger LOG;        static {        LOG = LoggerFactory.getLogger((Class)NoSQLConnector.class);    }}

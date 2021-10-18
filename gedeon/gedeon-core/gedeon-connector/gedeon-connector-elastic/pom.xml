@@ -19,19 +19,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
-		
 		<dependency>
-			<groupId>com.vten</groupId>
-			<artifactId>gedeon-apiimpl</artifactId>
-			<version>${revision}</version>
-<!-- 			<scope>test</scope> -->
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20210307</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.vten</groupId>
-			<artifactId>gedeon-daoimpl</artifactId>
-			<version>${revision}</version>
-		</dependency>
+
 	</dependencies>
 
 </project>

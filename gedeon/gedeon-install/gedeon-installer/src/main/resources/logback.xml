@@ -2,14 +2,17 @@
 <configuration>
 	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
 			</Pattern>
 		</encoder>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>TRACE</level>
 		</filter>
 	</appender>
-
+	
+	<logger name="com.vten.gedeon" level="DEBUG" />
+	<logger name="org.elasticsearch" level="ERROR" />
+	
 	<root>
 		<level value="INFO" />
 		<appender-ref ref="consoleAppender" />

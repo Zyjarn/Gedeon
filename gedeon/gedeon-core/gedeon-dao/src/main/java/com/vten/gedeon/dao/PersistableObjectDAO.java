@@ -13,7 +13,6 @@ public interface PersistableObjectDAO {
 	
 	public void saveObject(PersistableObject obj, SaveMode mode);
 	
-	public void deleteObject(PersistableObject obj);
+	public void deleteObject(String className, PersistableObject obj);
 	
-	public PersistableObject getInstanceByClassName(String className);
 }

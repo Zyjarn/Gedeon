@@ -12,13 +12,18 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<!-- specific modules extending parent -->
 		<module>gedeon-connector-jdbc</module>
 		<module>gedeon-connector-elastic</module>
 		<module>gedeon-connector-ws</module>
 	</modules>
 
 	<dependencies>
-	
+		<dependency>
+			<groupId>com.vten</groupId>
+			<artifactId>gedeon-connector-parent</artifactId>
+			<version>${revision}</version>
+		</dependency>
 	</dependencies>
 
 </project>

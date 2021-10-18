@@ -1,6 +1,9 @@
 package com.vten.gedeon.connector.elastic;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -12,164 +15,201 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.client.RequestOptions;
+import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.vten.gedeon.api.utils.GedId;
+import com.vten.gedeon.connector.elastic.bean.GetResponse;
+import com.vten.gedeon.connector.elastic.bean.SaveResponse;
+import com.vten.gedeon.connector.elastic.bean.SearchResponse;
 import com.vten.gedeon.dao.connector.nosql.NoSQLConnector;
 import com.vten.gedeon.dao.data.GedeonDBObject;
-import com.vten.gedeon.exception.OERuntimeException;
+import com.vten.gedeon.exception.GedeonRuntimeException;
+import com.vten.gedeon.model.property.PropertyType;
 
 @Configuration
-public class GedeonElasticConnector extends NoSQLConnector{
-	
+public class GedeonElasticConnector extends NoSQLConnector {
+
 	private static final Logger LOG = LoggerFactory.getLogger(GedeonElasticConnector.class);
 
 	@Value("${elasticsearch.host}")
-    private String elasticsearchHost; 
-	
+	private String elasticsearchHost;
+
 	@Value("${elasticsearch.port}")
-    private int elasticsearchPort; 
-	
+	private int elasticsearchPort;
+
 	@Value("${elasticsearch.protocol}")
-    private String elasticsearchProtocol; 
-	
-	private RestHighLevelClient client;
+	private String elasticsearchProtocol;
+
+	private RestClient client;
 	
 	@Bean(destroyMethod = "close")
-	protected RestHighLevelClient getClient() {
-		//Security
-		
+	protected RestClient getClient() {
+		// Security
+
 		final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials("", ""));
-		
-        RestClientBuilder builder = RestClient
-                .builder(new HttpHost(
-                		elasticsearchHost,
-                		elasticsearchPort, elasticsearchProtocol))
-                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-                    @Override
-                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
-                        return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-                    }
-                });
-        return new RestHighLevelClient(builder);
+		credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("", ""));
+
+		RestClientBuilder builder = RestClient
+				.builder(new HttpHost(elasticsearchHost, elasticsearchPort, elasticsearchProtocol))
+				.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+					@Override
+					public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+						return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+					}
+				});
+		return builder.build();
 	}
-	
-	@PostConstruct	
-    public void init() {
-        client = getClient();
-    }
+
+	@PostConstruct
+	public void init() {
+		client = getClient();
+	}
 
 	@Override
 	public int initDB() {
 		return 0;
 	}
+	
+	@Override
+	public void cleanUp() {
+		if (client != null) {
+			try {
+				client.close();
+			} catch (IOException e) {
+				LOG.warn("Issue while closing Elastic client.", e);
+			}
+		}
+	}
 
 	@Override
 	public GedeonDBObject getObject(String className, String id) {
-		GedeonDBObject matchObject = new GedeonDBObject();
-		GetRequest getRequest = new GetRequest("gedeon-".concat(className.toLowerCase()));
-		getRequest.id(id);
 		try {
-			GetResponse getObjectResponse = client.get(getRequest, RequestOptions.DEFAULT);
-			matchObject.setMapData(
-					getObjectResponse.getFields().entrySet().stream()
-						.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getValues())));
+			//Create request &terminate_after=1
+			Request request = new Request("GET","/gedeon-".concat(className.toLowerCase()).concat("/_doc/").concat(id));
+			//Perform request
+			Response response = client.performRequest(request);
+			GetResponse getResponse = new GetResponse(EntityUtils.toString(response.getEntity()));
+			LOG.debug("GetObject response : {}",getResponse);
+			
+			return getResponse.getDbObject();
 		} catch (IOException e) {
-			LOG.error("",e);
-			throw new OERuntimeException("getObject error - db connection issue while retrieving object '%s' with id '%s'");
+			LOG.error("getObject error", e);
+			throw new GedeonRuntimeException(
+					"getObject error - db connection issue while retrieving object '%s' with id '%s'", className, id);
 		} catch (RuntimeException e) {
-			LOG.error("",e);
-			throw new OERuntimeException("getObject error - unexpected issue while saving object '%s', see trace logs for more information.");
+			LOG.error("getObject error", e);
+			throw new GedeonRuntimeException(
+					"getObject error - unexpected issue while retrieving object '%s' with id '%s', see trace logs for more information.");
 		}
-		return matchObject;
+	}
+	
+	protected String dbObjectToJSONString(GedeonDBObject obj) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		Map.Entry<String, Object> entry;
+		Iterator<Map.Entry<String, Object>> it = obj.getMapData().entrySet().iterator();
+		while(it.hasNext()) {
+			entry = it.next();
+			sb.append("\"").append(entry.getKey()).append("\":");
+			
+			sb.append(objectToJSONString(entry.getValue()));
+			
+			if(it.hasNext())
+				sb.append(",");
+		}
+		sb.append("}");
+		return sb.toString();
+	}
+	
+	protected String objectToJSONString(Object o) {
+		if((o instanceof String) || (o instanceof LocalDateTime) 
+				|| (o instanceof PropertyType) || (o instanceof GedId)) {
+			return String.format("\"%s\"", o);
+		} else if (o == null){
+			return "null";
+		} else if(o instanceof List) {
+			return ((List<?>)o).stream()
+					.map(this::objectToJSONString)
+					.collect(Collectors.joining(",","[","]"));
+		}
+		return o.toString();
 	}
 
 	@Override
 	public GedeonDBObject saveObject(String className, GedeonDBObject obj) {
 		try {
-			//Create index request
-			IndexRequest idxRequest = new IndexRequest("gedeon-".concat(className.toLowerCase()));
-			//Set data of new object to request
-			idxRequest.source(obj.getMapData());
-		
-			//Send request
-			IndexResponse response = client.index(idxRequest, RequestOptions.DEFAULT);
-			//TODO handle result 
-			obj.setId(response.getId());
+			// Create index request
+			Request request = new Request("POST","/gedeon-".concat(className.toLowerCase().concat("/_doc/")));
+			request.setJsonEntity(dbObjectToJSONString(obj));
+			// Send request
+			Response response = client.performRequest(request);
+			SaveResponse saveResponse = new SaveResponse(EntityUtils.toString(response.getEntity()));
+			LOG.debug("SaveObject response : {}",saveResponse);
+			obj.setId(saveResponse.getId());
+			obj.setSeqNo(saveResponse.getSeqNo());
+			
 		} catch (IOException e) {
-			LOG.error("",e);
-			throw new OERuntimeException("saveObject error - db connection issue while saving object '%s'");
+			LOG.error("saveObject error", e);
+			throw new GedeonRuntimeException("saveObject error - db connection issue while saving object '%s'", className);
 		} catch (RuntimeException e) {
-			LOG.error("",e);
-			throw new OERuntimeException("saveObject error - unexpected issue while saving object '%s', see trace logs for more information.");
+			LOG.error("saveObject error", e);
+			throw new GedeonRuntimeException(
+					"saveObject error - unexpected issue while saving object '%s', see trace logs for more information.",
+					className);
 		}
 		return obj;
 	}
-	
+
 	@Override
 	public void deleteObject(String className, String id) {
 		try {
-			//Create delete request
-			DeleteRequest deleteRequest = new DeleteRequest("gedeon-".concat(className.toLowerCase()), id);
-			//send request
-			DeleteResponse response = client.delete(deleteRequest,RequestOptions.DEFAULT);
-			
+			// Create delete request
+			Request request = new Request("DELETE","/gedeon-".concat(className).concat("*/_doc/").concat(id));
+			//Perform request
+			Response deleteResponse = client.performRequest(request);
+			String responseBody = EntityUtils.toString(deleteResponse.getEntity()); 
+			LOG.debug("DeleteObject response : {}",responseBody);
 		} catch (IOException e) {
-			LOG.error("",e);
-			throw new OERuntimeException("saveObject error - db connection issue while saving object '%s'");
+			LOG.error("", e);
+			throw new GedeonRuntimeException(
+					"saveObject error - db connection issue while deleting object '%s' with id '%s'", className, id);
 		} catch (RuntimeException e) {
-			LOG.error("",e);
-			throw new OERuntimeException("saveObject error - unexpected issue while saving object '%s', see trace logs for more information.");
-		}
-	}
-	
-	public void search() {
-		SearchRequest searchRequest = new SearchRequest("gedeon-*");
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder(); 
-		QueryBuilder builder = QueryBuilders.matchQuery(elasticsearchHost, searchSourceBuilder);
-		//builder.
-		//searchSourceBuilder.query(); 
-		searchRequest.source(searchSourceBuilder); 
-		
-		
-		try {
-			client.search(searchRequest, RequestOptions.DEFAULT);
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("", e);
+			throw new GedeonRuntimeException(
+					"saveObject error - unexpected issue while deleting object '%s' with id '%s', see trace logs for more information.",
+					className, id);
 		}
 	}
 
 	@Override
-	public void cleanUp() {
-		if(client != null) {
-			try {
-				client.close();
-			} catch (IOException e) {
-				LOG.warn("Issue while closing Elastic client.",e);
-			}
+	public List<GedeonDBObject> search(String className, String query) {
+		
+		try {
+			String index = "/gedeon-".concat(className.toLowerCase()).concat("*/_search");
+			LOG.debug("Execute query : GET {} {}",index,query);
+			// Build search request
+			Request request = new Request("GET",index);
+			request.setJsonEntity(query);
+			//Perform search
+			Response searchResponse = client.performRequest(request);
+			String responseBody = EntityUtils.toString(searchResponse.getEntity()); 
+			LOG.debug("Search response : {}",responseBody);
+			SearchResponse response = new SearchResponse(responseBody);
+			//Return response list
+			return response.getHits();
+
+		} catch (IOException e) {
+			throw new GedeonRuntimeException("saveObject error - db connection issue while saving object '%s'");
 		}
 	}
-	
+
 }

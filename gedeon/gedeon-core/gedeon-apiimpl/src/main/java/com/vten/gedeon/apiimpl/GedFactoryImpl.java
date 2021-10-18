@@ -2,73 +2,131 @@ package com.vten.gedeon.apiimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.ContainmentRelationship;
 import com.vten.gedeon.api.GedDocument;
 import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.GedFolder;
 import com.vten.gedeon.api.admin.ClassDefinition;
-import com.vten.gedeon.api.property.PropertyDefinition;
-import com.vten.gedeon.api.property.PropertyTemplate;
+import com.vten.gedeon.api.admin.PropertiesDefinition;
+import com.vten.gedeon.api.admin.PropertyDefinition;
+import com.vten.gedeon.api.admin.PropertyTemplate;
+import com.vten.gedeon.api.search.GedSearch;
+import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.apiimpl.admin.ClassDefinitionImpl;
+import com.vten.gedeon.apiimpl.property.PropertiesDefinitionImpl;
 import com.vten.gedeon.apiimpl.property.PropertyDefinitionImpl;
 import com.vten.gedeon.apiimpl.property.PropertyTemplateImpl;
+import com.vten.gedeon.apiimpl.search.GedSearchImpl;
 
-@Component
+@Service
 public class GedFactoryImpl implements GedFactory {
-	
+
 	@Autowired
 	private AutowireCapableBeanFactory springFactory;
-	
+
 	protected <T> T initBean(T bean) {
-		springFactory.autowireBean( bean );
-		springFactory.initializeBean( bean, "bean" );
+		springFactory.autowireBean(bean);
+		springFactory.initializeBean(bean, "bean");
 		return bean;
 	}
-	
-	public GedDocument createOEDocument(){
+
+	@Override
+	public GedDocument createGedDocument() {
 		return initBean(new GedDocumentImpl());
 	}
-	
-	public ClassDefinition createClassDefinition(){
-		return initBean(new ClassDefinitionImpl());
-		
+
+	@Override
+	public GedDocument getGedDocument(GedId id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	//PropertyTemplate
-	
-	/**
-	 * Create a new instance of PropertyTemplate	
-	 * @return empty PropertyTemplate object
-	 */
-	public PropertyTemplate createPropertyTemplate(){
+
+	@Override
+	public ClassDefinition createClassDefinition() {
+		return initBean(new ClassDefinitionImpl());
+
+	}
+
+	@Override
+	public ClassDefinition getClassDefinition(String name) {
+		ClassDefinition classDef = initBean(new ClassDefinitionImpl());
+		classDef.setName(name);
+		classDef.refresh();
+		return classDef;
+	}
+
+	@Override
+	public PropertyTemplate createPropertyTemplate() {
 		return initBean(new PropertyTemplateImpl());
 	}
-	
-	/**
-	 * Get a instance of existing PropertyTemplate by his name
-	 * @return PropertyTemplate object
-	 */
-	public PropertyTemplate getPropertyTemplate(String name){
-		PropertyTemplate prop = initBean(new PropertyTemplateImpl());
-		prop.setName(name);
-		prop.refresh();
-		return prop;
+
+	@Override
+	public PropertyTemplate getPropertyTemplate(String name) {
+		PropertyTemplate propTplt = initBean(new PropertyTemplateImpl());
+		propTplt.setName(name);
+		propTplt.refresh();
+		return propTplt;
 	}
 	
-	//PropertyDefinition
+	@Override
+	public PropertyTemplate getPropertyTemplate(GedId id) {
+		PropertyTemplate propTplt = initBean(new PropertyTemplateImpl());
+		propTplt.setId(id);
+		propTplt.refresh();
+		return propTplt;
+	}
 	
-	public PropertyDefinition createPropertyDefinition(String propTpltName){
+	@Override
+	public PropertiesDefinition createPropertiesDefinition() {
+		return initBean(new PropertiesDefinitionImpl());
+	}
+	
+	@Override
+	public PropertyDefinition createPropertyDefinition() {
+		return initBean(new PropertyDefinitionImpl());
+	}
+
+	@Override
+	public PropertyDefinition createPropertyDefinition(String propTpltName) {
 		PropertyTemplate propTplt = getPropertyTemplate(propTpltName);
 		return initBean(new PropertyDefinitionImpl(propTplt));
 	}
 
-	public GedFolder createOEFolder() {
+	@Override
+	public PropertyDefinition getPropertyDefinition(GedId id) {
+		PropertyDefinition propTplt = initBean(new PropertyDefinitionImpl());
+		return propTplt;
+	}
+	
+	@Override
+	public GedFolder createGedFolder() {
 		return initBean(new GedFolderImpl());
 	}
 
+	@Override
+	public GedFolder getGedFolder(GedId id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public ContainmentRelationship createContainmentRelationship() {
 		return initBean(new ContainmentRelationshipImpl());
 	}
+
+	@Override
+	public ContainmentRelationship getContainmentRelationship(GedId id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GedSearch createEmptySearch() {
+		return initBean(new GedSearchImpl());
+	}
+
+	
+
 }

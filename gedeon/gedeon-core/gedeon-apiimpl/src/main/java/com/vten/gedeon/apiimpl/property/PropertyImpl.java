@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.vten.gedeon.api.list.StringList;
 import com.vten.gedeon.api.property.Property;
-import com.vten.gedeon.api.utils.OEId;
+import com.vten.gedeon.api.utils.GedId;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -72,13 +72,13 @@ public class PropertyImpl implements Property{
 	}
 
 	@Override
-	public OEId getIdValue() {
-		return (OEId) value;
+	public GedId getIdValue() {
+		return (GedId) value;
 	}
 
 	@Override
-	public List<OEId> getListIdValue() {
-		return Arrays.asList((OEId[]) value);
+	public List<GedId> getListIdValue() {
+		return Arrays.asList((GedId[]) value);
 	}
 
 	@Override

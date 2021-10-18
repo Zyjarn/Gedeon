@@ -12,8 +12,6 @@ public interface PersistableObject extends GedObject{
 	public void save(SaveMode mode);
 	public void refresh();
 	
-	public void setPropertyValue(String propertyName, Object value);
-	
 	@Override
 	public default String getName() {
 		return getProperties().get(GedeonProperties.PROP_NAME).getStringValue();

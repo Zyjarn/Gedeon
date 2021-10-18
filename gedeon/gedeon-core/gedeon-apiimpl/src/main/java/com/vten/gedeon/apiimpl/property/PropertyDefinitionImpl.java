@@ -1,27 +1,68 @@
 package com.vten.gedeon.apiimpl.property;
 
-import com.vten.gedeon.api.property.Properties;
-import com.vten.gedeon.api.property.PropertyDefinition;
-import com.vten.gedeon.api.property.PropertyTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.PropertyDefinition;
+import com.vten.gedeon.api.admin.PropertyTemplate;
+import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.apiimpl.PersistableObjectImpl;
+import com.vten.gedeon.dao.ClassDefinitionDAO;
 
 import lombok.Getter;
 import lombok.Setter;
 
 public class PropertyDefinitionImpl extends PersistableObjectImpl implements PropertyDefinition{
 	
-	@Setter @Getter
-	private Properties properties = new PropertiesImpl() ;
+	@Autowired
+	private ClassDefinitionDAO classDefDAO;
 	
-	private PropertyTemplate propTemplate;
+	@Getter
+	private PropertyTemplate propertyTemplate;
+	
+	@Setter
+	private ClassDefinition associatedClass;
+	
+	@Getter
+	@Setter
+	private boolean inherited;
+	
+	public PropertyDefinitionImpl() {
+		//Default construtor, nothing to do
+	}
 	
 	public PropertyDefinitionImpl(PropertyTemplate template) {
-		propTemplate = template;
-	}	
+		setPropertyTemplate(template);
+	}
+	
+	@Override
+	public ClassDefinition getAssociatedClass() {
+		if(associatedClass == null && getProperties().containsProperty(GedeonProperties.PROP_PARENT_CLASS_ID)) {
+			associatedClass = classDefDAO.getObject(getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getIdValue());
+		} else {
+			//throw runtime not in cache
+		}
+			
+		return associatedClass;
+	}
+	
+	@Override
+	public String getClassName() {
+		//TODO remove and try to put a custom class def for first save
+		return GedeonProperties.CLASS_PROPERTYDEFINITION;
+	}
+	
+	@Override
+	public String getTableName() {
+		return GedeonProperties.CLASS_PROPERTYDEFINITION;
+	}
 
 	@Override
-	public PropertyTemplate getPropertyTemplate() {
-		return propTemplate;
+	public void setPropertyTemplate(PropertyTemplate propertyTemplate) {
+		this.propertyTemplate = propertyTemplate;
+		setPropertyTemplateId(propertyTemplate.getId());
 	}
+
+	
 
 }

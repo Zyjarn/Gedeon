@@ -2,7 +2,8 @@ package com.vten.gedeon.apiimpl.property;
 
 import org.springframework.stereotype.Component;
 
-import com.vten.gedeon.api.property.PropertyTemplate;
+import com.vten.gedeon.api.admin.PropertyTemplate;
+import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.apiimpl.PersistableObjectImpl;
 
 @Component
@@ -10,14 +11,22 @@ public class PropertyTemplateImpl extends PersistableObjectImpl implements Prope
 	
 	@Override
 	public String getClassName() {
-		return PropertyTemplate.class.getSimpleName();
+		return GedeonProperties.CLASS_PROPERTYTEMPLATE;
 	}
 
 	@Override
 	public void refresh() {
-		PersistableObjectImpl refreshObject = (PersistableObjectImpl) dao.getObject(getClassName(), getName());
+		//Refresh object by id or name
+		PersistableObjectImpl refreshObject = (PersistableObjectImpl) (getId()== null || getId().isBlank() ?
+				dao.getObject(getTableName(), getName(),false):
+				dao.getObject(getTableName(), getId().getValue()));
 		this.setProperties(refreshObject.getProperties());
+		setId(refreshObject.getId());
 		setSeqNo(refreshObject.getSeqNo());
 	}
 
+	@Override
+	public String getTableName() {
+		return GedeonProperties.CLASS_PROPERTYTEMPLATE;
+	}
 }

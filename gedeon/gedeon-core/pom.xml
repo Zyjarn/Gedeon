@@ -16,6 +16,7 @@
 		<module>gedeon-dao</module>
 		<module>gedeon-apiimpl</module>
 		<module>gedeon-daoimpl</module>
+		<module>gedeon-connector-parent</module>
 		<module>gedeon-connector</module>
 	</modules>
 
