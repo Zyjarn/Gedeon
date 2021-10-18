@@ -15,7 +15,7 @@ import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
-import com.vten.gedeon.apiimpl.property.PropertyDefinitionImpl;
+import com.vten.gedeon.apiimpl.admin.PropertyDefinitionImpl;
 import com.vten.gedeon.connector.GedeonDBConnector;
 import com.vten.gedeon.dao.PropertyDefinitionDAO;
 import com.vten.gedeon.utils.SaveMode;

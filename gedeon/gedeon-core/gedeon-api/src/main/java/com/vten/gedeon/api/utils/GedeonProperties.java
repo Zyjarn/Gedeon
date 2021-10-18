@@ -53,6 +53,9 @@ public abstract class GedeonProperties {
 	public static final String PROP_STORED_CONTENT_SIZE = "StoredContentSize";
 	public static final String PROP_MIME_TYPE = "MimeType";
 	
+	public static final String CLASS_ABSTRACTDOCUMENT = "AbstractDocument";
+	public static final String CLASS_ABSTRACTPERSISTABLEOBJECT = "AbstractPersistableObject";
+	public static final String CLASS_GEDCOLLECTION = "GedeonCollection";
 	public static final String CLASS_CLASSDEFINITION = "ClassDefinition";
 	public static final String CLASS_GEDDOCUMENT = "GedDocument";
 	public static final String CLASS_PROPERTYDEFINITION = "PropertyDefinition";

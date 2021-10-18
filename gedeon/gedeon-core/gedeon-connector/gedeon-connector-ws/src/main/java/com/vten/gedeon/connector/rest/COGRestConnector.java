@@ -46,4 +46,10 @@ public class COGRestConnector implements GedeonDBConnector{
 		return null;
 	}
 
+	@Override
+	public GedeonDBObject createObject(String className, GedeonDBObject obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

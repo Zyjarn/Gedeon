@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -115,6 +116,7 @@ public class GedeonElasticConnector extends NoSQLConnector {
 	protected String dbObjectToJSONString(GedeonDBObject obj) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
+		
 		Map.Entry<String, Object> entry;
 		Iterator<Map.Entry<String, Object>> it = obj.getMapData().entrySet().iterator();
 		while(it.hasNext()) {
@@ -144,6 +146,32 @@ public class GedeonElasticConnector extends NoSQLConnector {
 		return o.toString();
 	}
 
+	@Override
+	public GedeonDBObject createObject(String className, GedeonDBObject obj) {
+		try {
+			// Create index request
+			Request request = new Request("POST","/gedeon-".concat(className.toLowerCase().concat("/_doc/")
+					.concat(StringUtils.isNotBlank(obj.getId())?obj.getId() : StringUtils.EMPTY)));
+			request.setJsonEntity(dbObjectToJSONString(obj));
+			// Send request
+			Response response = client.performRequest(request);
+			SaveResponse saveResponse = new SaveResponse(EntityUtils.toString(response.getEntity()));
+			LOG.debug("SaveObject response : {}",saveResponse);
+			obj.setId(saveResponse.getId());
+			obj.setSeqNo(saveResponse.getSeqNo());
+			
+		} catch (IOException e) {
+			LOG.error("saveObject error", e);
+			throw new GedeonRuntimeException("saveObject error - db connection issue while saving object '%s'", className);
+		} catch (RuntimeException e) {
+			LOG.error("saveObject error", e);
+			throw new GedeonRuntimeException(
+					"saveObject error - unexpected issue while saving object '%s', see trace logs for more information.",
+					className);
+		}
+		return obj;
+	}
+	
 	@Override
 	public GedeonDBObject saveObject(String className, GedeonDBObject obj) {
 		try {

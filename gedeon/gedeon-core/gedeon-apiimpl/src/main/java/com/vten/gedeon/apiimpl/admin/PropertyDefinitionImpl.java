@@ -1,4 +1,4 @@
-package com.vten.gedeon.apiimpl.property;
+package com.vten.gedeon.apiimpl.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

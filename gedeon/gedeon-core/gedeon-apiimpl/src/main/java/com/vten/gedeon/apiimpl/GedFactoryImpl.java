@@ -8,16 +8,18 @@ import com.vten.gedeon.api.ContainmentRelationship;
 import com.vten.gedeon.api.GedDocument;
 import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.GedFolder;
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.admin.PropertiesDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.PropertyTemplate;
 import com.vten.gedeon.api.search.GedSearch;
+import com.vten.gedeon.api.utils.GedEvents;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.apiimpl.admin.ClassDefinitionImpl;
-import com.vten.gedeon.apiimpl.property.PropertiesDefinitionImpl;
-import com.vten.gedeon.apiimpl.property.PropertyDefinitionImpl;
-import com.vten.gedeon.apiimpl.property.PropertyTemplateImpl;
+import com.vten.gedeon.apiimpl.admin.PropertiesDefinitionImpl;
+import com.vten.gedeon.apiimpl.admin.PropertyDefinitionImpl;
+import com.vten.gedeon.apiimpl.admin.PropertyTemplateImpl;
 import com.vten.gedeon.apiimpl.search.GedSearchImpl;
 
 @Service
@@ -31,21 +33,48 @@ public class GedFactoryImpl implements GedFactory {
 		springFactory.initializeBean(bean, "bean");
 		return bean;
 	}
+	
+	@Override
+	public GedeonCollection createGedCollection() {
+		GedeonCollectionImpl collection = initBean(new GedeonCollectionImpl());
+		collection.getPendingEvents().add(GedEvents.CREATE);
+		return collection;
+	}
 
 	@Override
+	public GedeonCollection createGedCollection(String name) {
+		GedeonCollectionImpl collection = initBean(new GedeonCollectionImpl());
+		collection.setName(name);
+		collection.getPendingEvents().add(GedEvents.CREATE);
+		return collection;
+	}
+
+	@Override
+	public GedeonCollection getGedCollection(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public GedDocument createGedDocument() {
-		return initBean(new GedDocumentImpl());
+		GedDocumentImpl newDoc = initBean(new GedDocumentImpl());
+		newDoc.getPendingEvents().add(GedEvents.CREATE);
+		return newDoc;
 	}
 
 	@Override
 	public GedDocument getGedDocument(GedId id) {
-		// TODO Auto-generated method stub
-		return null;
+		GedDocumentImpl newDoc = initBean(new GedDocumentImpl());
+		newDoc.setId(id);
+		newDoc.refresh();
+		return newDoc;
 	}
 
 	@Override
 	public ClassDefinition createClassDefinition() {
-		return initBean(new ClassDefinitionImpl());
+		ClassDefinitionImpl classDef = initBean(new ClassDefinitionImpl());
+		classDef.getPendingEvents().add(GedEvents.CREATE);
+		return classDef;
 
 	}
 
@@ -59,7 +88,9 @@ public class GedFactoryImpl implements GedFactory {
 
 	@Override
 	public PropertyTemplate createPropertyTemplate() {
-		return initBean(new PropertyTemplateImpl());
+		PropertyTemplateImpl propTplt = initBean(new PropertyTemplateImpl());
+		propTplt.getPendingEvents().add(GedEvents.CREATE);
+		return propTplt;
 	}
 
 	@Override
@@ -126,7 +157,6 @@ public class GedFactoryImpl implements GedFactory {
 	public GedSearch createEmptySearch() {
 		return initBean(new GedSearchImpl());
 	}
-
 	
 
 }

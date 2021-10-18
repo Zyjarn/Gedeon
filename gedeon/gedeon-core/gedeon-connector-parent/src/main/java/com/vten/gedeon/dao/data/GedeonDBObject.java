@@ -23,8 +23,10 @@ public class GedeonDBObject {
 		if(source.getProperties().containsProperty(GedeonProperties.PROP_ID)) {
 			id = source.getProperties().get(GedeonProperties.PROP_ID).getObjectValue().toString();
 		}
+		
 		//TODO andle GedId/PropertyType here
 		setMapData(source.getProperties().stream()
+				.filter(p -> !p.getSymbolicName().equals(GedeonProperties.PROP_ID))
 				.collect(HashMap::new, (m,v)->m.put(v.getSymbolicName(), v.getObjectValue()), HashMap::putAll));
 	}//
 	/*

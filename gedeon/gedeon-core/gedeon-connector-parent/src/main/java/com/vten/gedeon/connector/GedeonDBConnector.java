@@ -12,6 +12,8 @@ public interface GedeonDBConnector
     
     GedeonDBObject getObject(String className, String id);
     
+    GedeonDBObject createObject(String className, GedeonDBObject obj);
+    
     GedeonDBObject saveObject(String className, GedeonDBObject obj);
     
     void deleteObject(String className, String id);

@@ -63,7 +63,7 @@ public abstract class PersistableObjectImpl implements PersistableObject {
 
 	@Override
 	public String getClassName() {
-		return classDefinition.getName();
+		return getClassDefinition().getName();
 	}
 
 	@Override

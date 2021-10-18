@@ -9,8 +9,6 @@ import com.vten.gedeon.api.admin.PropertiesDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.apiimpl.PersistableObjectImpl;
-import com.vten.gedeon.apiimpl.property.PropertiesDefinitionImpl;
-import com.vten.gedeon.apiimpl.property.PropertyDefinitionImpl;
 import com.vten.gedeon.dao.ClassDefinitionDAO;
 import com.vten.gedeon.dao.PropertyDefinitionDAO;
 import com.vten.gedeon.exception.GedeonErrorCode;

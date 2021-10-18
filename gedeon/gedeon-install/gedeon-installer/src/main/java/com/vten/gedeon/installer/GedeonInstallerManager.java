@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.PropertyTemplate;
+import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.api.utils.Setability;
 import com.vten.gedeon.apiimpl.GedFactoryImpl;
@@ -34,6 +35,9 @@ public class GedeonInstallerManager {
 	private Map<String,Object> mapConfig;
 
 	public void initDBFromJson(Map<String,Object> configDB) {
+		//Init Id for 
+		GedId propTpltClassId = GedId.newIdFromValue(GedeonProperties.CLASS_PROPERTYTEMPLATE.getBytes());
+		
 		mapConfig = configDB;
 		if(mapConfig.containsKey(ELT_PROPERTY_TEMPLATE)) {
 			List<Map<?,?>> listPropTplt =  getListJsonObject(mapConfig,ELT_PROPERTY_TEMPLATE);

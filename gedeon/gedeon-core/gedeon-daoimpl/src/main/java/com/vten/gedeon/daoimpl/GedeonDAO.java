@@ -10,6 +10,7 @@ import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.property.Properties;
 import com.vten.gedeon.api.search.GedSearch;
+import com.vten.gedeon.api.utils.GedEvents;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.apiimpl.PersistableObjectImpl;
@@ -70,13 +71,19 @@ public abstract class GedeonDAO {
 		obj.setLastModifier("System");
 		GedeonDBObject objToSave = new GedeonDBObject(obj);
 		//TODO get table name ? 
-		objToSave = this.connector.saveObject(obj.getClassName(), objToSave);
+		if(obj.getPendingEvents().contains(GedEvents.CREATE))
+			objToSave = this.connector.createObject(obj.getClassName(), objToSave);
+		else
+			objToSave = this.connector.saveObject(obj.getClassName(), objToSave);
 		obj.setId(new GedId(objToSave.getId()));
 		((PersistableObjectImpl)obj).setSeqNo(objToSave.getSeqNo());
 	}
 	
 	protected PersistableObject getInstanceByClassName(String className) {
 		switch (className) {
+		case GedeonProperties.CLASS_GEDCOLLECTION: {
+			return this.factory.createGedCollection();
+		}
 		case GedeonProperties.CLASS_GEDDOCUMENT: {
 			return this.factory.createGedDocument();
 		}

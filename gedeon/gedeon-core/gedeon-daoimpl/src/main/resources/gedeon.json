@@ -109,9 +109,10 @@
 			"IsSystem": true
 		}
 	],
-	"ClassDefinitions": [
+	"ClassDefinition": [
 		{
 			"Name": "AbastractDocument",
+			"ParentClassId": "",
 			"IsAbstract": true,
 			"IsFinal": false,
 			"PropertiesDefinitions": [
@@ -217,6 +218,7 @@
 		},
 		{
 			"Name": "AbstractPersistableObject",
+			"ParentClassId": "",
 			"IsAbstract": true,
 			"IsFinal": false,
 			"PropertiesDefinitions": [
@@ -292,6 +294,13 @@
 					"Setability": "read/write"
 				}
 			]
+		},
+		{
+			"Name": "GedeonCollection",
+			"ParentClassId": "AbstractPersistableObject",
+			"IsAbstract": false,
+			"IsFinal": true,
+			"PropertiesDefinitions": []
 		},
 		{
 			"Name": "PropertyDefinition",

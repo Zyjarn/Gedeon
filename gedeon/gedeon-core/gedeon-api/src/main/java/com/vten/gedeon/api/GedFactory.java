@@ -8,6 +8,12 @@ import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.utils.GedId;
 
 public interface GedFactory {
+	
+	public GedeonCollection createGedCollection();
+	
+	public GedeonCollection createGedCollection(String name);
+	
+	public GedeonCollection getGedCollection(String name);
 
 	public GedDocument createGedDocument();
 	
@@ -17,7 +23,6 @@ public interface GedFactory {
 	
 	public ClassDefinition getClassDefinition(String name);
 	
-	//PropertyTemplate
 	
 	/**
 	 * Create a new instance of PropertyTemplate	
