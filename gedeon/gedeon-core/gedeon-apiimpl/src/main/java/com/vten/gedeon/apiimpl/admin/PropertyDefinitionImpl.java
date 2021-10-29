@@ -38,7 +38,7 @@ public class PropertyDefinitionImpl extends PersistableObjectImpl implements Pro
 	@Override
 	public ClassDefinition getAssociatedClass() {
 		if(associatedClass == null && getProperties().containsProperty(GedeonProperties.PROP_PARENT_CLASS_ID)) {
-			associatedClass = classDefDAO.getObject(getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getIdValue());
+			associatedClass = classDefDAO.getObject(getGedeonCollection(),getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getIdValue());
 		} else {
 			//throw runtime not in cache
 		}

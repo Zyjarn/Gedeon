@@ -13,6 +13,8 @@ public class GedeonDBObject {
 	
 	private String id;
 	
+	private String gedCollection;
+	
 	private int seqNo;
 	
 	public GedeonDBObject() {

@@ -7,8 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vten.gedeon.api.GedFactory;
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.property.Properties;
+import com.vten.gedeon.api.property.Property;
 import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.utils.GedEvents;
 import com.vten.gedeon.api.utils.GedId;
@@ -37,76 +39,102 @@ public abstract class GedeonDAO {
 		Properties props = new PropertiesImpl();
 		//Add Id
 		props.add(new PropertyImpl(GedeonProperties.PROP_ID, new GedId(persistObject.getId())));
+		instance.setPropertyValue(GedeonProperties.PROP_OBJECT_CLASS, 
+				new GedId((String) persistObject.getMapData().get(GedeonProperties.PROP_OBJECT_CLASS)));
+//		ClassDefinition classDef = instance.getClassDefinition();
 		persistObject.getMapData().entrySet().stream()
-				.forEach(e -> props.add(new PropertyImpl(e.getKey(), e.getValue())));
-		//TODO add urn		
+				.forEach(e -> props.add(getProperty(/*classDef,*/e.getKey(), e.getValue())));
+		//Set properties on instance
 		instance.setProperties(props);
+		//Set seqNo
+		((PersistableObjectImpl)instance).setSeqNo(persistObject.getSeqNo());
 		return instance;
+	}
+	
+	protected Property getProperty(/*ClassDefinition classDef,*/ String key, Object value) {
+		Property prop = new PropertyImpl();
+		prop.setSymbolicName(key);
+		prop.setObjectValue(value);
+		/*PropertyDefinition propDef = classDef.getPropertiesDefinitions().get(key);
+		if(propDef != null && PropertyType.ID.equals(propDef.getPropertyTemplate().getType()))
+			prop.setObjectValue(new GedId((String)value));		*/
+		return prop;
 	}
 
 	protected PersistableObject getObjectById(PersistableObject instance, String className, String id) {
-		GedeonDBObject persistObject = this.connector.getObject(className, id);
+		GedeonDBObject persistObject = this.connector.getObject(instance.getGedeonCollection().getName(), 
+				className, id);
 		if (StringUtils.isBlank(persistObject.getId())) {
 			throw new GedeonRuntimeException(GedeonErrorCode.OE1003,className, id);
 		}
 		return fillPersistableObjectInstance(instance, persistObject);
 	}
 
-	protected PersistableObject getObjectByName(String className, String name) {
+	protected PersistableObject getObjectByName(GedeonCollection collection,String className, String name) {
 		GedSearch searchByName = new GedSearch.SearchBuilder().selectAll().from(className)
-				.where().equals(GedeonProperties.PROP_NAME, name).build(factory);
+				.where().equals(GedeonProperties.PROP_NAME, name).build(collection);
 		List<PersistableObject> results = searchByName.search();
 		if (results.isEmpty()) {
 			throw new GedeonRuntimeException(GedeonErrorCode.OE1003,className, name);
 		}
 		return results.get(0);
 	}
-
-	public void saveObject(PersistableObject obj, SaveMode mode) {
+	
+	protected void setPropertiesOnSave(PersistableObject obj) {
 		if (obj.getSeqNo() == 0) {
 			obj.setAddedOn(LocalDateTime.now());
 			obj.setAddedBy("System");
 		}
 		obj.setDateSaved(LocalDateTime.now());
 		obj.setLastModifier("System");
+	}
+
+	public void saveObject(PersistableObject obj, SaveMode mode) {
+		setPropertiesOnSave(obj);
+		//Collection name, empty for gedeonCollection
+		String colName = obj instanceof GedeonCollection ? StringUtils.EMPTY : 
+			obj.getGedeonCollection().getName();
+		
 		GedeonDBObject objToSave = new GedeonDBObject(obj);
 		//TODO get table name ? 
 		if(obj.getPendingEvents().contains(GedEvents.CREATE))
-			objToSave = this.connector.createObject(obj.getClassName(), objToSave);
+			objToSave = this.connector.createObject(colName,obj.getClassName(), objToSave);
 		else
-			objToSave = this.connector.saveObject(obj.getClassName(), objToSave);
+			objToSave = this.connector.saveObject(colName,obj.getClassName(), objToSave);
 		obj.setId(new GedId(objToSave.getId()));
 		((PersistableObjectImpl)obj).setSeqNo(objToSave.getSeqNo());
 	}
 	
-	protected PersistableObject getInstanceByClassName(String className) {
+	protected PersistableObject getInstanceByClassName(GedeonCollection collection,String className) {
+		PersistableObject obj;
 		switch (className) {
 		case GedeonProperties.CLASS_GEDCOLLECTION: {
-			return this.factory.createGedCollection();
-		}
+			obj = this.factory.createGedCollection();
+		}break;
 		case GedeonProperties.CLASS_GEDDOCUMENT: {
-			return this.factory.createGedDocument();
-		}
+			obj = this.factory.createGedDocument(collection);
+		}break;
 		case GedeonProperties.CLASS_PROPERTYTEMPLATE: {
-			return this.factory.createPropertyTemplate();
-		}
+			obj = this.factory.createPropertyTemplate(collection);
+		}break;
 		case GedeonProperties.CLASS_CLASSDEFINITION: {
-			return this.factory.createClassDefinition();
-		}
+			obj = this.factory.createClassDefinition(collection);
+		}break;
 		case GedeonProperties.CLASS_PROPERTYDEFINITION: {
-			return this.factory.createPropertyDefinition();
-		}
+			obj = this.factory.createPropertyDefinition(collection);
+		}break;
 		case GedeonProperties.CLASS_GEDFOLDER: {
-			return this.factory.createGedFolder();
-		}
+			obj = this.factory.createGedFolder(collection);
+		}break;
 		case GedeonProperties.CLASS_CONTAINMENTRELATIONSHIP: {
-			return this.factory.createContainmentRelationship();
-		}
+			obj = this.factory.createContainmentRelationship(collection);
+		}break;
 		default:
-			break;
+			throw new GedeonRuntimeException(
+					String.format("Unable to instantiate object with className : '%s' ", className));
 		}
-		throw new GedeonRuntimeException(
-				String.format("Unable to instantiate object with className : '%s' ", className));
+		return obj;
+		
 	}
 
 }

@@ -31,6 +31,10 @@ public interface ClassDefinition extends PersistableObject{
 	}
 	
 	public default GedId getParentClassDefinitionId() {
+		Object o = getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getObjectValue();
+		if(o instanceof String) {
+			setPropertyValue(GedeonProperties.PROP_PARENT_CLASS_ID, new GedId((String) o));
+		}
 		return getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getIdValue();
 	}
 	

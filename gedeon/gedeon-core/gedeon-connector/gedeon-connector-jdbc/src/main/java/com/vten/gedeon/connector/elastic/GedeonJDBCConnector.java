@@ -47,20 +47,20 @@ public class GedeonJDBCConnector extends NoSQLConnector{
 	}
 
 	@Override
-	public GedeonDBObject getObject(String className, String id) {
+	public GedeonDBObject getObject(String collectionName,String className, String id) {
 		GedeonDBObject matchObject = new GedeonDBObject();
 		
 		return matchObject;
 	}
 
 	@Override
-	public GedeonDBObject saveObject(String className, GedeonDBObject obj) {
+	public GedeonDBObject saveObject(String collectionName,String className, GedeonDBObject obj) {
 
 		return null;
 	}
 	
 	@Override
-	public void deleteObject(String className, String id) {
+	public void deleteObject(String collectionName,String className, String id) {
 
 	}
 	
@@ -73,13 +73,13 @@ public class GedeonJDBCConnector extends NoSQLConnector{
 	}
 
 	@Override
-	public List<GedeonDBObject> search(String className, String query) {
+	public List<GedeonDBObject> search(String collectionName,String className, String query) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GedeonDBObject createObject(String className, GedeonDBObject obj) {
+	public GedeonDBObject createObject(String collectionName,String className, GedeonDBObject obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}

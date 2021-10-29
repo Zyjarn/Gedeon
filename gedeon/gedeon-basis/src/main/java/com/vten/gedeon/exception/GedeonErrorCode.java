@@ -16,6 +16,10 @@ public enum GedeonErrorCode {
 	 * OE1003 - Object not found
 	 */
 	OE1003("Object was not found : "),
+	/**
+	 * OE1003 - Object not found
+	 */
+	OE1004("Parameter can't be null "),
 	
 	OE3001("Fatal error while parsing 'gedeon.json'. Installer is corrupt."),
 	OEXXXX("");

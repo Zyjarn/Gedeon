@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.vten.gedeon.api.GedFactory;
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.search.bean.SearchCondition;
 import com.vten.gedeon.api.search.bean.SearchParam;
@@ -31,6 +31,10 @@ public interface GedSearch {
 	
 	public void setCount(boolean value);
 	
+	public GedeonCollection getGedeonCollection();
+	
+	public void setGedeonCollection(GedeonCollection collection);
+	
 	public static class SearchBuilder {
 		
 		private boolean count = false;
@@ -48,8 +52,8 @@ public interface GedSearch {
 		
 		//public boolean not = false;
 		
-		public GedSearch build(GedFactory factory/*GedeonCollectionImpl*/) {
-			GedSearch search = factory.createEmptySearch(/*GedeonCollectionImpl*/);
+		public GedSearch build(GedeonCollection collection) {
+			GedSearch search = collection.getFactory().createEmptySearch(collection);
 			search.setCount(count);
 			//SELECT
 			if(columns == null || columns.length == 0)

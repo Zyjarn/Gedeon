@@ -39,20 +39,20 @@ public class ClassDefinitionImpl extends PersistableObjectImpl implements ClassD
 
 	@Override
 	public void refresh() {
-		PersistableObjectImpl refreshObject = (PersistableObjectImpl) dao.getObject(getTableName(), getName(),false);
+		PersistableObjectImpl refreshObject = (PersistableObjectImpl) dao.getObject(getGedeonCollection(),getTableName(), getName(),false);
 		setProperties(refreshObject.getProperties());
 		setSeqNo(refreshObject.getSeqNo());
 		//Retrieve object class definition
 		if(StringUtils.equals(getName(),GedeonProperties.CLASS_CLASSDEFINITION)) 
 			setClassDefinition(this);
 		else
-			setClassDefinition(classDefDAO.getObject(GedeonProperties.CLASS_CLASSDEFINITION));
+			setClassDefinition(classDefDAO.getObject(getGedeonCollection(),GedeonProperties.CLASS_CLASSDEFINITION));
 		//Retrieve parent class definition
 		if(StringUtils.isNotBlank(getParentClassDefinitionId().getValue()))
-			parentClassDefinition = classDefDAO.getObject(getParentClassDefinitionId());
+			parentClassDefinition = classDefDAO.getObject(getGedeonCollection(),getParentClassDefinitionId());
 		//Retrieve properties definitions
 		propertiesDefinitions.clear();
-		propDefDAO.getPropertiesDefinitionForClass(this).forEach(this::addPropertyDefinition);
+		propDefDAO.getPropertiesDefinitionForClass(getGedeonCollection(),this).forEach(this::addPropertyDefinition);
 	}
 	
 	@Override

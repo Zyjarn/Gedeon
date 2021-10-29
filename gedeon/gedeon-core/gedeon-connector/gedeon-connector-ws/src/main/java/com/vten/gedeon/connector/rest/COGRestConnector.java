@@ -17,13 +17,13 @@ public class COGRestConnector implements GedeonDBConnector{
 	}
 
 	@Override
-	public GedeonDBObject getObject(String className, String id) {
+	public GedeonDBObject getObject(String collectionName,String className, String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GedeonDBObject saveObject(String className, GedeonDBObject obj) {
+	public GedeonDBObject saveObject(String collectionName,String className, GedeonDBObject obj) {
 		// TODO Auto-generated method stub
 		return obj;
 	}
@@ -35,19 +35,19 @@ public class COGRestConnector implements GedeonDBConnector{
 	}
 
 	@Override
-	public void deleteObject(String className, String id) {
+	public void deleteObject(String collectionName,String className, String id) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<GedeonDBObject> search(String className, String query) {
+	public List<GedeonDBObject> search(String collectionName,String className, String query) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GedeonDBObject createObject(String className, GedeonDBObject obj) {
+	public GedeonDBObject createObject(String collectionName,String className, GedeonDBObject obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}

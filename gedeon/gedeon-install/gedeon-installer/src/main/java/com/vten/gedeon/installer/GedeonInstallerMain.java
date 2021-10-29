@@ -60,7 +60,7 @@ public class GedeonInstallerMain {
 	protected void run() {
 		try {
 			
-			GedeonCollection collection = factory.createGedCollection("GC1");
+			GedeonCollection collection = factory.createGedCollection("SII");
 			collection.save(SaveMode.REFRESH);
 			/*JsonParser springParser = JsonParserFactory.getJsonParser();
 			Map<String,Object> json = springParser.parseMap(asString(resource));

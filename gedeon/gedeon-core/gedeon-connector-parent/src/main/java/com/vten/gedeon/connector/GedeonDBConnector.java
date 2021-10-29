@@ -10,15 +10,15 @@ public interface GedeonDBConnector
 {
     int initDB();
     
-    GedeonDBObject getObject(String className, String id);
+    GedeonDBObject getObject(String collectionName,String className, String id);
     
-    GedeonDBObject createObject(String className, GedeonDBObject obj);
+    GedeonDBObject createObject(String collectionName,String objectName, GedeonDBObject obj);
     
-    GedeonDBObject saveObject(String className, GedeonDBObject obj);
+    GedeonDBObject saveObject(String collectionName,String objectName, GedeonDBObject obj);
     
-    void deleteObject(String className, String id);
+    void deleteObject(String collectionName, String objectName, String id);
     
-    List<GedeonDBObject> search(String className,String query);
+    List<GedeonDBObject> search(String collectionName, String objectName,String query);
     
     @PreDestroy
     void cleanUp();

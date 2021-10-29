@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.GedFactory;
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.connector.GedeonDBConnector;
 import com.vten.gedeon.dao.PersistableObjectDAO;
@@ -17,13 +18,13 @@ public class PersistableObjectDAOImpl extends GedeonDAO implements PersistableOb
 	}
 
 	@Override
-	public PersistableObject getObject(String className, String idOrName, boolean useId) {
-		return useId ? super.getObjectById(this.getInstanceByClassName(className), className, idOrName)
-				: super.getObjectByName(className, idOrName);
+	public PersistableObject getObject(GedeonCollection collection,String className, String idOrName, boolean useId) {
+		return useId ? super.getObjectById(this.getInstanceByClassName(collection,className), className, idOrName)
+				: super.getObjectByName(collection,className, idOrName);
 	}
 
 	@Override
 	public void deleteObject(String className, PersistableObject obj) {
-		connector.deleteObject(className, obj.getId().getValue());
+		connector.deleteObject(obj.getGedeonCollection().getName(), className, obj.getId().getValue());
 	}
 }

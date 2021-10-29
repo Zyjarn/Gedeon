@@ -10,6 +10,8 @@ public interface Property {
 	
 	public String getSymbolicName();
 	
+	public void setSymbolicName(String name);
+	
 	public Object getObjectValue();
 	
 	public String getStringValue();

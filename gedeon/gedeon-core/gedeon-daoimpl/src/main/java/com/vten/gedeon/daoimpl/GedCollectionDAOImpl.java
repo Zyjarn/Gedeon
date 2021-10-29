@@ -55,7 +55,7 @@ public class GedCollectionDAOImpl extends GedeonDAO implements GedCollectionDAO{
 	@Override
 	public GedeonCollection getObject(String name) {
 		return (GedeonCollection) 
-				super.getObjectByName(GedeonProperties.CLASS_GEDCOLLECTION, name);
+				super.getObjectByName(null,GedeonProperties.CLASS_GEDCOLLECTION, name);
 	}
 	
 	private String asString(Resource resource) {
@@ -89,26 +89,28 @@ public class GedCollectionDAOImpl extends GedeonDAO implements GedCollectionDAO{
 			obj.setPropertyValue(GedeonProperties.PROP_OBJECT_CLASS,idObjects.get(GedeonProperties.CLASS_GEDCOLLECTION));
 			
 			if(jsonObj.has(GedeonProperties.CLASS_PROPERTYTEMPLATE)) {
-				createSystemPropertyTemplate(idObjects,
+				createSystemPropertyTemplate(obj,idObjects,
 						jsonObj.getJSONArray(GedeonProperties.CLASS_PROPERTYTEMPLATE));
 				
 			}
 			//TODO in case of errors, remove all created objects
 			
 			if(jsonObj.has(GedeonProperties.CLASS_CLASSDEFINITION)) {
-				createSystemClassDefinitions(idObjects,
+				createSystemClassDefinitions(obj,idObjects,
 						jsonObj.getJSONArray(GedeonProperties.CLASS_CLASSDEFINITION));
-					
 			}
+			//Set object class definition "GedeonCollection" on object
+			obj.setClassDefinition(factory.getClassDefinition(obj, GedeonProperties.CLASS_GEDCOLLECTION));
+			
 			super.saveObject(obj, SaveMode.REFRESH);
 
 	}
 	
-	protected void createSystemPropertyTemplate(Map<String, GedId> idObjects,JSONArray listPropTplt) {
+	protected void createSystemPropertyTemplate(GedeonCollection collection,Map<String, GedId> idObjects,JSONArray listPropTplt) {
 		JSONObject propTpltOpt;
 		for(int i = 0; i < listPropTplt.length(); i++) {
 			propTpltOpt = listPropTplt.getJSONObject(i);
-			PropertyTemplate propTemplate = factory.createPropertyTemplate();
+			PropertyTemplate propTemplate = factory.createPropertyTemplate(collection);
 			propTemplate.setName(propTpltOpt.getString(GedeonProperties.PROP_NAME));
 			LOG.info("handle PropertyTemplate : {}",propTemplate.getName());
 			propTemplate.setPropertyValue(GedeonProperties.PROP_OBJECT_CLASS, 
@@ -120,13 +122,13 @@ public class GedCollectionDAOImpl extends GedeonDAO implements GedCollectionDAO{
 		}
 	}
 	
-	protected void createSystemPropertyDefinition(Map<String, GedId> idObjects,JSONArray listPropTplt,ClassDefinition classDef) {
+	protected void createSystemPropertyDefinition(GedeonCollection collection,Map<String, GedId> idObjects,JSONArray listPropTplt,ClassDefinition classDef) {
 		JSONObject propDefOpt;
 		for(int j = 0; j < listPropTplt.length(); j++) {
 			propDefOpt = listPropTplt.getJSONObject(j);
 			//Create property definition with name of associated entry template
 			String propertyTemplate = propDefOpt.getString(GedeonProperties.CLASS_PROPERTYTEMPLATE);
-			PropertyDefinition propDef = factory.createPropertyDefinition(propertyTemplate);
+			PropertyDefinition propDef = factory.createPropertyDefinition(collection,propertyTemplate);
 			propDef.setName(propertyTemplate);
 			LOG.info("handle PropertyDefinition : {}",propDef.getName());
 			propDef.isRequired(propDefOpt.getBoolean(GedeonProperties.PROP_IS_REQUIRED));
@@ -142,12 +144,12 @@ public class GedCollectionDAOImpl extends GedeonDAO implements GedCollectionDAO{
 		}
 	}
 	
-	protected void createSystemClassDefinitions(Map<String, GedId> idObjects,JSONArray listClassDef) {
+	protected void createSystemClassDefinitions(GedeonCollection collection,Map<String, GedId> idObjects,JSONArray listClassDef) {
 		Map<String,ClassDefinition> classDefinitions = new HashMap<>();
 		JSONObject classDefOpt;
 		for(int i = 0; i < listClassDef.length(); i++) {
 			classDefOpt = listClassDef.getJSONObject(i);
-			ClassDefinition classDef = factory.createClassDefinition();
+			ClassDefinition classDef = factory.createClassDefinition(collection);
 			classDef.setName(classDefOpt.getString(GedeonProperties.PROP_NAME));
 			LOG.info("handle ClassDefinition : {}",classDef.getName());
 			classDef.isAbstract(classDefOpt.getBoolean(GedeonProperties.PROP_IS_ABSTRACT));
@@ -165,7 +167,7 @@ public class GedCollectionDAOImpl extends GedeonDAO implements GedCollectionDAO{
 				classDef.setId(idObjects.get(classDef.getName()));
 			
 			//Create all properties definitions associated to class
-			createSystemPropertyDefinition(idObjects,classDefOpt.getJSONArray(ELT_PROPERTIES_DEFINITIONS),classDef);
+			createSystemPropertyDefinition(collection,idObjects,classDefOpt.getJSONArray(ELT_PROPERTIES_DEFINITIONS),classDef);
 			
 			//Save ClassDefinition and associated propertyTemplate
 			classDef.save(SaveMode.NO_REFRESH);

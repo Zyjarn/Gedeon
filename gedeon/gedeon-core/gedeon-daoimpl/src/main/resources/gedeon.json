@@ -120,63 +120,63 @@
 					"PropertyTemplate": "Name",
 					"DisplayName": "Name",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "ObjectClassId",
 					"DisplayName": "Class Definition",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "VersionsId",
 					"DisplayName": "Versions Id",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "AddedBy",
 					"DisplayName": "Added By",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "onCreate"
 				},
 				{
 					"PropertyTemplate": "AddedOn",
 					"DisplayName": "Added On",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "onCreate"
 				},
 				{
 					"PropertyTemplate": "LastModifier",
 					"DisplayName": "Last Modifier",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "DateSaved",
 					"DisplayName": "Saved Date",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "MajorVersion",
 					"DisplayName": "Major Version",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "MinorVersion",
 					"DisplayName": "Minor Version",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
@@ -190,14 +190,14 @@
 					"PropertyTemplate": "LockOwner",
 					"DisplayName": "Lock Owner",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "oncheckout"
 				},
 				{
 					"PropertyTemplate": "ContentName",
 					"DisplayName": "Content Name",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "oncheckin"
 				},
 				{
@@ -226,42 +226,42 @@
 					"PropertyTemplate": "Name",
 					"DisplayName": "Name",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "ObjectClassId",
 					"DisplayName": "Class Definition",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "AddedBy",
 					"DisplayName": "Added By",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "onCreate"
 				},
 				{
 					"PropertyTemplate": "AddedOn",
 					"DisplayName": "Added On",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "onCreate"
 				},
 				{
 					"PropertyTemplate": "LastModifier",
 					"DisplayName": "Last Modifier",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "DateSaved",
 					"DisplayName": "Saved Date",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				}
 			]
@@ -276,21 +276,21 @@
 					"PropertyTemplate": "PropertyType",
 					"DisplayName": "Property Type",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "IsList",
 					"DisplayName": "Is List",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				},
 				{
 					"PropertyTemplate": "IsSystem",
 					"DisplayName": "Saved Date",
 					"IsRequired": true,
-					"DefaultValue": "null",
+					"DefaultValue": "%%null%%",
 					"Setability": "read/write"
 				}
 			]
@@ -314,7 +314,15 @@
 			"ParentClassId": "AbstractPersistableObject",
 			"IsAbstract": false,
 			"IsFinal": true,
-			"PropertiesDefinitions": []
+			"PropertiesDefinitions": [
+				{
+					"PropertyTemplate": "IsSystem",
+					"DisplayName": "Saved Date",
+					"IsRequired": true,
+					"DefaultValue": "%%null%%",
+					"Setability": "read/write"
+				}
+			]
 		},
 		{
 			"Name": "GedDocument",

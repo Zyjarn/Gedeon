@@ -18,8 +18,8 @@ public class PropertyTemplateImpl extends PersistableObjectImpl implements Prope
 	public void refresh() {
 		//Refresh object by id or name
 		PersistableObjectImpl refreshObject = (PersistableObjectImpl) (getId()== null || getId().isBlank() ?
-				dao.getObject(getTableName(), getName(),false):
-				dao.getObject(getTableName(), getId().getValue()));
+				dao.getObject(getGedeonCollection(),getTableName(), getName(),false):
+				dao.getObject(getGedeonCollection(),getTableName(), getId().getValue()));
 		this.setProperties(refreshObject.getProperties());
 		setId(refreshObject.getId());
 		setSeqNo(refreshObject.getSeqNo());

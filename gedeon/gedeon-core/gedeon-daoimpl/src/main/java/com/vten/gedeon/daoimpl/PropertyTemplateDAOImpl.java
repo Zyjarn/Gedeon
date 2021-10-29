@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.GedFactory;
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.admin.PropertyTemplate;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
@@ -24,15 +25,15 @@ public class PropertyTemplateDAOImpl extends GedeonDAO implements PropertyTempla
 
 	@Cacheable(cacheNames="PropertyTemplateId", key="#id.value")
 	@Override
-	public PropertyTemplate getObject(GedId id) {
-		return (PropertyTemplate) super.getObjectById(factory.createPropertyTemplate(),
+	public PropertyTemplate getObject(GedeonCollection collection,GedId id) {
+		return (PropertyTemplate) super.getObjectById(factory.createPropertyTemplate(collection),
 				GedeonProperties.CLASS_PROPERTYTEMPLATE, id.getValue());
 	}
 
 	@Cacheable(cacheNames="PropertyTemplateName", key="#name")
 	@Override
-	public PropertyTemplate getObject(String name) {
-		return (PropertyTemplate) super.getObjectByName(GedeonProperties.CLASS_PROPERTYTEMPLATE, name);
+	public PropertyTemplate getObject(GedeonCollection collection,String name) {
+		return (PropertyTemplate) super.getObjectByName(collection,GedeonProperties.CLASS_PROPERTYTEMPLATE, name);
 	}
 
 	@Caching(evict = { 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.property.Properties;
@@ -30,8 +31,11 @@ public abstract class PersistableObjectImpl implements PersistableObject {
 	@Getter
 	private Properties properties = new PropertiesImpl();
 	
-	@Setter
 	private ClassDefinition classDefinition;
+	
+	@Getter
+	@Setter
+	private GedeonCollection gedeonCollection;
 	
 	@Getter
 	@Setter
@@ -73,7 +77,8 @@ public abstract class PersistableObjectImpl implements PersistableObject {
 
 	@Override
 	public void refresh() {
-		PersistableObjectImpl refreshObject = (PersistableObjectImpl) dao.getObject(getTableName(), getId().toString());
+		PersistableObjectImpl refreshObject = (PersistableObjectImpl) dao.getObject(
+				gedeonCollection,getTableName(), getId().toString());
 		this.setProperties(refreshObject.getProperties());
 		setId(refreshObject.getId());
 		this.seqNo = refreshObject.getSeqNo();
@@ -81,11 +86,20 @@ public abstract class PersistableObjectImpl implements PersistableObject {
 	}
 	
 	@Override
+	public void setClassDefinition(ClassDefinition classDef) {
+		if(classDef == null || classDef.getId() == null)
+			throw new GedeonRuntimeException(GedeonErrorCode.OE1004);
+		classDefinition = classDef;
+		this.setPropertyValue(GedeonProperties.PROP_OBJECT_CLASS, classDef.getId());
+	}
+	
+	@Override
 	public ClassDefinition getClassDefinition() {
 		if(!getProperties().containsProperty(GedeonProperties.PROP_OBJECT_CLASS)) {
 			throw new GedeonRuntimeException(GedeonErrorCode.OE1002, GedeonProperties.PROP_OBJECT_CLASS);
 		} else if(classDefinition == null) {
-			classDefinition = (ClassDefinition) dao.getObject(GedeonProperties.CLASS_CLASSDEFINITION, 
+			classDefinition = (ClassDefinition) dao.getObject(gedeonCollection,
+					GedeonProperties.CLASS_CLASSDEFINITION, 
 					getProperties().get(GedeonProperties.PROP_OBJECT_CLASS).getIdValue().getValue());
 		}
 		return classDefinition;

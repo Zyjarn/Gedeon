@@ -40,6 +40,9 @@ import com.vten.gedeon.model.property.PropertyType;
 public class GedeonElasticConnector extends NoSQLConnector {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GedeonElasticConnector.class);
+	
+	private static final String GEDEON_INDICES_FORMAT = "/gedeon-%s-%s%s";
+	private static final String API_DOC = "/_doc/";
 
 	@Value("${elasticsearch.host}")
 	private String elasticsearchHost;
@@ -55,7 +58,7 @@ public class GedeonElasticConnector extends NoSQLConnector {
 	@Bean(destroyMethod = "close")
 	protected RestClient getClient() {
 		// Security
-
+		
 		final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 		credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("", ""));
 
@@ -92,10 +95,14 @@ public class GedeonElasticConnector extends NoSQLConnector {
 	}
 
 	@Override
-	public GedeonDBObject getObject(String className, String id) {
+	public GedeonDBObject getObject(String collectionName, String className, String id) {
 		try {
+			String uri = String.format(GEDEON_INDICES_FORMAT, 
+					collectionName.toLowerCase(),className.toLowerCase(),API_DOC).concat(id);
+			
+			LOG.debug("GetObject GET '{}'",uri);
 			//Create request &terminate_after=1
-			Request request = new Request("GET","/gedeon-".concat(className.toLowerCase()).concat("/_doc/").concat(id));
+			Request request = new Request("GET",uri);
 			//Perform request
 			Response response = client.performRequest(request);
 			GetResponse getResponse = new GetResponse(EntityUtils.toString(response.getEntity()));
@@ -147,36 +154,43 @@ public class GedeonElasticConnector extends NoSQLConnector {
 	}
 
 	@Override
-	public GedeonDBObject createObject(String className, GedeonDBObject obj) {
+	public GedeonDBObject createObject(String collectionName, String className, GedeonDBObject obj) {
 		try {
+			String uri = String.format(GEDEON_INDICES_FORMAT, collectionName.toLowerCase(),
+					className.toLowerCase(),API_DOC)
+					.concat(StringUtils.isNotBlank(obj.getId())?obj.getId() : StringUtils.EMPTY);
+			String jsonObj = dbObjectToJSONString(obj);
+			
+			LOG.debug("createObject POST '{}' : {}",uri, jsonObj);
 			// Create index request
-			Request request = new Request("POST","/gedeon-".concat(className.toLowerCase().concat("/_doc/")
-					.concat(StringUtils.isNotBlank(obj.getId())?obj.getId() : StringUtils.EMPTY)));
-			request.setJsonEntity(dbObjectToJSONString(obj));
+			Request request = new Request("POST",uri);
+			request.setJsonEntity(jsonObj);
 			// Send request
 			Response response = client.performRequest(request);
 			SaveResponse saveResponse = new SaveResponse(EntityUtils.toString(response.getEntity()));
-			LOG.debug("SaveObject response : {}",saveResponse);
+			LOG.debug("createObject response : {}",saveResponse);
 			obj.setId(saveResponse.getId());
 			obj.setSeqNo(saveResponse.getSeqNo());
 			
 		} catch (IOException e) {
-			LOG.error("saveObject error", e);
-			throw new GedeonRuntimeException("saveObject error - db connection issue while saving object '%s'", className);
+			LOG.error("createObject error", e);
+			throw new GedeonRuntimeException("createObject error - db connection issue while saving object '%s' - %s", className,e.getMessage());
 		} catch (RuntimeException e) {
-			LOG.error("saveObject error", e);
+			LOG.error("createObject error", e);
 			throw new GedeonRuntimeException(
-					"saveObject error - unexpected issue while saving object '%s', see trace logs for more information.",
-					className);
+					"createObject error - unexpected issue while saving object '%s', %s",
+					className,e.getMessage());
 		}
 		return obj;
 	}
 	
 	@Override
-	public GedeonDBObject saveObject(String className, GedeonDBObject obj) {
+	public GedeonDBObject saveObject(String collectionName, String className, GedeonDBObject obj) {
 		try {
 			// Create index request
-			Request request = new Request("POST","/gedeon-".concat(className.toLowerCase().concat("/_doc/")));
+			Request request = new Request("POST",String.format(GEDEON_INDICES_FORMAT, collectionName.toLowerCase(),
+					className.toLowerCase(),API_DOC)
+					.concat(StringUtils.isNotBlank(obj.getId())?obj.getId() : StringUtils.EMPTY));
 			request.setJsonEntity(dbObjectToJSONString(obj));
 			// Send request
 			Response response = client.performRequest(request);
@@ -198,10 +212,12 @@ public class GedeonElasticConnector extends NoSQLConnector {
 	}
 
 	@Override
-	public void deleteObject(String className, String id) {
+	public void deleteObject(String collectionName, String className, String id) {
 		try {
 			// Create delete request
-			Request request = new Request("DELETE","/gedeon-".concat(className).concat("*/_doc/").concat(id));
+			Request request = new Request("DELETE",String.format(GEDEON_INDICES_FORMAT, collectionName.toLowerCase(),
+					className.toLowerCase(),API_DOC)
+					.concat(id));
 			//Perform request
 			Response deleteResponse = client.performRequest(request);
 			String responseBody = EntityUtils.toString(deleteResponse.getEntity()); 
@@ -219,10 +235,11 @@ public class GedeonElasticConnector extends NoSQLConnector {
 	}
 
 	@Override
-	public List<GedeonDBObject> search(String className, String query) {
+	public List<GedeonDBObject> search(String collectionName,String className, String query) {
 		
 		try {
-			String index = "/gedeon-".concat(className.toLowerCase()).concat("*/_search");
+			String index = String.format(GEDEON_INDICES_FORMAT, collectionName.toLowerCase(),
+					className.toLowerCase(),"*").concat("/_search");
 			LOG.debug("Execute query : GET {} {}",index,query);
 			// Build search request
 			Request request = new Request("GET",index);
@@ -236,7 +253,7 @@ public class GedeonElasticConnector extends NoSQLConnector {
 			return response.getHits();
 
 		} catch (IOException e) {
-			throw new GedeonRuntimeException("saveObject error - db connection issue while saving object '%s'");
+			throw new GedeonRuntimeException("saveObject error - db connection issue while searching object '%s.%s'",collectionName,className);
 		}
 	}
 

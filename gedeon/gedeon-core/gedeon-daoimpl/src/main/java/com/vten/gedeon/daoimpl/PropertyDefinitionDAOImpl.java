@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.GedFactory;
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
@@ -30,20 +31,21 @@ public class PropertyDefinitionDAOImpl extends GedeonDAO implements PropertyDefi
 
 	@Cacheable(cacheNames = "PropertyDefinitionId", key = "#id.value")
 	@Override
-	public PropertyDefinition getObject(GedId id) {
+	public PropertyDefinition getObject(GedeonCollection collection,GedId id) {
 		//Retrieve object
 		PropertyDefinitionImpl obj = (PropertyDefinitionImpl) super.getObjectById(new PropertyDefinitionImpl(),
 				GedeonProperties.CLASS_PROPERTYDEFINITION, id.getValue());
 		//Retrieve associated property template
 		if (obj.getProperties().containsProperty(GedeonProperties.PROP_PROPERTY_TEMPLATE_ID))
-			obj.setPropertyTemplate(factory.getPropertyTemplate(
+			obj.setPropertyTemplate(factory.getPropertyTemplate(collection,
 					obj.getProperties().get(GedeonProperties.PROP_PROPERTY_TEMPLATE_ID).getIdValue()));
 		return obj;
 	}
 
 	@Override
 	public void deleteObject(PropertyDefinition obj) {
-		connector.deleteObject(GedeonProperties.CLASS_PROPERTYDEFINITION, obj.getId().getValue());
+		connector.deleteObject(obj.getGedeonCollection().getName(),
+				GedeonProperties.CLASS_PROPERTYDEFINITION, obj.getId().getValue());
 	}
 
 	@CacheEvict(cacheNames = "PropertyDefinitionId", key = "#obj.getId")
@@ -53,16 +55,17 @@ public class PropertyDefinitionDAOImpl extends GedeonDAO implements PropertyDefi
 	}
 
 	@Override
-	public List<PropertyDefinition> getPropertiesDefinitionForClass(ClassDefinition classDef) {
-		GedSearch searchByName = new GedSearch.SearchBuilder().select().from(GedeonProperties.CLASS_PROPERTYDEFINITION)
-				.where().equals(GedeonProperties.PROP_PARENT_CLASS_ID, classDef.getId()).build(factory);
+	public List<PropertyDefinition> getPropertiesDefinitionForClass(GedeonCollection collection,ClassDefinition classDef) {
+		GedSearch searchByName = new GedSearch.SearchBuilder().selectAll().from(GedeonProperties.CLASS_PROPERTYDEFINITION)
+				.where().equals(GedeonProperties.PROP_PARENT_CLASS_ID, classDef.getId()).build(collection);
 		List<PersistableObject> results = searchByName.search();
 		return results.stream().map(PropertyDefinition.class::cast).collect(Collectors.toList());
 	}
 
 	@Override
 	public PropertyDefinition newCopyInstance(PropertyDefinition propertyDefinition) {
-		PropertyDefinition copyObject = factory.createPropertyDefinition();
+		//TODO put object creation in gedeoncollection?
+		PropertyDefinition copyObject = factory.createPropertyDefinition(propertyDefinition.getGedeonCollection());
 		copyObject.setDefaultValue(propertyDefinition.getDefaultValue());
 		copyObject.setDisplayName(propertyDefinition.getDisplayName());
 		copyObject.setName(propertyDefinition.getName());

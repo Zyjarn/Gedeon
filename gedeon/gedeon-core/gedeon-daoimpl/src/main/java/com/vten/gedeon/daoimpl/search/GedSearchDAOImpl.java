@@ -3,6 +3,7 @@ package com.vten.gedeon.daoimpl.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +30,17 @@ import com.vten.gedeon.daoimpl.GedeonDAO;
 	@Override
 	public List<PersistableObject> search(GedSearch search) {
 		List<PersistableObject> result = new ArrayList<>();
+		//
+		String collecName = search.getGedeonCollection() == null ? StringUtils.EMPTY : 
+			search.getGedeonCollection().getName();
+		
 		//Get search result by format given search
-		List<GedeonDBObject> searchRes = connector.search(search.getTargetObjectClassName(), 
+		List<GedeonDBObject> searchRes = connector.search(collecName,search.getTargetObjectClassName(), 
 				searchUtil.format(search));
 		for(GedeonDBObject obj : searchRes) {
-			result.add(fillPersistableObjectInstance(getInstanceByClassName(search.getTargetObjectClassName()),obj));
+			result.add(fillPersistableObjectInstance(
+					getInstanceByClassName(search.getGedeonCollection(),search.getTargetObjectClassName())
+					,obj));
 		}
 		return result;
 	}

@@ -1,7 +1,6 @@
 package com.vten.gedeon.api;
 
 import com.vten.gedeon.api.admin.ClassDefinition;
-import com.vten.gedeon.api.admin.PropertiesDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.PropertyTemplate;
 import com.vten.gedeon.api.search.GedSearch;
@@ -15,45 +14,40 @@ public interface GedFactory {
 	
 	public GedeonCollection getGedCollection(String name);
 
-	public GedDocument createGedDocument();
+	public GedDocument createGedDocument(GedeonCollection collection);
 	
-	public GedDocument getGedDocument(GedId id);
+	public GedDocument getGedDocument(GedeonCollection collection,GedId id);
 	
-	public ClassDefinition createClassDefinition();
+	public ClassDefinition createClassDefinition(GedeonCollection collection);
 	
-	public ClassDefinition getClassDefinition(String name);
+	public ClassDefinition getClassDefinition(GedeonCollection collection,String name);
 	
 	
 	/**
 	 * Create a new instance of PropertyTemplate	
 	 * @return empty PropertyTemplate object
 	 */
-	public PropertyTemplate createPropertyTemplate();
+	public PropertyTemplate createPropertyTemplate(GedeonCollection collection);
 	
 	/**
 	 * Get a instance of existing PropertyTemplate by its name
 	 * @return PropertyTemplate object
 	 */
-	public PropertyTemplate getPropertyTemplate(String name);
+	public PropertyTemplate getPropertyTemplate(GedeonCollection collection,String name);
 	
 	/**
 	 * Get a instance of existing PropertyTemplate by its id
 	 * @return PropertyTemplate object
 	 */
-	public PropertyTemplate getPropertyTemplate(GedId id);
-	
-	/**
-	 * Create an empty list of property definition 
-	 * @return empty PropertiesDefinition object
-	 */
-	public PropertiesDefinition createPropertiesDefinition();
+	public PropertyTemplate getPropertyTemplate(GedeonCollection collection,GedId id);
+
 	
 	/**
 	 * Get an empty instance of PropertyDefinition
 	 * - instance must be associated to a PropertyTemplate with 
 	 * @return
 	 */
-	public PropertyDefinition createPropertyDefinition();
+	public PropertyDefinition createPropertyDefinition(GedeonCollection collection);
 	
 	/**
 	 * Get an empty instance of PropertyDefinition associated to the 
@@ -62,19 +56,19 @@ public interface GedFactory {
 	 * @param propTpltName a valid PropertyTemplate name
 	 * @return new instance of PropertyDefinition
 	 */
-	public PropertyDefinition createPropertyDefinition(String propTpltName);
+	public PropertyDefinition createPropertyDefinition(GedeonCollection collection,String propTpltName);
 	
-	public PropertyDefinition getPropertyDefinition(GedId id);
+	public PropertyDefinition getPropertyDefinition(GedeonCollection collection,GedId id);
 
-	public GedFolder createGedFolder();
+	public GedFolder createGedFolder(GedeonCollection collection);
 	
-	public GedFolder getGedFolder(GedId id);
+	public GedFolder getGedFolder(GedeonCollection collection,GedId id);
 
-	public ContainmentRelationship createContainmentRelationship();
+	public ContainmentRelationship createContainmentRelationship(GedeonCollection collection);
 	
-	public ContainmentRelationship getContainmentRelationship(GedId id);
+	public ContainmentRelationship getContainmentRelationship(GedeonCollection collection,GedId id);
 	
-	public GedSearch createEmptySearch();
+	public GedSearch createEmptySearch(GedeonCollection collection);
 
 	
 

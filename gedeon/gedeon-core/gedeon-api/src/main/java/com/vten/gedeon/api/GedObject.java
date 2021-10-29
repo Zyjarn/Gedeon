@@ -42,4 +42,22 @@ public interface GedObject {
 	 * @return class definition
 	 */
 	public ClassDefinition getClassDefinition();
+	
+	/**
+	 * Return the class definition of the current object
+	 * @return class definition
+	 */
+	public void setClassDefinition(ClassDefinition classDefinition);
+	
+	/**
+	 * Get the collection associated to the object
+	 * @return
+	 */
+	public GedeonCollection getGedeonCollection();
+	
+	/**
+	 * Set the collection associated to the object
+	 * @return
+	 */
+	public void setGedeonCollection(GedeonCollection collection);
 }

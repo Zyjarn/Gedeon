@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.GedFactory;
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.admin.ClassDefinition;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
@@ -22,22 +23,22 @@ public class ClassDefinitionDAOImpl extends GedeonDAO implements ClassDefinition
         super(dbConnect,factory);
     }
 	
-	@Cacheable(cacheNames="ClassDefinitionName", key="#name")
+	@Cacheable(cacheNames="ClassDefinitionName", key="{#collection.symbolicName , #name}")
 	@Override
-	public ClassDefinition getObject(String name) {
-		return (ClassDefinition) super.getObjectByName(GedeonProperties.CLASS_CLASSDEFINITION, name);
+	public ClassDefinition getObject(GedeonCollection collection,String name) {
+		return (ClassDefinition) super.getObjectByName(collection,GedeonProperties.CLASS_CLASSDEFINITION, name);
 	}
 	
 	@Cacheable(cacheNames="ClassDefinitionId", key="#id.value")
 	@Override
-	public ClassDefinition getObject(GedId id) {
-		return (ClassDefinition) super.getObjectById(factory.createClassDefinition(),
+	public ClassDefinition getObject(GedeonCollection collection, GedId id) {
+		return (ClassDefinition) super.getObjectById(factory.createClassDefinition(collection),
 				GedeonProperties.CLASS_CLASSDEFINITION, id.getValue());
 	}
 
 	@Override
 	public void deleteObject(ClassDefinition obj) {
-		connector.deleteObject(obj.getClassName(), obj.getId().getValue());
+		connector.deleteObject(obj.getGedeonCollection().getName(),obj.getClassName(), obj.getId().getValue());
 	}
 
 	@Caching(evict = { 

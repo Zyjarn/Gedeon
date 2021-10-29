@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.search.bean.SearchCondition;
@@ -21,6 +22,8 @@ public class GedSearchImpl implements GedSearch{
 	private String targetObjectClassName;
 	
 	private SearchCondition searchCondition;
+	
+	private GedeonCollection gedeonCollection;
 
 	private boolean isCount;
 
