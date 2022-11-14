@@ -9,14 +9,14 @@ import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.utils.SaveMode;
 
 public interface PropertyDefinitionDAO {
-	
-	public PropertyDefinition getObject(GedeonCollection collection,GedId id);
-	
-	public List<PropertyDefinition> getPropertiesDefinitionForClass(GedeonCollection collection,ClassDefinition classDef);
-	
+
+	public PropertyDefinition getObject(GedeonCollection collection, GedId id);
+
+	public List<PropertyDefinition> getPropertiesDefinitionForClass(GedeonCollection collection,
+			ClassDefinition classDef);
+
 	public void saveObject(PropertyDefinition obj, SaveMode mode);
-	
+
 	public void deleteObject(PropertyDefinition obj);
-	
-	public PropertyDefinition newCopyInstance(PropertyDefinition obj);
+
 }

@@ -19,33 +19,35 @@ import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.apiimpl.admin.PropertyDefinitionImpl;
 import com.vten.gedeon.connector.GedeonDBConnector;
 import com.vten.gedeon.dao.PropertyDefinitionDAO;
+import com.vten.gedeon.daoimpl.validation.SaveValidator;
 import com.vten.gedeon.utils.SaveMode;
 
 @Service
-public class PropertyDefinitionDAOImpl extends GedeonDAO implements PropertyDefinitionDAO {
+public class PropertyDefinitionDAOImpl extends GenericGedeonDAO<PropertyDefinition> implements PropertyDefinitionDAO {
 
 	@Autowired
-	public PropertyDefinitionDAOImpl(GedeonDBConnector dbConnect, GedFactory factory) {
-		super(dbConnect, factory);
+	public PropertyDefinitionDAOImpl(GedeonDBConnector dbConnect, GedFactory factory, SaveValidator saveValidator) {
+		super(dbConnect, factory, saveValidator);
 	}
 
 	@Cacheable(cacheNames = "PropertyDefinitionId", key = "#id.value")
 	@Override
-	public PropertyDefinition getObject(GedeonCollection collection,GedId id) {
-		//Retrieve object
+	public PropertyDefinition getObject(GedeonCollection collection, GedId id) {
+		// Retrieve object
 		PropertyDefinitionImpl obj = (PropertyDefinitionImpl) super.getObjectById(new PropertyDefinitionImpl(),
 				GedeonProperties.CLASS_PROPERTYDEFINITION, id.getValue());
-		//Retrieve associated property template
-		if (obj.getProperties().containsProperty(GedeonProperties.PROP_PROPERTY_TEMPLATE_ID))
+		// Retrieve associated property template
+		if (obj.getProperties().containsProperty(GedeonProperties.PROP_PROPERTY_TEMPLATE_ID)) {
 			obj.setPropertyTemplate(factory.getPropertyTemplate(collection,
 					obj.getProperties().get(GedeonProperties.PROP_PROPERTY_TEMPLATE_ID).getIdValue()));
+		}
 		return obj;
 	}
 
 	@Override
 	public void deleteObject(PropertyDefinition obj) {
-		connector.deleteObject(obj.getGedeonCollection().getName(),
-				GedeonProperties.CLASS_PROPERTYDEFINITION, obj.getId().getValue());
+		connector.deleteObject(obj.getGedeonCollection().getName(), GedeonProperties.CLASS_PROPERTYDEFINITION,
+				obj.getId().getValue());
 	}
 
 	@CacheEvict(cacheNames = "PropertyDefinitionId", key = "#obj.getId")
@@ -55,22 +57,31 @@ public class PropertyDefinitionDAOImpl extends GedeonDAO implements PropertyDefi
 	}
 
 	@Override
-	public List<PropertyDefinition> getPropertiesDefinitionForClass(GedeonCollection collection,ClassDefinition classDef) {
-		GedSearch searchByName = new GedSearch.SearchBuilder().selectAll().from(GedeonProperties.CLASS_PROPERTYDEFINITION)
-				.where().equals(GedeonProperties.PROP_PARENT_CLASS_ID, classDef.getId()).build(collection);
+	public List<PropertyDefinition> getPropertiesDefinitionForClass(GedeonCollection collection,
+			ClassDefinition classDef) {
+		GedSearch searchByName = new GedSearch.SearchBuilder().selectAll()
+				.from(GedeonProperties.CLASS_PROPERTYDEFINITION).where()
+				.equals(GedeonProperties.PROP_PARENT_CLASS_ID, classDef.getId()).build(collection);
 		List<PersistableObject> results = searchByName.search();
-		return results.stream().map(PropertyDefinition.class::cast).collect(Collectors.toList());
+
+		List<PropertyDefinition> propertiesDefinition = results.stream().map(PropertyDefinition.class::cast)
+				.collect(Collectors.toList());
+
+		// Retrieve associated property template
+		propertiesDefinition.forEach(obj -> {
+			if (obj.getProperties().containsProperty(GedeonProperties.PROP_PROPERTY_TEMPLATE_ID)) {
+				obj.setPropertyTemplate(factory.getPropertyTemplate(collection,
+						obj.getProperties().get(GedeonProperties.PROP_PROPERTY_TEMPLATE_ID).getIdValue().getValue()));
+			}
+		});
+
+		return propertiesDefinition;
 	}
 
 	@Override
-	public PropertyDefinition newCopyInstance(PropertyDefinition propertyDefinition) {
-		//TODO put object creation in gedeoncollection?
-		PropertyDefinition copyObject = factory.createPropertyDefinition(propertyDefinition.getGedeonCollection());
-		copyObject.setDefaultValue(propertyDefinition.getDefaultValue());
-		copyObject.setDisplayName(propertyDefinition.getDisplayName());
-		copyObject.setName(propertyDefinition.getName());
-		copyObject.setPropertyTemplate(propertyDefinition.getPropertyTemplate());
-		copyObject.setSetability(propertyDefinition.getSetability());
-		return copyObject;
+	protected PropertyDefinition getInstance(GedeonCollection collection) {
+		// TODO change to factory?
+		return new PropertyDefinitionImpl();
 	}
+
 }

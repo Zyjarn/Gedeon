@@ -17,6 +17,12 @@
 			<version>${revision}</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.vten</groupId>
+			<artifactId>gedeon-content-connector</artifactId>
+			<version>${revision}</version>
+		</dependency>
+		
 	</dependencies>
 
 </project>

@@ -13,36 +13,36 @@ import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.connector.GedeonDBConnector;
 import com.vten.gedeon.dao.PropertyTemplateDAO;
+import com.vten.gedeon.daoimpl.validation.SaveValidator;
 import com.vten.gedeon.utils.SaveMode;
 
 @Service
-public class PropertyTemplateDAOImpl extends GedeonDAO implements PropertyTemplateDAO {
+public class PropertyTemplateDAOImpl extends GenericGedeonDAO<PropertyTemplate> implements PropertyTemplateDAO {
 
 	@Autowired
-	public PropertyTemplateDAOImpl(GedeonDBConnector dbConnect, GedFactory factory) {
-		super(dbConnect, factory);
+	public PropertyTemplateDAOImpl(GedeonDBConnector dbConnect, GedFactory factory, SaveValidator saveValidator) {
+		super(dbConnect, factory, saveValidator);
 	}
 
-	@Cacheable(cacheNames="PropertyTemplateId", key="#id.value")
+	@Cacheable(cacheNames = "PropertyTemplateId", key = "#id.value")
 	@Override
-	public PropertyTemplate getObject(GedeonCollection collection,GedId id) {
-		return (PropertyTemplate) super.getObjectById(factory.createPropertyTemplate(collection),
-				GedeonProperties.CLASS_PROPERTYTEMPLATE, id.getValue());
+	public PropertyTemplate getObject(GedeonCollection collection, GedId id) {
+		return super.getObjectById(factory.createPropertyTemplate(collection), GedeonProperties.CLASS_PROPERTYTEMPLATE,
+				id.getValue());
 	}
 
-	@Cacheable(cacheNames="PropertyTemplateName", key="#name")
+	@Cacheable(cacheNames = "PropertyTemplateName", key = "#name")
 	@Override
-	public PropertyTemplate getObject(GedeonCollection collection,String name) {
-		return (PropertyTemplate) super.getObjectByName(collection,GedeonProperties.CLASS_PROPERTYTEMPLATE, name);
+	public PropertyTemplate getObject(GedeonCollection collection, String name) {
+		return (PropertyTemplate) super.getObjectByName(collection, GedeonProperties.CLASS_PROPERTYTEMPLATE, name);
 	}
 
-	@Caching(evict = { 
-			  @CacheEvict(cacheNames="PropertyTemplateId", key="#obj.getId"), 
-			  @CacheEvict(cacheNames="PropertyTemplateName", key="#obj.getName") })
+	@Caching(evict = { @CacheEvict(cacheNames = "PropertyTemplateId", key = "#obj.getId"),
+			@CacheEvict(cacheNames = "PropertyTemplateName", key = "#obj.getName") })
 	@Override
 	public void saveObject(PropertyTemplate obj, SaveMode mode) {
-		if(!obj.isSystem()) {
-			//TODO checkproperties
+		if (!obj.isSystem()) {
+			// TODO checkproperties
 		}
 		super.saveObject(obj, mode);
 	}
@@ -50,8 +50,12 @@ public class PropertyTemplateDAOImpl extends GedeonDAO implements PropertyTempla
 	@Override
 	public void deleteObject(PropertyTemplate obj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	protected PropertyTemplate getInstance(GedeonCollection collection) {
+		return factory.createPropertyTemplate(collection);
+	}
 
 }

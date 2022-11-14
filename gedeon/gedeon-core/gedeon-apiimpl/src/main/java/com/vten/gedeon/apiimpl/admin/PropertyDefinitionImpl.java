@@ -10,48 +10,47 @@ import com.vten.gedeon.apiimpl.PersistableObjectImpl;
 import com.vten.gedeon.dao.ClassDefinitionDAO;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public class PropertyDefinitionImpl extends PersistableObjectImpl implements PropertyDefinition{
-	
+@NoArgsConstructor
+public class PropertyDefinitionImpl extends PersistableObjectImpl implements PropertyDefinition {
+
 	@Autowired
 	private ClassDefinitionDAO classDefDAO;
-	
+
 	@Getter
 	private PropertyTemplate propertyTemplate;
-	
+
 	@Setter
 	private ClassDefinition associatedClass;
-	
+
 	@Getter
 	@Setter
 	private boolean inherited;
-	
-	public PropertyDefinitionImpl() {
-		//Default construtor, nothing to do
-	}
-	
+
 	public PropertyDefinitionImpl(PropertyTemplate template) {
 		setPropertyTemplate(template);
 	}
-	
+
 	@Override
 	public ClassDefinition getAssociatedClass() {
-		if(associatedClass == null && getProperties().containsProperty(GedeonProperties.PROP_PARENT_CLASS_ID)) {
-			associatedClass = classDefDAO.getObject(getGedeonCollection(),getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getIdValue());
+		if ((associatedClass == null) && getProperties().containsProperty(GedeonProperties.PROP_PARENT_CLASS_ID)) {
+			associatedClass = classDefDAO.getObject(getGedeonCollection(),
+					getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getIdValue());
 		} else {
-			//throw runtime not in cache
+			// throw runtime not in cache
 		}
-			
+
 		return associatedClass;
 	}
-	
+
 	@Override
 	public String getClassName() {
-		//TODO remove and try to put a custom class def for first save
+		// TODO remove and try to put a custom class def for first save
 		return GedeonProperties.CLASS_PROPERTYDEFINITION;
 	}
-	
+
 	@Override
 	public String getTableName() {
 		return GedeonProperties.CLASS_PROPERTYDEFINITION;
@@ -62,7 +61,5 @@ public class PropertyDefinitionImpl extends PersistableObjectImpl implements Pro
 		this.propertyTemplate = propertyTemplate;
 		setPropertyTemplateId(propertyTemplate.getId());
 	}
-
-	
 
 }

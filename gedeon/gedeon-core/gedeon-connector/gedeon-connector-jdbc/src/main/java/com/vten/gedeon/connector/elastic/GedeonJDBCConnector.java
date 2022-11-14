@@ -1,45 +1,55 @@
 package com.vten.gedeon.connector.elastic;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.vten.gedeon.dao.connector.nosql.NoSQLConnector;
+import com.vten.gedeon.dao.connector.nosql.DatabaseConnector;
 import com.vten.gedeon.dao.data.GedeonDBObject;
 
-@Configuration
-public class GedeonJDBCConnector extends NoSQLConnector{
-	
-	private static final Logger LOG = LoggerFactory.getLogger(GedeonJDBCConnector.class);
+import lombok.extern.slf4j.Slf4j;
 
-	@Value("${elasticsearch.host}")
-    private String elasticsearchHost; 
-	
-	@Value("${elasticsearch.port}")
-    private int elasticsearchPort; 
-	
-	@Value("${elasticsearch.protocol}")
-    private String elasticsearchProtocol; 
-	
-	private Object client;
-	
+@Configuration
+@Slf4j
+public class GedeonJDBCConnector extends DatabaseConnector {
+
+	@Value("${jdbc.driver}")
+	private String jdbcDriver;
+
+	@Value("${jdbc.url}")
+	private String jdbcUrl;
+
+	private Connection client;
+
 	@Bean(destroyMethod = "close")
-	protected Object getClient() {
-		//Security
-		return null;
-	
+	protected Connection getClient() {
+		try {
+			Class.forName(jdbcDriver);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Connection con = null;
+		try {
+			con = DriverManager.getConnection(jdbcUrl, "toto", "passwd");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return con;
 	}
-	
-	@PostConstruct	
-    public void init() {
-        client = getClient();
-    }
+
+	@PostConstruct
+	public void init() {
+		client = getClient();
+	}
 
 	@Override
 	public int initDB() {
@@ -47,23 +57,29 @@ public class GedeonJDBCConnector extends NoSQLConnector{
 	}
 
 	@Override
-	public GedeonDBObject getObject(String collectionName,String className, String id) {
+	public GedeonDBObject getObject(String collectionName, String className, String id) {
+
 		GedeonDBObject matchObject = new GedeonDBObject();
-		
+
 		return matchObject;
 	}
 
 	@Override
-	public GedeonDBObject saveObject(String collectionName,String className, GedeonDBObject obj) {
+	public GedeonDBObject saveObject(String collectionName, String className, GedeonDBObject obj) {
 
 		return null;
 	}
-	
+
 	@Override
-	public void deleteObject(String collectionName,String className, String id) {
+	public void deleteObject(String collectionName, String className, String id) {
 
 	}
-	
+
+	@Override
+	public void deleteCollection(String collectionName) {
+
+	}
+
 	public void search() {
 
 	}
@@ -73,15 +89,15 @@ public class GedeonJDBCConnector extends NoSQLConnector{
 	}
 
 	@Override
-	public List<GedeonDBObject> search(String collectionName,String className, String query) {
+	public List<GedeonDBObject> search(String collectionName, String className, String query) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GedeonDBObject createObject(String collectionName,String className, GedeonDBObject obj) {
+	public GedeonDBObject createObject(String collectionName, String className, GedeonDBObject obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

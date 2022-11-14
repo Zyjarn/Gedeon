@@ -9,7 +9,7 @@ public interface GedSearchDAO {
 	
 	/**
 	 * Perform the given GedSearch on the implemented connector
-	 * and return result as list
+	 * and return result as list of PersistableObject
 	 * @param search
 	 * @return
 	 */

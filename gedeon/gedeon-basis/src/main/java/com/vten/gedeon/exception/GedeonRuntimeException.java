@@ -6,8 +6,8 @@ public class GedeonRuntimeException extends RuntimeException {
 
 	private static final long serialVersionUID = -3025519675342066251L;
 
-	public GedeonRuntimeException(String message,Object... additions ) {
-		super(String.format(message, additions));
+	public GedeonRuntimeException(Throwable t,String message,Object... additions ) {
+		super(String.format(message, additions),t);
 	}
 	
 	public GedeonRuntimeException(String message) {

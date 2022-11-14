@@ -107,6 +107,54 @@
 			"PropertyType": "ID",
 			"IsList": false,
 			"IsSystem": true
+		},
+		{
+			"Name": "StorageType",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "StorageHost",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "StorageUsername",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "StorageCredential",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "IsStorageEncrypted",
+			"PropertyType": "BOOLEAN",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "PropertyTemplateId",
+			"PropertyType": "ID",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "IsStorageDefault",
+			"PropertyType": "BOOLEAN",
+			"IsList": false,
+			"IsSystem": true
+		},
+		{
+			"Name": "StorageBasename",
+			"PropertyType": "STRING",
+			"IsList": false,
+			"IsSystem": true
 		}
 	],
 	"ClassDefinition": [
@@ -307,7 +355,22 @@
 			"ParentClassId": "AbstractPersistableObject",
 			"IsAbstract": false,
 			"IsFinal": true,
-			"PropertiesDefinitions": []
+			"PropertiesDefinitions": [
+				{
+					"PropertyTemplate": "PropertyTemplateId",
+					"DisplayName": "Property Template Id",
+					"IsRequired": true,
+					"DefaultValue": "%%null%%",
+					"Setability": "onCreate"
+				},
+				{
+					"PropertyTemplate": "AssociatedClassId",
+					"DisplayName": "Associated Class Id",
+					"IsRequired": false,
+					"DefaultValue": "%%null%%",
+					"Setability": "onCreate"
+				}
+			]
 		},
 		{
 			"Name": "ClassDefinition",
@@ -344,6 +407,63 @@
 			"IsAbstract": false,
 			"IsFinal": false,
 			"PropertiesDefinitions": []
+		},
+		{
+			"Name": "Storage",
+			"ParentClassId": "AbstractPersistableObject",
+			"IsAbstract": false,
+			"IsFinal": false,
+			"PropertiesDefinitions": [
+				{
+					"PropertyTemplate": "StorageType",
+					"DisplayName": "Storage Type",
+					"IsRequired": true,
+					"DefaultValue": "%%null%%",
+					"Setability": "onCreate"
+				},
+				{
+					"PropertyTemplate": "StorageHost",
+					"DisplayName": "Storage Host",
+					"IsRequired": true,
+					"DefaultValue": "localhost",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "StorageUsername",
+					"DisplayName": "Storage Username",
+					"IsRequired": false,
+					"DefaultValue": "%%null%%",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "StorageCredential",
+					"DisplayName": "Storage Credential",
+					"IsRequired": false,
+					"DefaultValue": "%%null%%",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "IsStorageEncrypted",
+					"DisplayName": "Storage Encrypted",
+					"IsRequired": true,
+					"DefaultValue": "false",
+					"Setability": "onCreate"
+				},
+				{
+					"PropertyTemplate": "StorageBasename",
+					"DisplayName": "Storage Basename",
+					"IsRequired": false,
+					"DefaultValue": "%%null%%",
+					"Setability": "read/write"
+				},
+				{
+					"PropertyTemplate": "IsStorageDefault",
+					"DisplayName": "Is Default Storage",
+					"IsRequired": true,
+					"DefaultValue": "false",
+					"Setability": "read/write"
+				}
+			]
 		}
 	]
 }

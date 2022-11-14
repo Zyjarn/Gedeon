@@ -13,6 +13,8 @@
 
 	<modules>
 		<module>gedeon-ws</module>
+		<module>gedeon-rendition</module>
+		<module>gedeon-webapp</module>
 	</modules>
 	
 	<dependencies>

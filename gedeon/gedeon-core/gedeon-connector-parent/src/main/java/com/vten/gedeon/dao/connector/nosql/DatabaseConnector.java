@@ -1,0 +1,1 @@
+package com.vten.gedeon.dao.connector.nosql;import com.vten.gedeon.connector.GedeonDBConnector;public abstract class DatabaseConnector implements GedeonDBConnector {}

@@ -17,6 +17,8 @@ public interface GedeonDBConnector
     GedeonDBObject saveObject(String collectionName,String objectName, GedeonDBObject obj);
     
     void deleteObject(String collectionName, String objectName, String id);
+
+    void deleteCollection(String collectionName);
     
     List<GedeonDBObject> search(String collectionName, String objectName,String query);
     

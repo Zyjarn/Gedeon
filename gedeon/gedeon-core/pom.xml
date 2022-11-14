@@ -12,12 +12,14 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>gedeon-security</module>
 		<module>gedeon-api</module>
 		<module>gedeon-dao</module>
 		<module>gedeon-apiimpl</module>
 		<module>gedeon-daoimpl</module>
 		<module>gedeon-connector-parent</module>
 		<module>gedeon-connector</module>
+		<module>gedeon-content-connector</module>
 	</modules>
 
 	<dependencies>

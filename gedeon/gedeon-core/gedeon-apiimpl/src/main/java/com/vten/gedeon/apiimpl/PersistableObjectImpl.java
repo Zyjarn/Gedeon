@@ -3,8 +3,6 @@ package com.vten.gedeon.apiimpl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.admin.ClassDefinition;
@@ -13,8 +11,6 @@ import com.vten.gedeon.api.property.Property;
 import com.vten.gedeon.api.utils.GedEvents;
 import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.apiimpl.property.PropertiesImpl;
-import com.vten.gedeon.apiimpl.property.PropertyImpl;
-import com.vten.gedeon.dao.PersistableObjectDAO;
 import com.vten.gedeon.exception.GedeonErrorCode;
 import com.vten.gedeon.exception.GedeonRuntimeException;
 import com.vten.gedeon.utils.SaveMode;
@@ -23,47 +19,32 @@ import lombok.Getter;
 import lombok.Setter;
 
 public abstract class PersistableObjectImpl implements PersistableObject {
-	
-	@Autowired
-	protected PersistableObjectDAO dao;
-	
+
 	@Setter
 	@Getter
 	private Properties properties = new PropertiesImpl();
-	
+
 	private ClassDefinition classDefinition;
-	
+
 	@Getter
 	@Setter
 	private GedeonCollection gedeonCollection;
-	
+
 	@Getter
 	@Setter
 	private int seqNo = 0;
-	
+
 	private List<GedEvents> pendingEvents;
-	
-	/**
-	 * Function use to retrieve the object by dao
-	 * @return
-	 */
-	public abstract String getTableName();
-	
-	
+
 	@Override
 	public void setPropertyValue(String propertyName, Object value) {
 		Property property = getProperties().get(propertyName);
-		if(property == null)
-			getProperties().add(new PropertyImpl(propertyName,value));
-		else
+		if (property == null) {
+			getProperties().add(new Property(propertyName, value));
+		} else {
 			property.setObjectValue(value);
-//		else if (property != null) {
-//			getProperties().get(propertyName).setObjectValue(value);
-//		} 
-		//else 
-		//throw new GedeonRuntimeException(GedeonErrorCode.OE1002,propertyName);
+		}
 	}
-	
 
 	@Override
 	public String getClassName() {
@@ -72,45 +53,52 @@ public abstract class PersistableObjectImpl implements PersistableObject {
 
 	@Override
 	public void save(SaveMode mode) {
-		dao.saveObject(this,mode);
+		gedeonCollection.saveObject(this, mode);
 	}
 
 	@Override
 	public void refresh() {
-		PersistableObjectImpl refreshObject = (PersistableObjectImpl) dao.getObject(
-				gedeonCollection,getTableName(), getId().toString());
-		this.setProperties(refreshObject.getProperties());
+		PersistableObject refreshObject = gedeonCollection.refreshObject(this);
+		setProperties(refreshObject.getProperties());
 		setId(refreshObject.getId());
-		this.seqNo = refreshObject.getSeqNo();
+		seqNo = refreshObject.getSeqNo();
+		// Why ?
 		classDefinition = null;
 	}
-	
+
+	@Override
+	public void delete() {
+		// Add delete to pending event
+		getPendingEvents().add(GedEvents.DELETE);
+	}
+
 	@Override
 	public void setClassDefinition(ClassDefinition classDef) {
-		if(classDef == null || classDef.getId() == null)
+		if ((classDef == null) || (classDef.getId() == null)) {
 			throw new GedeonRuntimeException(GedeonErrorCode.OE1004);
+		}
 		classDefinition = classDef;
-		this.setPropertyValue(GedeonProperties.PROP_OBJECT_CLASS, classDef.getId());
+		setPropertyValue(GedeonProperties.PROP_OBJECT_CLASS, classDef.getId());
 	}
-	
+
 	@Override
 	public ClassDefinition getClassDefinition() {
-		if(!getProperties().containsProperty(GedeonProperties.PROP_OBJECT_CLASS)) {
+		if (!getProperties().containsProperty(GedeonProperties.PROP_OBJECT_CLASS)) {
 			throw new GedeonRuntimeException(GedeonErrorCode.OE1002, GedeonProperties.PROP_OBJECT_CLASS);
-		} else if(classDefinition == null) {
-			classDefinition = (ClassDefinition) dao.getObject(gedeonCollection,
-					GedeonProperties.CLASS_CLASSDEFINITION, 
-					getProperties().get(GedeonProperties.PROP_OBJECT_CLASS).getIdValue().getValue());
+		} else if (classDefinition == null) {
+			classDefinition = (ClassDefinition) gedeonCollection.getObject(
+					getProperties().get(GedeonProperties.PROP_OBJECT_CLASS).getIdValue(),
+					GedeonProperties.CLASS_CLASSDEFINITION);
 		}
 		return classDefinition;
 	}
-	
+
 	@Override
-	public List<GedEvents> getPendingEvents(){
-		if(pendingEvents == null)
+	public List<GedEvents> getPendingEvents() {
+		if (pendingEvents == null) {
 			pendingEvents = new ArrayList<>();
+		}
 		return pendingEvents;
 	}
-	
-	
+
 }

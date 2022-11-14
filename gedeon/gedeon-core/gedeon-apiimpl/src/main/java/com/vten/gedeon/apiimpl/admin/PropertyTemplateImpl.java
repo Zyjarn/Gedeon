@@ -7,8 +7,8 @@ import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.apiimpl.PersistableObjectImpl;
 
 @Component
-public class PropertyTemplateImpl extends PersistableObjectImpl implements PropertyTemplate{
-	
+public class PropertyTemplateImpl extends PersistableObjectImpl implements PropertyTemplate {
+
 	@Override
 	public String getClassName() {
 		return GedeonProperties.CLASS_PROPERTYTEMPLATE;
@@ -16,10 +16,11 @@ public class PropertyTemplateImpl extends PersistableObjectImpl implements Prope
 
 	@Override
 	public void refresh() {
-		//Refresh object by id or name
-		PersistableObjectImpl refreshObject = (PersistableObjectImpl) (getId()== null || getId().isBlank() ?
-				dao.getObject(getGedeonCollection(),getTableName(), getName(),false):
-				dao.getObject(getGedeonCollection(),getTableName(), getId().getValue()));
+
+		// Refresh object by id or name
+		PersistableObjectImpl refreshObject = (PersistableObjectImpl) ((getId() == null) || getId().isBlank()
+				? getGedeonCollection().getObject(getTableName(), getName())
+				: getGedeonCollection().getObject(getTableName(), getId().getValue()));
 		this.setProperties(refreshObject.getProperties());
 		setId(refreshObject.getId());
 		setSeqNo(refreshObject.getSeqNo());
