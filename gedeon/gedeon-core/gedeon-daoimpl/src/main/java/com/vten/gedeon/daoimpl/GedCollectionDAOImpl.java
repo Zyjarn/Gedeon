@@ -22,7 +22,7 @@ import org.springframework.util.FileCopyUtils;
 import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.PropertyTemplate;
 import com.vten.gedeon.api.admin.Storage;
@@ -152,7 +152,7 @@ public class GedCollectionDAOImpl extends GenericGedeonDAO<GedeonCollection> imp
 	}
 
 	protected void createSystemPropertyDefinition(GedeonCollection collection, Map<String, GedId> idObjects,
-			JSONArray listPropTplt, ClassDefinition classDef) {
+			JSONArray listPropTplt, GedeonClassDefinition classDef) {
 		JSONObject propDefOpt;
 		for (int j = 0; j < listPropTplt.length(); j++) {
 			propDefOpt = listPropTplt.getJSONObject(j);
@@ -177,11 +177,11 @@ public class GedCollectionDAOImpl extends GenericGedeonDAO<GedeonCollection> imp
 
 	protected void createSystemClassDefinitions(GedeonCollection collection, Map<String, GedId> idObjects,
 			JSONArray listClassDef) {
-		Map<String, ClassDefinition> classDefinitions = new HashMap<>();
+		Map<String, GedeonClassDefinition> classDefinitions = new HashMap<>();
 		JSONObject classDefOpt;
 		for (int i = 0; i < listClassDef.length(); i++) {
 			classDefOpt = listClassDef.getJSONObject(i);
-			ClassDefinition classDef = factory.createClassDefinition(collection);
+			GedeonClassDefinition classDef = factory.createClassDefinition(collection);
 			classDef.setName(classDefOpt.getString(GedeonProperties.PROP_NAME));
 			log.debug("handle ClassDefinition : {}", classDef.getName());
 			classDef.isAbstract(classDefOpt.getBoolean(GedeonProperties.PROP_IS_ABSTRACT));

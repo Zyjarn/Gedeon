@@ -3,7 +3,7 @@ package com.vten.gedeon.api;
 import java.io.InputStream;
 import java.util.List;
 
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.Storage;
 import com.vten.gedeon.api.utils.GedId;
@@ -28,11 +28,11 @@ public interface GedeonCollection extends PersistableObject {
 
 	PropertyDefinition newCopyInstance(PropertyDefinition propertyDefinition);
 
-	List<PropertyDefinition> getPropertiesDefinitionForClass(ClassDefinition classDef);
+	List<PropertyDefinition> getPropertiesDefinitionForClass(GedeonClassDefinition classDef);
 
-	ClassDefinition getClassDefinition(String name);
+	GedeonClassDefinition getClassDefinition(String name);
 
-	ClassDefinition getClassDefinition(GedId id);
+	GedeonClassDefinition getClassDefinition(GedId id);
 
 	PropertyDefinition getPropertyDefinition(GedId id);
 

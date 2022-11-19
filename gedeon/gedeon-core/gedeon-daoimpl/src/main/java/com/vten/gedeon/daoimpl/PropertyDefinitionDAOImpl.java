@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.utils.GedId;
@@ -58,7 +58,7 @@ public class PropertyDefinitionDAOImpl extends GenericGedeonDAO<PropertyDefiniti
 
 	@Override
 	public List<PropertyDefinition> getPropertiesDefinitionForClass(GedeonCollection collection,
-			ClassDefinition classDef) {
+			GedeonClassDefinition classDef) {
 		GedSearch searchByName = new GedSearch.SearchBuilder().selectAll()
 				.from(GedeonProperties.CLASS_PROPERTYDEFINITION).where()
 				.equals(GedeonProperties.PROP_PARENT_CLASS_ID, classDef.getId()).build(collection);

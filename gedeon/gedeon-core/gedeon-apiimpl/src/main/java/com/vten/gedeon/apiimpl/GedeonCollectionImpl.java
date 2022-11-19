@@ -9,7 +9,7 @@ import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.Storable;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.Storage;
 import com.vten.gedeon.api.utils.GedEvents;
@@ -123,7 +123,7 @@ public class GedeonCollectionImpl extends PersistableObjectImpl implements Gedeo
 	}
 
 	@Override
-	public List<PropertyDefinition> getPropertiesDefinitionForClass(ClassDefinition classDef) {
+	public List<PropertyDefinition> getPropertiesDefinitionForClass(GedeonClassDefinition classDef) {
 		return propDefDAO.getPropertiesDefinitionForClass(this, classDef);
 	}
 
@@ -133,12 +133,12 @@ public class GedeonCollectionImpl extends PersistableObjectImpl implements Gedeo
 	}
 
 	@Override
-	public ClassDefinition getClassDefinition(GedId id) {
+	public GedeonClassDefinition getClassDefinition(GedId id) {
 		return classDefDAO.getObject(this, id);
 	}
 
 	@Override
-	public ClassDefinition getClassDefinition(String name) {
+	public GedeonClassDefinition getClassDefinition(String name) {
 		return classDefDAO.getObject(this, name);
 	}
 

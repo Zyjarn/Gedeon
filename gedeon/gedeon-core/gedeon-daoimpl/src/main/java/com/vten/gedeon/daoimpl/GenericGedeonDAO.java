@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.property.Properties;
 import com.vten.gedeon.api.property.Property;
@@ -67,8 +67,8 @@ public abstract class GenericGedeonDAO<T extends PersistableObject> {
 				new GedId((String) persistObject.getMapData().get(GedeonProperties.PROP_OBJECT_CLASS)));
 
 		// Retrieve classDefinition if not instance of ClassDefinition class definition
-		ClassDefinition classDef = null;
-		if ((instance instanceof ClassDefinition) && StringUtils.equals(GedeonProperties.CLASS_CLASSDEFINITION,
+		GedeonClassDefinition classDef = null;
+		if ((instance instanceof GedeonClassDefinition) && StringUtils.equals(GedeonProperties.CLASS_CLASSDEFINITION,
 				(String) persistObject.getMapData().get(GedeonProperties.PROP_NAME))) {
 			classDef = instance.getClassDefinition();
 		}
@@ -84,7 +84,7 @@ public abstract class GenericGedeonDAO<T extends PersistableObject> {
 		return instance;
 	}
 
-	protected Property getProperty(ClassDefinition classDef, String key, Object value) {
+	protected Property getProperty(GedeonClassDefinition classDef, String key, Object value) {
 		Property prop = new Property();
 		prop.setSymbolicName(key);
 		prop.setObjectValue(value);

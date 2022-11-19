@@ -1,6 +1,6 @@
 package com.vten.gedeon.api;
 
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.PropertyTemplate;
 import com.vten.gedeon.api.admin.Storage;
@@ -28,9 +28,9 @@ public interface GedFactory {
 
 	public GedDocument getGedDocument(GedeonCollection collection, GedId id);
 
-	public ClassDefinition createClassDefinition(GedeonCollection collection);
+	public GedeonClassDefinition createClassDefinition(GedeonCollection collection);
 
-	public ClassDefinition getClassDefinition(GedeonCollection collection, String name);
+	public GedeonClassDefinition getClassDefinition(GedeonCollection collection, String name);
 
 	/**
 	 * Create a new instance of PropertyTemplate

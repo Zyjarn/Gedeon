@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+	
 }
 
 .App-logo {
@@ -34,5 +34,55 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+html, body, #root, #root>div {
+  height: 100%;
+}
+
+.gedeon {
+  height: 100%;
+  margin: 0;
+}
+
+.header {
+  grid-area: header;
+  background-color: lightgreen;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  overflow-y: auto;
+  background-color: yellow;
+}
+
+.content {
+  grid-area: content;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: auto;
+  background-color: lightblue;
+}
+
+.footer {
+  grid-area: footer;
+  background-color: pink;
+}
+
+.contentsub {
+  flex-grow: 1;
+  margin: 1rem;
+  overflow-y: scroll;
+  background-color: orange;
+  flex-basis:0;
+}
+
+@media (min-width: 30rem) {
+  .gedeon {
+    display: grid;
+    grid-template-areas: "header header" "sidebar content" "footer footer";
+    grid-template-columns: auto 1fr;
   }
 }

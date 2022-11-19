@@ -2,7 +2,7 @@ package com.vten.gedeon.apiimpl.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.PropertyTemplate;
 import com.vten.gedeon.api.utils.GedeonProperties;
@@ -23,7 +23,7 @@ public class PropertyDefinitionImpl extends PersistableObjectImpl implements Pro
 	private PropertyTemplate propertyTemplate;
 
 	@Setter
-	private ClassDefinition associatedClass;
+	private GedeonClassDefinition associatedClass;
 
 	@Getter
 	@Setter
@@ -34,7 +34,7 @@ public class PropertyDefinitionImpl extends PersistableObjectImpl implements Pro
 	}
 
 	@Override
-	public ClassDefinition getAssociatedClass() {
+	public GedeonClassDefinition getAssociatedClass() {
 		if ((associatedClass == null) && getProperties().containsProperty(GedeonProperties.PROP_PARENT_CLASS_ID)) {
 			associatedClass = classDefDAO.getObject(getGedeonCollection(),
 					getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getIdValue());

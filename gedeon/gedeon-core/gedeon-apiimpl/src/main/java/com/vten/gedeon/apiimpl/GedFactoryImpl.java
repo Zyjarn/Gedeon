@@ -9,7 +9,7 @@ import com.vten.gedeon.api.GedDocument;
 import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.GedFolder;
 import com.vten.gedeon.api.GedeonCollection;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.admin.PropertyTemplate;
 import com.vten.gedeon.api.admin.Storage;
@@ -17,7 +17,7 @@ import com.vten.gedeon.api.search.GedSearch;
 import com.vten.gedeon.api.utils.GedEvents;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
-import com.vten.gedeon.apiimpl.admin.ClassDefinitionImpl;
+import com.vten.gedeon.apiimpl.admin.GedeonClassDefinitionImpl;
 import com.vten.gedeon.apiimpl.admin.PropertyDefinitionImpl;
 import com.vten.gedeon.apiimpl.admin.PropertyTemplateImpl;
 import com.vten.gedeon.apiimpl.admin.StorageImpl;
@@ -94,8 +94,8 @@ public class GedFactoryImpl implements GedFactory {
 	}
 
 	@Override
-	public ClassDefinition createClassDefinition(GedeonCollection collection) {
-		ClassDefinitionImpl classDef = new ClassDefinitionImpl();
+	public GedeonClassDefinition createClassDefinition(GedeonCollection collection) {
+		GedeonClassDefinitionImpl classDef = new GedeonClassDefinitionImpl();
 		classDef.setGedeonCollection(collection);
 		classDef.getPendingEvents().add(GedEvents.CREATE);
 		return classDef;
@@ -103,7 +103,7 @@ public class GedFactoryImpl implements GedFactory {
 	}
 
 	@Override
-	public ClassDefinition getClassDefinition(GedeonCollection collection, String name) {
+	public GedeonClassDefinition getClassDefinition(GedeonCollection collection, String name) {
 		return collection.getClassDefinition(name);
 	}
 

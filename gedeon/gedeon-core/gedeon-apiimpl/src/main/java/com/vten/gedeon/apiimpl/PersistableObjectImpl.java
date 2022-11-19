@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.property.Properties;
 import com.vten.gedeon.api.property.Property;
 import com.vten.gedeon.api.utils.GedEvents;
@@ -24,7 +24,7 @@ public abstract class PersistableObjectImpl implements PersistableObject {
 	@Getter
 	private Properties properties = new PropertiesImpl();
 
-	private ClassDefinition classDefinition;
+	private GedeonClassDefinition classDefinition;
 
 	@Getter
 	@Setter
@@ -73,7 +73,7 @@ public abstract class PersistableObjectImpl implements PersistableObject {
 	}
 
 	@Override
-	public void setClassDefinition(ClassDefinition classDef) {
+	public void setClassDefinition(GedeonClassDefinition classDef) {
 		if ((classDef == null) || (classDef.getId() == null)) {
 			throw new GedeonRuntimeException(GedeonErrorCode.OE1004);
 		}
@@ -82,11 +82,11 @@ public abstract class PersistableObjectImpl implements PersistableObject {
 	}
 
 	@Override
-	public ClassDefinition getClassDefinition() {
+	public GedeonClassDefinition getClassDefinition() {
 		if (!getProperties().containsProperty(GedeonProperties.PROP_OBJECT_CLASS)) {
 			throw new GedeonRuntimeException(GedeonErrorCode.OE1002, GedeonProperties.PROP_OBJECT_CLASS);
 		} else if (classDefinition == null) {
-			classDefinition = (ClassDefinition) gedeonCollection.getObject(
+			classDefinition = (GedeonClassDefinition) gedeonCollection.getObject(
 					getProperties().get(GedeonProperties.PROP_OBJECT_CLASS).getIdValue(),
 					GedeonProperties.CLASS_CLASSDEFINITION);
 		}

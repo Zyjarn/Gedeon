@@ -1,0 +1,5 @@
+gedeon:
+  webapp:
+    protocol: http
+    basename: localhost
+    port: 3000

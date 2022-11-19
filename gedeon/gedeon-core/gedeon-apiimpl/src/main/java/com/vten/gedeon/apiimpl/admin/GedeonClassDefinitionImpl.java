@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertiesDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.utils.GedeonProperties;
@@ -16,9 +16,9 @@ import com.vten.gedeon.utils.SaveMode;
 import lombok.Getter;
 
 @Component
-public class ClassDefinitionImpl extends PersistableObjectImpl implements ClassDefinition {
+public class GedeonClassDefinitionImpl extends PersistableObjectImpl implements GedeonClassDefinition {
 
-	private ClassDefinition parentClassDefinition;
+	private GedeonClassDefinition parentClassDefinition;
 
 	@Getter
 	private PropertiesDefinition propertiesDefinitions = new PropertiesDefinitionImpl();
@@ -39,12 +39,12 @@ public class ClassDefinitionImpl extends PersistableObjectImpl implements ClassD
 		if (StringUtils.equals(getName(), GedeonProperties.CLASS_CLASSDEFINITION)) {
 			setClassDefinition(this);
 		} else {
-			setClassDefinition((ClassDefinition) getGedeonCollection().getObject(GedeonProperties.CLASS_CLASSDEFINITION,
+			setClassDefinition((GedeonClassDefinition) getGedeonCollection().getObject(GedeonProperties.CLASS_CLASSDEFINITION,
 					GedeonProperties.CLASS_CLASSDEFINITION));
 		}
 		// Retrieve parent class definition
 		if (StringUtils.isNotBlank(getParentClassDefinitionId().getValue())) {
-			parentClassDefinition = (ClassDefinition) getGedeonCollection().getObject(getParentClassDefinitionId(),
+			parentClassDefinition = (GedeonClassDefinition) getGedeonCollection().getObject(getParentClassDefinitionId(),
 					GedeonProperties.CLASS_CLASSDEFINITION);
 		}
 		// Retrieve properties definitions
@@ -53,7 +53,7 @@ public class ClassDefinitionImpl extends PersistableObjectImpl implements ClassD
 	}
 
 	@Override
-	public ClassDefinition getParentClassDefinition() {
+	public GedeonClassDefinition getParentClassDefinition() {
 		if (parentClassDefinition == null) {
 			throw new GedeonRuntimeException(GedeonErrorCode.OE1002, GedeonProperties.PROP_PARENT_CLASS_ID);
 		}
@@ -61,7 +61,7 @@ public class ClassDefinitionImpl extends PersistableObjectImpl implements ClassD
 	}
 
 	@Override
-	public void setParentClassDefinition(ClassDefinition classDefinition) {
+	public void setParentClassDefinition(GedeonClassDefinition classDefinition) {
 		parentClassDefinition = classDefinition;
 		classDefinition.getPropertiesDefinitions().stream().forEach(propDef -> {
 			addPropertyDefinition(getGedeonCollection().newCopyInstance(propDef));

@@ -1,0 +1,35 @@
+.columnHeader{
+	display: inline-flex;
+}
+
+.sortable{
+	display:inline-block
+}
+
+.sortable .up{
+	margin: -8px 0px 0px 10px;
+}
+
+.sortable .down{
+	margin: -8px 0px 0px 10px;
+}
+
+.sortable .up:after{
+	content : "\25B3";
+	cursor: pointer;
+}
+
+.sortable .up.selected:after{
+	content : "\25B2";
+	cursor: pointer;
+}
+
+.sortable .down:after{
+	content : "\25BD";
+	cursor: pointer;
+}
+
+.sortable .down.selected:after{
+	content : "\25BC";
+	cursor: pointer;
+}

@@ -1,0 +1,49 @@
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
+}
+
+.box{
+	background-color: #c8dadf;
+	position: relative;
+	padding: 30px 20px;
+	outline: 2px dashed #92b0b3;
+	outline-offset: -10px;
+	-webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+	transition: outline-offset .15s ease-in-out, background-color .15s linear;
+}
+
+.box.has-advanced-upload {
+  background-color: white;
+  outline: 2px dashed black;
+  outline-offset: -10px;
+}
+.box.has-advanced-upload .box__dragndrop {
+  display: inline;
+}
+
+.box .box__file{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.box .box__dragndrop{
+	display: inline;
+}
+
+.box .box__icon {
+    fill: #92b0b3;
+    display: block;
+	margin: auto;
+    margin-bottom: 5px;
+}
+
+.box.is-dragover {
+  background-color: #EEE;
+}

@@ -114,7 +114,7 @@ public interface PropertyDefinition extends PersistableObject {
 	 * 
 	 * @return parent class definition
 	 */
-	public ClassDefinition getAssociatedClass();
+	public GedeonClassDefinition getAssociatedClass();
 
 	public boolean isInherited();
 }

@@ -4,7 +4,7 @@ import com.vten.gedeon.api.PersistableObject;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
 
-public interface ClassDefinition extends PersistableObject{
+public interface GedeonClassDefinition extends PersistableObject{
 	
 	public default boolean isSystem() {
 		return getProperties().get(GedeonProperties.PROP_IS_SYSTEM).getBooleanValue();
@@ -38,8 +38,8 @@ public interface ClassDefinition extends PersistableObject{
 		return getProperties().get(GedeonProperties.PROP_PARENT_CLASS_ID).getIdValue();
 	}
 	
-	public ClassDefinition getParentClassDefinition();
-	public void setParentClassDefinition(ClassDefinition classDefinition);
+	public GedeonClassDefinition getParentClassDefinition();
+	public void setParentClassDefinition(GedeonClassDefinition classDefinition);
 	public PropertiesDefinition getPropertiesDefinitions();
 	public void addPropertyDefinition(PropertyDefinition prop);
 	

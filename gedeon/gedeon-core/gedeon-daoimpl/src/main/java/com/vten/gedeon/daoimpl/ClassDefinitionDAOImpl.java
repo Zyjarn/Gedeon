@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.vten.gedeon.api.GedFactory;
 import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
 import com.vten.gedeon.connector.GedeonDBConnector;
@@ -21,9 +21,9 @@ import com.vten.gedeon.daoimpl.validation.SaveValidator;
 import com.vten.gedeon.utils.SaveMode;
 
 @Service
-public class ClassDefinitionDAOImpl extends GenericGedeonDAO<ClassDefinition> implements ClassDefinitionDAO {
+public class ClassDefinitionDAOImpl extends GenericGedeonDAO<GedeonClassDefinition> implements ClassDefinitionDAO {
 
-	private static final List<Class<? extends PersistableObject>> MANAGED_CLASS = Arrays.asList(ClassDefinition.class);
+	private static final List<Class<? extends PersistableObject>> MANAGED_CLASS = Arrays.asList(GedeonClassDefinition.class);
 
 	@Autowired
 	public ClassDefinitionDAOImpl(GedeonDBConnector dbConnect, GedFactory factory, SaveValidator saveValidator) {
@@ -37,14 +37,14 @@ public class ClassDefinitionDAOImpl extends GenericGedeonDAO<ClassDefinition> im
 
 	@Cacheable(cacheNames = "ClassDefinitionName", key = "{#collection.symbolicName , #name}")
 	@Override
-	public ClassDefinition getObject(GedeonCollection collection, String name) {
-		return (ClassDefinition) super.getObjectByName(collection, GedeonProperties.CLASS_CLASSDEFINITION, name);
+	public GedeonClassDefinition getObject(GedeonCollection collection, String name) {
+		return (GedeonClassDefinition) super.getObjectByName(collection, GedeonProperties.CLASS_CLASSDEFINITION, name);
 	}
 
 	@Cacheable(cacheNames = "ClassDefinitionId", key = "#id.value")
 	@Override
-	public ClassDefinition getObject(GedeonCollection collection, GedId id) {
-		ClassDefinition classDef = super.getObjectById(factory.createClassDefinition(collection),
+	public GedeonClassDefinition getObject(GedeonCollection collection, GedId id) {
+		GedeonClassDefinition classDef = super.getObjectById(factory.createClassDefinition(collection),
 				GedeonProperties.CLASS_CLASSDEFINITION, id.getValue());
 		if (classDef.getProperties().containsProperty(GedeonProperties.PROP_PROPERTIES_DEFINITION)) {
 			classDef.getPropertiesDefinitions().addAll(collection.getPropertiesDefinitionForClass(classDef));
@@ -53,14 +53,14 @@ public class ClassDefinitionDAOImpl extends GenericGedeonDAO<ClassDefinition> im
 	}
 
 	@Override
-	public void deleteObject(ClassDefinition obj) {
+	public void deleteObject(GedeonClassDefinition obj) {
 		connector.deleteObject(obj.getGedeonCollection().getName(), obj.getClassName(), obj.getId().getValue());
 	}
 
 	@Caching(evict = { @CacheEvict(cacheNames = "ClassDefinitionId", key = "#obj.getId"),
 			@CacheEvict(cacheNames = "ClassDefinitionName", key = "#obj.getName") })
 	@Override
-	public void saveObject(ClassDefinition obj, SaveMode mode) {
+	public void saveObject(GedeonClassDefinition obj, SaveMode mode) {
 		// TODO more secure
 		if (!obj.isSystem()) {
 			// TODO check classDefinition and properties definition
@@ -72,7 +72,7 @@ public class ClassDefinitionDAOImpl extends GenericGedeonDAO<ClassDefinition> im
 	}
 
 	@Override
-	protected ClassDefinition getInstance(GedeonCollection collection) {
+	protected GedeonClassDefinition getInstance(GedeonCollection collection) {
 		return factory.createClassDefinition(collection);
 	}
 

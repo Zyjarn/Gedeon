@@ -124,10 +124,10 @@
 				<artifactId>flatten-maven-plugin</artifactId>
 			</plugin>
 			<!-- CVE CHECK -->
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-			</plugin>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.owasp</groupId> -->
+<!-- 				<artifactId>dependency-check-maven</artifactId> -->
+<!-- 			</plugin> -->
 		</plugins>
 	</build>
 

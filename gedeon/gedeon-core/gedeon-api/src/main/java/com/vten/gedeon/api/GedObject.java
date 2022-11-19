@@ -1,6 +1,6 @@
 package com.vten.gedeon.api;
 
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.property.Properties;
 import com.vten.gedeon.api.utils.GedId;
 import com.vten.gedeon.api.utils.GedeonProperties;
@@ -45,14 +45,14 @@ public interface GedObject {
 	 * 
 	 * @return class definition
 	 */
-	public ClassDefinition getClassDefinition();
+	public GedeonClassDefinition getClassDefinition();
 
 	/**
 	 * Return the class definition of the current object
 	 * 
 	 * @return class definition
 	 */
-	public void setClassDefinition(ClassDefinition classDefinition);
+	public void setClassDefinition(GedeonClassDefinition classDefinition);
 
 	/**
 	 * Get the collection associated to the object

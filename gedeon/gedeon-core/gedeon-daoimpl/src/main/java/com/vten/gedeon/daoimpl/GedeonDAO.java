@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.GedeonCollection;
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.property.Properties;
 import com.vten.gedeon.api.property.Property;
@@ -101,9 +101,9 @@ public class GedeonDAO {
 		instance.setPropertyValue(GedeonProperties.PROP_OBJECT_CLASS,
 				new GedId((String) persistObject.getMapData().get(GedeonProperties.PROP_OBJECT_CLASS)));
 
-		// Retrieve classDefinition if not instance of ClassDefinition class definition
-		ClassDefinition classDef = null;
-		if ((instance instanceof ClassDefinition) && StringUtils.equals(GedeonProperties.CLASS_CLASSDEFINITION,
+		// Retrieve classDefinition if not instance of 'GedeonClassDefinition' class definition
+		GedeonClassDefinition classDef = null;
+		if ((instance instanceof GedeonClassDefinition) && StringUtils.equals(GedeonProperties.CLASS_CLASSDEFINITION,
 				(String) persistObject.getMapData().get(GedeonProperties.PROP_NAME))) {
 			classDef = instance.getClassDefinition();
 		}
@@ -126,7 +126,7 @@ public class GedeonDAO {
 	 * @param value
 	 * @return
 	 */
-	protected Property getProperty(GedeonCollection collection, ClassDefinition classDef, String key, Object value) {
+	protected Property getProperty(GedeonCollection collection, GedeonClassDefinition classDef, String key, Object value) {
 		Property prop = new Property();
 		prop.setSymbolicName(key);
 		prop.setObjectValue(value);

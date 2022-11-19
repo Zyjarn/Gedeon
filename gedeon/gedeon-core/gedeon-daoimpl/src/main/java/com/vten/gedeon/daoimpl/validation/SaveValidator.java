@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.admin.ClassDefinition;
+import com.vten.gedeon.api.admin.GedeonClassDefinition;
 import com.vten.gedeon.api.admin.PropertyDefinition;
 import com.vten.gedeon.api.property.Property;
 import com.vten.gedeon.api.utils.GedEvents;
@@ -15,7 +15,7 @@ import com.vten.gedeon.model.property.PropertyType;
 public class SaveValidator {
 
 	public boolean classDefinitionValidationOnSave(PersistableObject obj) {
-		ClassDefinition classDef = obj.getClassDefinition();
+		GedeonClassDefinition classDef = obj.getClassDefinition();
 
 		boolean onCreate = obj.getPendingEvents().contains(GedEvents.CREATE);
 		boolean onUpdate = obj.getPendingEvents().contains(GedEvents.UPDATE);
