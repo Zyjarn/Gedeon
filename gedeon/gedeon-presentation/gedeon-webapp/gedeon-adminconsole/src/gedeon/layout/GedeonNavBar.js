@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 
 import ICON_FAVORITES from './images/favorites.svg';
 import ICON_FOLDER from './images/folder.svg';
@@ -72,14 +70,14 @@ class GedeonNavBar extends Component {
 		}
 		
 		return ( 
-			<a className={className} onClick={this.onSelectItem(appViewDef.name)}>
+			<span className={className} onClick={() => this.onSelectItem(appViewDef.name)}>
 				<img
 					alt={appViewDef.name}
 					src={appViewDef.icon}
 					width="36"
 					height="36" 
 				/>
-			</a>
+			</span>
 		);
 	}
 

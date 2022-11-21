@@ -28,7 +28,7 @@ class ResultSet {
 				};
 			this.items = [];
 			
-			Array.from({length:155}).map((obj) => {
+			Array.from({length:155}).forEach((obj) => {
 				this.items.push(item);
 			});
 			

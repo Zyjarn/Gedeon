@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Container from 'react-bootstrap/Container';
 
 import './GedeonFileUpload.css';
 
@@ -21,7 +20,7 @@ class GedeonFileUpload extends Component {
 	* Prevent default and propagation of given event
 	*/
 	prevent = (e) => {
-		if(e != undefined){
+		if(e !== undefined){
 			e.preventDefault();
 			e.stopPropagation();
 		}

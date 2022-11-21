@@ -2,7 +2,8 @@
   "name": "gedeon-adminconsole",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  
+  
   
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -12,8 +13,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-	"react-bootstrap": "^2.6.0",
-	"jquery": "^3.6.1"
+	"react-bootstrap": "^2.6.0"
   },
   "scripts": {
     "start": "react-scripts start",

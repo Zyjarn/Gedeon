@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 
 /**
@@ -13,12 +12,12 @@ import Pagination from 'react-bootstrap/Pagination';
 */
 export function GedeonPagination(props) {
 
-	const [length, setLength] = useState(props.length);
-	const [selectedPage, setSelectedPage] = useState(props.selectedPage == undefined ? 0 : props.selectedPage);
+	const [length] = useState(props.length);
+	const [selectedPage, setSelectedPage] = useState(props.selectedPage === undefined ? 0 : props.selectedPage);
 	
 	function onSelectPage(page){
 		setSelectedPage(page);
-		if(props.onSelectPage != undefined){
+		if(props.onSelectPage !== undefined){
 			props.onSelectPage(page);
 		}
 	}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 
@@ -31,7 +30,7 @@ class GedeonContentList extends Component {
 		super(props);
 		let resultSet = props.resultSet;
 		
-		if(resultSet == undefined){
+		if(resultSet === undefined){
 			resultSet = new ResultSet();
 		}
 
@@ -65,7 +64,7 @@ class GedeonContentList extends Component {
 	* render pagination module
 	*/
 	getPagination = () => {
-		let nbPages = this.state.resultSet.items.length == 0 ? 1 : Math.ceil(this.state.resultSet.items.length/25);
+		let nbPages = this.state.resultSet.items.length === 0 ? 1 : Math.ceil(this.state.resultSet.items.length/25);
 		if(nbPages < 11){
 			/**
 			* When less than 11 pages no ellipsis
@@ -143,7 +142,7 @@ class GedeonContentList extends Component {
 		// Iterate through column definition defined in result set
 		for(var i in this.state.resultSet.columns){
 			columnDef = this.state.resultSet.columns[i];
-			sortable = columnDef.sortable == undefined || columnDef.sortable == true ? sortableNode : null;
+			sortable = columnDef.sortable === undefined || columnDef.sortable === true ? sortableNode : null;
 			label = columnDef.label;
 			style={"textAlign":"center"};
 			// get style
@@ -170,7 +169,7 @@ class GedeonContentList extends Component {
 	}
 	
 	getStateIcon = (mimetype) => {
-		if("application/pdf" == mimetype){
+		if("application/pdf" === mimetype){
 			return ICON_PDF;
 		} else if(mimetype.startWith("image")){
 			return ICON_IMG;
@@ -224,8 +223,8 @@ class GedeonContentList extends Component {
 				columnDef = this.state.resultSet.columns[idxCol];
 			
 				let value = item.attributes[columnDef.name];
-				value = value == undefined ? null : value;
-				let display = item.attributesDisplay[columnDef.name] == undefined ? value : item.attributesDisplay[columnDef.name];
+				value = value === undefined ? null : value;
+				let display = item.attributesDisplay[columnDef.name] === undefined ? value : item.attributesDisplay[columnDef.name];
 				
 				let style = {};
 				
@@ -258,24 +257,7 @@ class GedeonContentList extends Component {
 	* Render component
 	*/
 	render() {
-		
-		let columnsDef = this.state.resultSet.columns.map((obj, index) => {
-			return {
-				"style":{
-					"min-width":(StringManager.getTextWidth(obj,16)+80)+"px",
-					"textAlign":"center"
-				},
-				"value": obj
-			}
-		});
-		
-		/*
-		
-		{columnsDef.map((obj, index) => (
-						<th key={index} style={obj.style}><div className="columnHeader">{obj.value}<div className='sortable'><div className='up' /><div className='down' /></div></div></th>
-					  ))}
-		
-		*/
+
 		let pagination = GedeonPagination({
 			length : this.state.resultSet.items.length,
 			selectedPage : 0,

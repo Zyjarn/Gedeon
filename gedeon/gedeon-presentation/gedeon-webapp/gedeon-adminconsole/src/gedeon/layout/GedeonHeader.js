@@ -15,10 +15,6 @@ import './GedeonHeader.css';
 
 class GedeonHeader extends Component {
 
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount() {
 
 	}

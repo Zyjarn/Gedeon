@@ -1,11 +1,7 @@
 import './App.css';
 import GedeonHeader from "./gedeon/layout/GedeonHeader"
 import GedeonNavBar from './gedeon/layout/GedeonNavBar';
-import GedeonTabManager from './gedeon/layout/GedeonTabManager';
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import GedeonTabManager from './gedeon/layout/GedeonTabManager2';
 
 
 
