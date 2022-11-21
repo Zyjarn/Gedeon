@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 
 
 function App() {
+	
   return (
     <div className="App">
 		<div className="gedeon">

@@ -49,13 +49,11 @@ html, body, #root, #root>div {
 
 .header {
   grid-area: header;
-  background-color: lightgreen;
 }
 
 .sidebar {
   grid-area: sidebar;
   overflow-y: auto;
-  background-color: yellow;
 }
 
 .content {
@@ -63,12 +61,14 @@ html, body, #root, #root>div {
   display: flex;
   flex-flow: column nowrap;
   overflow: auto;
-  background-color: lightblue;
 }
 
 .footer {
-  grid-area: footer;
-  background-color: pink;
+	grid-area: footer;
+	grid-area: footer;
+	background-color: #dee2e6;
+	border: 2px solid #f8f9fa;
+	padding: 0px 50px 0px 5px;
 }
 
 .contentsub {
