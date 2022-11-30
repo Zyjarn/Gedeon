@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-
-import Table from 'react-bootstrap/Table';
-import Pagination from 'react-bootstrap/Pagination';
+import React, { useState } from 'react';
 
 import { GedeonPagination } from './GedeonPagination';
+import { GedeonSortable } from './GedeonSortable';
 
 import StringManager from '../../utils/StringManager';
 import ResultSet from '../../api/ResultSet';
@@ -19,130 +17,130 @@ import ICON_SOUND from './mimetype/sound.svg';
 import ICON_XLS from './mimetype/xls.svg';
 import ICON_ZIP from './mimetype/zip.svg';
 
+import ICON_DELETE from './actions/delete.svg';
+import ICON_PROPERTIES from './actions/properties.svg';
+import ICON_REFRESH from './actions/refresh.svg';
+import ICON_SEND from './actions/send.svg';
+import ICON_VIEW from './actions/view.svg';
+import ICON_EXPORT from './actions/exportcsv.svg';
+import ICON_COLUMNS from './actions/columns.svg';
+
 import './GedeonContentList.css';
 
-class GedeonContentList extends Component {
-
-	/**
-	* props must contains an instance of
-	*/
-	constructor(props) {
-		super(props);
-		let resultSet = props.resultSet;
-		
-		if(resultSet === undefined){
-			resultSet = new ResultSet();
+export function GedeonContentList(props) {
+	
+	const [resultSet] = useState(props.resultSet === undefined ? new ResultSet() : props.resultSet);
+	const [selectedPage, setSelectedPage] = useState(0);
+	const [pageSize] = useState(25);
+	const [sort, setSort] = useState({columnDef:null, active:null});
+	const [filteredItems, setFilteredItems] = useState(resultSet.items);
+	
+	
+	
+	let actionsList = [
+		{
+			"name":"refresh",
+			"icon": ICON_REFRESH
+		},{
+			"name":"view",
+			"icon": ICON_VIEW
+		},{
+			"name":"properties",
+			"icon": ICON_PROPERTIES
+		},{
+			"name":"sendemail",
+			"icon": ICON_SEND
+		},{
+			"name":"delete",
+			"icon": ICON_DELETE
 		}
-
-		this.state = {
-		  resultSet: resultSet,
-		  selectedPage: 0,
-		  pageSize: 25,
-		  currentPage:resultSet.items.slice(0,25)
-		};
-	}
-
-	componentDidMount() {
-
-	}
+	];
+	
+	let tableActionsList = [
+		{
+			"name":"exportcsv",
+			"icon": ICON_EXPORT
+		},{
+			"name":"columns",
+			"icon": ICON_COLUMNS
+		}
+	]
+	
 	
 	
 	/**
 	* Pagination event
+	setCurrentPage(filteredItems.slice(index,end));
 	*/
-	onSelectPage = (pageIndex) => {
-		let index = pageIndex*25;
-		let endIndex = index+25;
-		let end = this.state.resultSet.items.length < endIndex ? this.state.resultSet.items.length : endIndex;
-		this.setState({
-			selectedPage: pageIndex,
-			currentPage: this.state.resultSet.items.slice(index,end)
-		});			
+	function onSelectPage(pageIndex) {		
+		setSelectedPage(pageIndex);			
 	}
 	
 	/**
-	* render pagination module
+	* Sort event
 	*/
-	getPagination = () => {
-		let nbPages = this.state.resultSet.items.length === 0 ? 1 : Math.ceil(this.state.resultSet.items.length/25);
-		if(nbPages < 11){
-			/**
-			* When less than 11 pages no ellipsis
-			*/
-			return (
-				<Pagination centered>
-					<Pagination.First onClick={() => this.onSelectPage(0)}/>
-					<Pagination.Prev disabled={this.state.selectedPage === 0} onClick={() => this.onSelectPage(this.state.selectedPage-1)}/>
-					{Array.from({ length: nbPages }).map((_, index) => (
-						<Pagination.Item active={index === this.state.selectedPage} onClick={(event) => this.onSelectPage(parseInt(event.target.text)-1)}>{index+1}</Pagination.Item>
-						
-					))}
-					<Pagination.Next disabled={this.state.selectedPage === nbPages-1} onClick={() => this.onSelectPage(this.state.selectedPage+1)}/>
-					<Pagination.Last onClick={() => this.onSelectPage(nbPages-1)}/>
-				</Pagination>
-			);
-		} else {
-			/**
-			* If more than 10 pages add ellipsis depending of selected page
-			*/
-			let elipStart = null;
-			let elipEnd = null;
-			
-			let start = 1;
-			let end = nbPages-1;
-			if(this.state.selectedPage <= 5){
-				start = 1;
-				end = 8;
-				elipEnd = <Pagination.Ellipsis />;
-			} else if(this.state.selectedPage > 4 && this.state.selectedPage < nbPages-5){
-				start = this.state.selectedPage-3;
-				end = this.state.selectedPage+3;
-				elipStart = <Pagination.Ellipsis />;
-				elipEnd = <Pagination.Ellipsis />;
-			} else {
-				start = nbPages-8;
-				end = nbPages-1;
-				elipStart = <Pagination.Ellipsis />;
-			}
-			
-			
-			let pagination = [];
-			for(let index = start; index < end; index++){
-				pagination.push(<Pagination.Item active={index === this.state.selectedPage} onClick={(event) => this.onSelectPage(parseInt(event.target.text)-1)}>{index+1}</Pagination.Item>);
-			}
-			
-			return(
-				<Pagination centered>
-					<Pagination.First onClick={() => this.onSelectPage(0)}/>
-					<Pagination.Prev disabled={this.state.selectedPage === 0} onClick={() => this.onSelectPage(this.state.selectedPage-1)}/>
-					<Pagination.Item active={0 === this.state.selectedPage} onClick={() => this.onSelectPage(0)}>{1}</Pagination.Item>
-					{elipStart}
-					{pagination}
-					{elipEnd}
-					<Pagination.Item active={nbPages-1 === this.state.selectedPage} onClick={() => this.onSelectPage(nbPages-1)}>{nbPages}</Pagination.Item>
-					<Pagination.Next disabled={this.state.selectedPage === nbPages-1} onClick={() => this.onSelectPage(this.state.selectedPage+1)}/>
-					<Pagination.Last onClick={() => this.onSelectPage(nbPages-1)}/>
-				</Pagination>
-			);
+	function onSort(state) {
+		setSort(state);
+		if(state.active === 'up'){
+			setFilteredItems(filteredItems.sort(
+				(a, b) => (a.attributes[state.columnDef.name] > b.attributes[state.columnDef.name]) ? 
+					1 : (a.attributes[state.columnDef.name] === b.attributes[state.columnDef.name]) ? 
+					((a.attributes["id"] > b.attributes["id"]) ? 1 : -1) : -1 ));
+		} else if(state.active === 'down'){
+			setFilteredItems(filteredItems.sort(
+				(a, b) => (a.attributes[state.columnDef.name] < b.attributes[state.columnDef.name]) ? 
+					1 : (a.attributes[state.columnDef.name] === b.attributes[state.columnDef.name]) ? 
+					((a.attributes["id"] > b.attributes["id"]) ? 1 : -1) : -1 ));
 		}
+		
 	}
+	
+	function onContextMenu(e){
+		e.preventDefault();
+		let contextMenu = document.getElementsByClassName("contextualmenu_holder")[0];
+		contextMenu.className="contextualmenu_holder active";
+		
+		let sizeCM = contextMenu.clientHeight;
+		let ySub = 35;
+		if((e.clientY+sizeCM) > window.innerHeight){
+			ySub += sizeCM;
+		}
+		
+		contextMenu.style.top = e.clientY-ySub +"px";
+		contextMenu.style.left = e.clientX-35 +"px";
+	}
+	
+	function onSelectAllLines(select){
+		console.log(select);
+	}
+
 	
 	/**
 	* Get Header Table row from columns definition in resultSet.columns
 	*/
-	getHeader = () => {
-		
-		let sortableNode = <div className='sortable'><div className='up' /><div className='down' /></div>;
+	function getHeader(){
 		
 		let cols = [];
 		let columnDef = null;
 		let sortable;
 		let style;
 		let label;
+		//Add selection column
+		cols.push(
+			<th key="select" className="headerCell select" style={{"width": "1.5rem"}}>
+				<div className="columnHeader">
+					<input type="checkbox" onChange={(e) => onSelectAllLines(e.target.checked)}/>
+				</div>
+			</th>
+		);
+		
 		// Iterate through column definition defined in result set
-		for(var i in this.state.resultSet.columns){
-			columnDef = this.state.resultSet.columns[i];
-			sortable = columnDef.sortable === undefined || columnDef.sortable === true ? sortableNode : null;
+		for(var i in resultSet.columns){
+			columnDef = resultSet.columns[i];
+			
+			sortable = (columnDef.sortable === undefined || columnDef.sortable === true) ? 
+				<GedeonSortable columnDef={columnDef} onSort={onSort} active={columnDef === sort.columnDef ? sort.active : null}/> :
+				null;
 			label = columnDef.label;
 			style={"textAlign":"center"};
 			// get style
@@ -168,25 +166,25 @@ class GedeonContentList extends Component {
 		);
 	}
 	
-	getStateIcon = (mimetype) => {
+	function getStateIcon(mimetype){
 		if("application/pdf" === mimetype){
 			return ICON_PDF;
-		} else if(mimetype.startWith("image")){
+		} else if(mimetype.startsWith("image")){
 			return ICON_IMG;
-		} else if(mimetype.startWith("video")){
+		} else if(mimetype.startsWith("video")){
 			return ICON_MEDIA;
-		} else if(mimetype.startWith("audio")){
+		} else if(mimetype.startsWith("audio")){
 			return ICON_SOUND;
 		} else if(mimetype === "message/rfc822" || mimetype === "application/vnd.ms-outlook"){
 			return ICON_MSG;
 		} else if (mimetype === "application/msword" || 
-			mimetype.startWith("application/vnd.ms-works") ||
+			mimetype.startsWith("application/vnd.ms-works") ||
 			mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-			mimetype.startWith("application/vnd.oasis.opendocument.text")){
+			mimetype.startsWith("application/vnd.oasis.opendocument.text")){
 			return ICON_DOC;
 		} else if(mimetype === "application/vnd.oasis.opendocument.spreadsheet" ||
 			mimetype === "application/vnd.ms-excel" ||
-			mimetype.startWith("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") ){
+			mimetype.startsWith("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") ){
 			return ICON_XLS;
 		} else if(mimetype === "application/zip" || 
 			mimetype === "application/x-7z-compressed" || 
@@ -198,7 +196,7 @@ class GedeonContentList extends Component {
 			mimetype === "application/x-bzip2" || 
 			mimetype === "application/x-freearc"){
 			return ICON_ZIP;
-		} else if(mimetype.startWith("application/vnd.oasis.opendocument.presentation") ||
+		} else if(mimetype.startsWith("application/vnd.oasis.opendocument.presentation") ||
 			mimetype === "application/vnd.ms-powerpoint" ||
 			mimetype === "application/vnd.openxmlformats-officedocument.presentationml.presentation"){
 			return ICON_PPT;
@@ -209,18 +207,28 @@ class GedeonContentList extends Component {
 	/**
 	*
 	*/
-	getTableBody = () => {
+	function getTableBody() {
+			
+		let index = selectedPage*pageSize;
+		let endIndex = index+pageSize
+		let end = filteredItems.length < endIndex ? filteredItems.length : endIndex;
+		
+		let currentPage = filteredItems.slice(index,end);
+		
 		let rows = [];
 		// temp vars
 		let columnDef;
 		let item;
 		let cells;
 		
-		for(var idx in this.state.currentPage){
+		for(var idx in currentPage){
 			cells = [];
-			item = this.state.currentPage[idx];
-			for(var idxCol in this.state.resultSet.columns){
-				columnDef = this.state.resultSet.columns[idxCol];
+			cells.push(
+				<td key={idx+"_select"} className="contentCell select" ><input className="gedeoncontentlist-select" type="checkbox" /></td>
+			);
+			item = currentPage[idx];
+			for(var idxCol in resultSet.columns){
+				columnDef = resultSet.columns[idxCol];
 			
 				let value = item.attributes[columnDef.name];
 				value = value === undefined ? null : value;
@@ -234,7 +242,7 @@ class GedeonContentList extends Component {
 				if(columnDef.isStateIcon){
 					display = (<img
 									alt=""
-									src={this.getStateIcon(value)}
+									src={getStateIcon(value)}
 									width="20"
 									height="20"
 									className="d-inline-block align-top"
@@ -242,7 +250,7 @@ class GedeonContentList extends Component {
 				}
 				cells.push(<td key={idx+"_"+idxCol} style={style} value={value}>{display}</td>);
 			}
-			rows.push(<tr key={idx}>{cells}</tr>);
+			rows.push(<tr key={idx} onContextMenu={(e) => onContextMenu(e)}>{cells}</tr>);
 		}
 		
 		return (
@@ -253,32 +261,70 @@ class GedeonContentList extends Component {
 	}
 	
 
-	/**
-	* Render component
-	*/
-	render() {
-
-		let pagination = GedeonPagination({
-			length : this.state.resultSet.items.length,
-			selectedPage : 0,
-			onSelectPage: this.onSelectPage
-		});
-		
-
-		return (
-			<div>
-				<Table responsive striped bordered hover>
-					<thead>
-					{this.getHeader()}
-					</thead>
-					{this.getTableBody()}
-				</Table>
-				<div style={{ display: "flex", justifyContent: "center" }}>
-					{pagination}
+	return (
+		<div className="gedeon-contentlist">
+			<div className="gedeon-actionslist">
+				<div className="list">
+					{
+						actionsList.map((obj, index) => (
+							<div key={index} className="action-item">
+								<img
+									alt={obj.name}
+									src={obj.icon}
+									width="24"
+									height="24"
+									className="d-inline-block align-top"
+								/>
+							</div>
+						))
+					}
+				</div>
+				<div className="space"/>
+				<div className="list">
+					{
+						tableActionsList.map((obj, index) => (
+							<div key={index} className="action-item">
+								<img
+									alt={obj.name}
+									src={obj.icon}
+									width="24"
+									height="24"
+									className="d-inline-block align-top"
+								/>
+							</div>
+						))
+					}
 				</div>
 			</div>
-		);
-		//<Pagination.Ellipsis />
-	}
+			<div className="tableholder">
+				<table>
+					<thead>
+					{getHeader()}
+					</thead>
+					{getTableBody()}
+				</table>
+			</div>
+			
+			
+			
+			<div style={{ display: "flex", justifyContent: "center" }}>
+				<GedeonPagination length={filteredItems.length} selectedPage={selectedPage} onSelectPage={onSelectPage} pageSize={pageSize} />
+			</div>
+			<div className="contextualmenu_holder" 
+				onMouseLeave={() => document.getElementsByClassName("contextualmenu_holder")[0].className="contextualmenu_holder"}
+				onContextMenu={(e) => e.preventDefault()}
+			>
+				<div className="contextualmenu">
+				{
+					actionsList.map((obj, index) => (
+						<div key={index} className="action-item">
+							{obj.name}
+						</div>
+					))
+				}
+				</div>
+			</div>
+		</div>
+	);
 }
 export default GedeonContentList

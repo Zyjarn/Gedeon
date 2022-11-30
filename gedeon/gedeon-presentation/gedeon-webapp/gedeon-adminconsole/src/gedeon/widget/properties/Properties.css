@@ -1,0 +1,231 @@
+.gedeonproperties {
+	background:#fff;
+	max-height: 100%;
+	margin: auto;
+	padding: 0.5rem;
+}
+
+.gedeonproperties .title{
+	padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+}
+
+.gedeonproperties .propertiesfield{
+	background: #f3f3f3;
+	border: 1px solid #ccc;
+	border-radius: 0.375rem;
+	margin-bottom: 0.75rem;
+	margin-top: 0.25rem;
+	padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+}
+
+.gedeonproperties .propertiesfield .fieldTitle {
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 0.375rem;
+	left: 2rem;
+	padding: 0rem 0.5rem;
+	position: relative;
+	top: -1rem;
+	width: fit-content;
+	width: -moz-fit-content;
+}
+
+.gedeonproperties .propertiesfield .fieldTitle img{
+	height:1rem;
+	cursor: pointer;
+	margin: 0.25rem 0.5rem;
+	width:1rem;	
+}
+
+.gedeonproperties .propertiesfield .propertiesfield-content.reduce{
+	visibility:hidden;
+	height:0;
+}
+
+.gedeonproperties .otherproperties{
+	margin-top:0.5rem;
+}
+
+.gedeonproperties .indexations{
+	flex-grow:10;
+	margin-right: 0.75rem;
+}
+
+.gedeonproperties .currentindexations{
+	flex-grow:2;
+}
+
+
+.gedeonproperties .propertiesfield .subFieldTitle img{
+	height:1rem;
+	cursor: pointer;
+	margin: 0.25rem 0.5rem;
+	width:1rem;	
+}
+
+
+.otherproperties .subFieldTitle hr{
+	flex-grow: 8;
+	margin-left: 1rem;
+	height: 0.1rem;
+}
+
+.gedeonproperties .propertiesfield .otherproperies_content.reduce{
+	visibility:hidden;
+	height:0;
+}
+
+
+
+
+
+.gedeonproperties .gedeonflex{
+	display:flex;
+}
+
+
+.gedeonproperties .gedeoncolumn{
+	display:flex;
+	flex-direction:column;
+}
+
+.gedeonproperties .propRow{
+	margin:0.5rem 0rem;
+}
+
+
+.gedeonproperties .property {
+	display:flex;
+	align-items:center;
+}
+
+.gedeonproperties .property:not(:last-child) {
+	margin-right:0.5rem;
+}
+
+.gedeonproperties .property .label{
+	margin-right:0.25rem;
+}
+
+.gedeonproperties .propertyspacer{
+	flex-grow:1;
+}
+
+
+.gedeonproperties .spacer{
+	flex-grow:1;
+}
+
+
+.gedeonproperties img{
+	align-items: center;
+	height:1rem;
+	margin-right:0.5rem;
+	width:1rem;
+}
+
+
+
+.gedeonproperties .currentindexations button{
+	display:flex;
+}
+
+
+
+
+
+
+
+
+.textSizeS {
+	font-size:0.75rem;
+}
+
+.textSizeXS {
+	font-size:0.6rem;
+}
+
+.textSizeL {
+	font-size:1.25rem;
+}
+
+.textSizeXL {
+	font-size:1.5rem;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+
+
+/**
+* CURRENT INDEXATIONS TAB 
+*/
+
+.currentindexations .actions {
+	margin-bottom: 0.5rem;
+}
+
+.currentindexation {
+	border: 0.1rem solid #ccc;
+	border-radius:0.375rem;
+}
+
+.currentindexation .title{
+	align-items:center;
+	background: #fff;
+	border-bottom: 0.1rem solid #ccc;
+}
+
+.currentindexation .content{
+	padding: 0.5rem;
+}
+
+.currentindexation.selected.valid .content{
+	background: #4D8
+}
+
+
+
+
+
+
+/**
+* PROPERTIES - CONFIDENTIALITY
+*/
+.gedeonproperties .confidentiality{
+	display:flex;
+}
+
+.gedeonproperties .confidentiality .confidentiality-item{
+	display:flex;
+	flex-direction: column;
+	flex-grow: 4;
+}
+
+.gedeonproperties .confidentiality .confidentiality-item:not(:last-child){
+	margin-right:1rem;
+}
+
+
+.gedeonproperties .confidentiality .confidentiality-item select{
+	min-width: 15rem;
+}
+
+.gedeonproperties .confidentiality .confidentiality-item.communities{
+	visibility: hidden;
+}
+
+.gedeonproperties .confidentiality .confidentiality-item.communities.active{
+	visibility:visible;
+}
+
+.gedeonproperties .confidentiality .communities .listselected img {
+	width: 1rem;
+	height: 1rem;
+}
+
+.gedeonproperties .confidentiality .communities .listselected img:hover {
+	filter:invert(50%);
+}

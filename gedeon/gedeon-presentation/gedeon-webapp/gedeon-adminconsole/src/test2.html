@@ -1,0 +1,123 @@
+<html>
+<head>
+<style>
+	* {
+  box-sizing: border-box;
+}
+
+body{
+    overflow-x: hidden;
+    overflow-y: hidden !important;
+	height: 100%;
+	margin: 0;
+}
+
+html,
+body,
+.page {
+  height: 100%;
+  margin: 0;
+}
+
+.page {
+	position: relative;
+	min-height: 100%;
+	z-index: 100;
+}
+
+.header{
+	min-height: inherit;
+	position: relative;
+	z-index: 6;
+	box-shadow: initial;
+	margin-bottom: 0;
+	border-bottom: none;
+	background: none;
+}
+
+.content{
+	background-color: transparent;
+	position: relative;
+	flex-direction: row;
+	display: flex;background-color: transparent;
+	position: relative;
+	flex-direction: row;
+	display: flex;
+}
+
+.maincontent{
+	width:100%;
+	height: 100%;
+	flex-grow: 1;
+}
+
+.contentsub{
+
+}
+
+</style>
+</head>
+<body>
+	<div id="root">
+		<div id="App">
+			<div class="page">
+				
+				<header class="topbar" style="background:#1FC">
+					top bar
+				</header>
+			  <div class="content">
+				 
+				 <aside class="sidebar" style="background:#f1C">
+					side<br/>side<br/><span>side</span>
+				</aside>
+				  <main class="maincontent">
+					<div>
+					  some additional heading content
+					</div>
+					<div style="background-color:#333; padding:5px;">
+						<div class="contentsub" style="background:#ff1">
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						  <p>some actual content</p>
+						</div>
+					</div>
+					<div>
+					<div>
+					  some additional footer content
+					</div>
+				  </main>
+			  </div>
+			  <footer class="footer" style="background:#1ff">
+				footer
+			  </footer>
+			</div>
+
+
+		</div>
+	</div>
+</body>
+</html>

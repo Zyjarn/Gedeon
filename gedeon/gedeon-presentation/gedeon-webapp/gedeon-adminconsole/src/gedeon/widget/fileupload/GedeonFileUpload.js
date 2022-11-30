@@ -76,7 +76,7 @@ class GedeonFileUpload extends Component {
 				onDragEnd={this.dragEnd}
 				onDragLeave={this.dragEnd}
 				onDrop={this.handleFileUpload}
-				enctype="multipart/form-data"
+				encType="multipart/form-data"
 			>
 			  <div className="box__input">
 				<img
@@ -87,7 +87,7 @@ class GedeonFileUpload extends Component {
 					className="box__icon"
 				/>
 				<input className="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
-				<label for="file">
+				<label htmlFor="file">
 					<strong>Choose a file</strong>
 					<span className="box__dragndrop"> or drag it here</span>.
 				</label>

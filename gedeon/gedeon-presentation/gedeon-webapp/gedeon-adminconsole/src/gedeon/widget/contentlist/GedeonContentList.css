@@ -1,7 +1,84 @@
+.gedeon-contentlist{
+	display: flex;
+	flex-direction: column;
+	height:100%;
+}
+
+.gedeon-contentlist .tableholder{
+	overflow-x: auto;
+}
+
+
+/**
+* TABLE
+*/
+.gedeon-contentlist table {
+	border-collapse: collapse;
+	caption-side: bottom;
+	margin-bottom: 1rem;
+	width: 100%;
+	vertical-align: top;
+	border-color: #ddd;
+}
+
+.gedeon-contentlist thead{
+	position: sticky;
+	top: 0px;
+	background: #fff;
+	z-index:200;
+}
+
 .columnHeader{
 	display: inline-flex;
 }
 
+/* Selection column sticky on the left */
+.gedeon-contentlist tr:nth-child(even) .contentCell.select{
+	background-color:#fff;
+	position: sticky;
+	left:0px;
+	z-index:100;
+}
+
+.gedeon-contentlist tr:nth-child(odd) .contentCell.select{
+	background-color:#eee;
+	position: sticky;
+	left:0px;
+	z-index:100;
+}
+
+.gedeon-contentlist .headerCell.select{
+	background-color:#fff;
+	position: sticky;
+	left:0px;
+	top:0px;
+	z-index:200;
+}
+
+
+.gedeon-contentlist tr{
+	border: 1px solid #ddd;
+}
+
+.gedeon-contentlist tbody tr:hover > td{
+	background: #ccc;
+}
+
+
+.gedeon-contentlist tbody tr:nth-child(even) {
+	background: #fff
+}
+.gedeon-contentlist tbody tr:nth-child(odd) {
+	background: #eee
+}
+
+.gedeon-contentlist td,th{
+	padding: .5rem .5rem;
+}
+
+/**
+* Header sort items
+*/
 .sortable{
 	display:inline-block
 }
@@ -19,7 +96,7 @@
 	cursor: pointer;
 }
 
-.sortable .up.selected:after{
+.sortable .up.active:after{
 	content : "\25B2";
 	cursor: pointer;
 }
@@ -29,7 +106,126 @@
 	cursor: pointer;
 }
 
-.sortable .down.selected:after{
+.sortable .down.active:after{
 	content : "\25BC";
 	cursor: pointer;
+}
+
+/**
+* Upper actions list
+*/
+.gedeon-actionslist{
+	display:flex;
+	margin-bottom: 10px;
+}
+
+.gedeon-actionslist .list{
+	display:flex;
+}
+
+.gedeon-actionslist .space{
+	flex-grow:8;
+}
+
+.gedeon-actionslist .action-item{
+	border: 1px solid #aaa;
+	border-radius:0.375rem;
+	cursor:pointer;
+	margin : 0.15rem;	
+}
+
+.gedeon-actionslist .action-item > img{
+	margin : 5px;	
+}
+
+.gedeon-actionslist .action-item > img{
+	margin : 5px;	
+}
+
+.gedeon-actionslist .action-item:hover {
+    filter: invert(50%);
+}
+
+
+/**
+* Contextual menu
+*/
+
+.gedeon-contentlist .contextualmenu_holder{
+	display:none;
+}
+
+.gedeon-contentlist .contextualmenu_holder.active{
+	display:block;
+	position:absolute;
+	border: 35px solid transparent;
+	z-index:1000;
+}
+
+.gedeon-contentlist .contextualmenu{
+	background-color: #333;
+	color: #fff;
+	padding: 5px 0px;
+	box-shadow: 5px 5px 5px #333;
+}
+
+.gedeon-contentlist .contextualmenu .action-item{
+	padding: 0px 8px;
+	
+}
+
+.gedeon-contentlist .contextualmenu .action-item:hover{
+	background-color: #666;
+	
+}
+
+
+
+
+
+/**
+* Pagination
+*/
+.gedeonPagination{
+	display: flex;
+	margin-top:5px;
+}
+
+.gedeonPagination .pageItem{
+	border: 1px solid #ddd;
+	padding: 3px 13px 5px 13px;
+	font-weight:bold;
+}
+
+.gedeonPagination .pageItem:hover{
+	background:#eee;
+	cursor:pointer;
+}
+
+.gedeonPagination .pageItem.active{
+	background:#888;
+	cursor:context-menu;
+	color:#fff;
+}
+
+.gedeonPagination .pageItem.disabled{
+	background:#fff;
+	cursor:context-menu;
+	color:#ccc;
+}
+
+.gedeonPagination .pageItem.first{
+	border-top-left-radius:0.375rem;
+	border-bottom-left-radius:0.375rem;
+}
+
+.gedeonPagination .pageItem.last{
+	border-top-right-radius:0.375rem;
+	border-bottom-right-radius:0.375rem;
+}
+
+.gedeonPagination .pageItem.ellipsis{
+	background:#fff;
+	cursor:context-menu;
+	padding: 3px 9px 5px 9px;
 }

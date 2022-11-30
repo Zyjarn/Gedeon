@@ -1,0 +1,87 @@
+/**
+* HEADER
+*/
+/* global header container */
+.headercontent{
+	padding: 0.5rem;
+	height:100%;
+	align-items: center;
+}
+
+/* Items */
+.header-item{
+	margin:0rem 0.25rem;
+}
+
+/**
+* QUICKSEARCH
+*/
+.header .quickSearch{
+	display:flex;
+}
+
+.header .quickSearch div{
+	align-self: center;
+}
+
+.header .quickSearch div input{
+	background-color: #fff;
+	border: 2px solid #000;
+	border-radius:0.375rem;
+	font-weight: bold;
+	padding: 5px 12px 8px 12px;
+}
+
+/*
+* LOGOUT
+*/
+.logout{
+	border: 1px solid transparent;
+	border-radius: 0.375rem;
+	margin-top: 0.25rem;
+	padding: 0.1rem 0.25rem 0.25rem 0.25rem;
+}
+
+.logout img{
+	width:1rem;
+	margin-right:0.5rem;
+}
+
+.logout:hover{
+	background: #ddd;
+	border-color: #ccc;
+	cursor : pointer;
+}
+
+
+
+/**
+* HELP ICON
+*/
+.help img{
+	width:1.5rem;
+}
+
+.help img:hover{
+	filter: invert(50%);
+}
+
+
+
+
+.gedeonproperties_holder{
+	display:none;
+	height:0%;
+	left: 0px;
+	position: absolute;
+	top: 0px;
+}
+
+.gedeonproperties_holder.active{
+	background:rgba(0,0,0,0.5);
+	display: flex;
+	flex-direction: column;
+	height:100%;
+	width:100%;
+	z-index:1100;
+}
