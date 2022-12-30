@@ -16,8 +16,8 @@ export function GedeonSortable(props) {
 	
 	return (
 		<div className='sortable'>
-			<div className={props.active === 'up' ? 'up active' : 'up'} onClick={() => onSort('up')}/>
-			<div className={props.active === 'down' ? 'down active' : 'down'} onClick={() => onSort('down')}/>
+			<div className={props.active === 'up' ? 'up activated' : 'up'} onClick={() => onSort('up')}/>
+			<div className={props.active === 'down' ? 'down activated' : 'down'} onClick={() => onSort('down')}/>
 		</div>
 	);
 	

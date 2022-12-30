@@ -16,15 +16,15 @@
 /**
 * QUICKSEARCH
 */
-.header .quickSearch{
+.header .quicksearch{
 	display:flex;
 }
 
-.header .quickSearch div{
+.header .quicksearch div{
 	align-self: center;
 }
 
-.header .quickSearch div input{
+.header .quicksearch div input{
 	background-color: #fff;
 	border: 2px solid #000;
 	border-radius:0.375rem;
@@ -68,7 +68,6 @@
 
 
 
-
 .gedeonproperties_holder{
 	display:none;
 	height:0%;
@@ -84,4 +83,23 @@
 	height:100%;
 	width:100%;
 	z-index:1100;
+}
+
+
+@media only screen and (max-width: 720px) {
+	.appinfo {
+		display:none;
+	}
+
+	.quicksearch input{
+		width: 5rem;
+	}
+
+	.quicksearch img {
+		height:1.5rem;
+	}
+
+	.quicksearch button {
+		padding: 0.25rem 0.25rem 0.1rem 0.25rem;
+	}
 }

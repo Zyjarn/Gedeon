@@ -1,21 +1,18 @@
-.gedeon-contentlist{
-	display: flex;
-	flex-direction: column;
-	height:100%;
-}
-
-.gedeon-contentlist .tableholder{
-	overflow-x: auto;
-}
-
-
 /**
 * TABLE
 */
+.gedeon-contentlist .tableholder{
+	background-color:#fafafa;
+	flex-grow:1;
+	overflow-x: auto;
+}
+
+.gedeon-contentlist .hscroll{
+	width: max-content;
+}
+
 .gedeon-contentlist table {
-	border-collapse: collapse;
 	caption-side: bottom;
-	margin-bottom: 1rem;
 	width: 100%;
 	vertical-align: top;
 	border-color: #ddd;
@@ -23,41 +20,37 @@
 
 .gedeon-contentlist thead{
 	position: sticky;
-	top: 0px;
+	top: 0;
 	background: #fff;
 	z-index:200;
-}
-
-.columnHeader{
-	display: inline-flex;
 }
 
 /* Selection column sticky on the left */
 .gedeon-contentlist tr:nth-child(even) .contentCell.select{
 	background-color:#fff;
 	position: sticky;
-	left:0px;
+	left:0;
 	z-index:100;
 }
 
 .gedeon-contentlist tr:nth-child(odd) .contentCell.select{
 	background-color:#eee;
 	position: sticky;
-	left:0px;
+	left:0;
 	z-index:100;
 }
 
 .gedeon-contentlist .headerCell.select{
 	background-color:#fff;
 	position: sticky;
-	left:0px;
-	top:0px;
+	left:0;
+	top:0;
 	z-index:200;
 }
 
 
 .gedeon-contentlist tr{
-	border: 1px solid #ddd;
+	border: 0.1rem solid #ddd;
 }
 
 .gedeon-contentlist tbody tr:hover > td{
@@ -72,8 +65,17 @@
 	background: #eee
 }
 
-.gedeon-contentlist td,th{
+.gedeon-contentlist td{
+	padding: .25rem .25rem;
+	overflow-wrap: break-word; 
+}
+
+.gedeon-contentlist th{
 	padding: .5rem .5rem;
+}
+
+.stateColumn select {
+	max-width:1.5rem;
 }
 
 /**
@@ -84,101 +86,125 @@
 }
 
 .sortable .up{
-	margin: -8px 0px 0px 10px;
+	cursor: pointer;
+	margin: -0.5rem 0 0 0.6rem;
 }
 
 .sortable .down{
-	margin: -8px 0px 0px 10px;
+	cursor: pointer;
+	margin: -0.5rem 0 0 0.6rem;
 }
 
 .sortable .up:after{
 	content : "\25B3";
-	cursor: pointer;
 }
 
-.sortable .up.active:after{
+.sortable .up.activated:after{
 	content : "\25B2";
-	cursor: pointer;
 }
 
 .sortable .down:after{
 	content : "\25BD";
-	cursor: pointer;
 }
 
-.sortable .down.active:after{
+.sortable .down.activated:after{
 	content : "\25BC";
-	cursor: pointer;
 }
+
+.resizecolumn {
+	display: flex;
+	margin-right: -1rem;
+}
+
+.columnHeader:hover .resizecolumn{
+	cursor: col-resize;
+}
+
+.columnHeader .resizecolumn span{
+	width: 0.2rem;
+	margin: 0 0.5rem;
+}
+
+.columnHeader:hover .resizecolumn span{
+	background-color:#aaa;
+	
+}
+
+
+
+
+
+
+
 
 /**
 * Upper actions list
 */
-.gedeon-actionslist{
-	display:flex;
-	margin-bottom: 10px;
+.actionsBar{
+	margin-bottom: 0.5rem;
 }
 
-.gedeon-actionslist .list{
-	display:flex;
-}
-
-.gedeon-actionslist .space{
-	flex-grow:8;
-}
-
-.gedeon-actionslist .action-item{
-	border: 1px solid #aaa;
-	border-radius:0.375rem;
-	cursor:pointer;
-	margin : 0.15rem;	
-}
-
-.gedeon-actionslist .action-item > img{
-	margin : 5px;	
-}
-
-.gedeon-actionslist .action-item > img{
-	margin : 5px;	
-}
-
-.gedeon-actionslist .action-item:hover {
-    filter: invert(50%);
-}
 
 
 /**
 * Contextual menu
 */
 
-.gedeon-contentlist .contextualmenu_holder{
+.contextualmenu_holder{
 	display:none;
 }
 
-.gedeon-contentlist .contextualmenu_holder.active{
+.contextualmenu_holder.active{
 	display:block;
 	position:absolute;
-	border: 35px solid transparent;
+	border: 2rem solid transparent;
 	z-index:1000;
 }
 
-.gedeon-contentlist .contextualmenu{
+.contextualmenu{
 	background-color: #333;
 	color: #fff;
-	padding: 5px 0px;
-	box-shadow: 5px 5px 5px #333;
+	box-shadow: 0.4rem 0.4rem 0.4rem #333;
+	display:inline-block;
 }
 
-.gedeon-contentlist .contextualmenu .action-item{
-	padding: 0px 8px;
-	
+.contextualmenu.sub{
+	position:relative;
 }
 
-.gedeon-contentlist .contextualmenu .action-item:hover{
+.contextualmenu .cmsplitter{
+	background-color: #aaa;
+	height:0.1rem;
+}
+
+.contextualmenu .action-item{
+	padding: 0 0.5rem;
+	border-radius:0;
+	margin : 0;
+	padding: 0.1rem 0.5rem 0.3rem 0.5rem;
+}
+
+.contextualmenu .action-item.sub:after{
+	content:"\25B7";
+	margin-left:0.5rem;
+}
+
+
+.contextualmenu .action-item:hover{
 	background-color: #666;
-	
 }
 
+.contextualmenu img{
+	filter:invert(100%);
+	margin-right:0.5rem;
+}
+
+
+.actionsBar .contextualmenu {
+	margin-top:2.5rem;
+	position: absolute;
+	display:none;
+}
 
 
 
@@ -189,11 +215,12 @@
 .gedeonPagination{
 	display: flex;
 	margin-top:5px;
+	padding:0 0.5rem;
 }
 
 .gedeonPagination .pageItem{
-	border: 1px solid #ddd;
-	padding: 3px 13px 5px 13px;
+	border: 0.1rem solid #ddd;
+	padding: 0.2rem 1rem 0.4rem 1rem;
 	font-weight:bold;
 }
 
@@ -210,7 +237,7 @@
 
 .gedeonPagination .pageItem.disabled{
 	background:#fff;
-	cursor:context-menu;
+	cursor:context-menu !important;
 	color:#ccc;
 }
 
@@ -227,5 +254,13 @@
 .gedeonPagination .pageItem.ellipsis{
 	background:#fff;
 	cursor:context-menu;
-	padding: 3px 9px 5px 9px;
+	padding: 0.2rem 1rem 0.4rem 1rem;
+}
+
+
+
+
+
+.filter.contensize input,.filter.contensize inputselect {
+	width: 3rem;
 }

@@ -1,0 +1,51 @@
+.feature-treeview {
+	overflow: hidden;
+}
+
+.splitter{
+	background-color: #ccc;
+	color: #aaa;
+	border:1px solid #bbb;
+	border-radius:0.375rem;
+	margin:0.25rem;
+	display: table;
+	text-align: center;
+	cursor: pointer;
+}
+
+
+.splitter:hover{
+	background-color: #ddd;
+}
+
+.splitter span{
+	display: table-cell;
+	vertical-align: middle;
+}
+
+
+.treeselector {
+	border-color:#ccc;
+	margin:0.2rem;
+	padding: 0.2rem;
+}
+
+
+.treeholder {
+	border:0.1rem solid #ccc;
+	border-radius:0.375rem;
+	margin-left:0.25rem;
+	padding:0.25rem;
+}
+
+
+/** CIRCLE */
+.test{
+	width:10rem;
+	height:10rem;
+	background-color:#f2c;
+	border-radius:50%;
+	background: conic-gradient(purple calc(27%),#0000 0);
+}
+
+

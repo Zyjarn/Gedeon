@@ -1,0 +1,14 @@
+
+Objects right
+
+read		1			00000001
+right		2			00000010
+view		4			00000100
+delete		8			00001000
+file		16			00010000
+unfile		32			00100000
+lock		64			01000000
+majorvs		128	
+minorvs		256	
+security	512	
+admin       1024	

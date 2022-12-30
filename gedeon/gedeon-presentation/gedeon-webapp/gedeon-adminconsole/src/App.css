@@ -34,8 +34,8 @@ button{
 	border-radius:0.375rem;
 	color:#000;
 	font-weight: bold;
-	padding: 5px 12px 8px 12px;
-	margin-left:0.5rem;
+	margin: 0.25rem;
+	padding: 0.25rem 0.75rem 0.5rem 0.75rem;
 }
 
 button:hover{
@@ -46,25 +46,57 @@ button:hover{
 	height:1.25rem;
 }
 
+.activeIcon.disabled{
+	filter: invert(30%) !important;
+	cursor: context-menu !important;
+}
+
 .activeIcon:hover{
 	filter: invert(50%);
 	cursor: pointer;
 }
 
-.activeIcon.disabled:hover{
-	filter: invert(30%);
-	cursor: context-menu;
-}
 
 
 
 /*
 * Utils class
 */
+.hidden {
+	visibility:hidden;
+}
 
+.visible {
+	visibility:visible;
+}
+
+.none {
+	display:none !important;
+}
+
+.active {
+	display:block;
+}
+
+.h {
+	height:100%;
+}
+
+.w {
+	width:100%;
+}
+
+.yover {
+	overflow:auto;
+}
 
 .flex {
 	display: flex;
+}
+
+.flex-reverse {
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .column {
@@ -91,6 +123,94 @@ button:hover{
 	font-weight: bold;
 }
 
+.textSizeS {
+	font-size:0.75rem;
+}
+
+.textSizeXS {
+	font-size:0.6rem;
+}
+
+.textSizeL {
+	font-size:1.25rem;
+}
+
+.textSizeXL {
+	font-size:1.5rem;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.bordered {
+	border: 0.1rem solid #333;
+	border-radius: 0.375rem;
+}
+
+.center {
+	align-items:center;
+}
+
+.marginauto {
+	margin:auto;
+}
+
+.marginright {
+	margin-right:0.5rem;
+}
+
+.inlineblock {
+	display: inline-block;
+}
+
+.activehover:hover {
+	filter:invert(50%);
+}
+
+.wrap {
+	flex-wrap: wrap;
+}
+
+/**
+* Modal
+*/
+.modal_holder {
+	background: rgba(0,0,0,0.5);
+	display: none;
+	height:0%;
+	left:0;
+	position:absolute;
+	top: 0;
+	width: 100%;
+	z-index:1100;
+}
+
+.modal_holder.active {
+	height: 100%;
+	display: flex;
+}
+
+.modal {
+	background: #fff;
+	margin: auto;
+	max-height: 100%;
+	padding: 0.5rem;
+}
+
+.modal_title{
+	border-bottom: 0.1rem solid #aaa;
+	margin-bottom: 0.5rem;
+	position: sticky;
+	top:0;
+}
+
+.modal_actions{
+	background: #fff;
+	bottom:0;
+	padding: 0.5rem 0rem;
+	position:sticky;
+}
 
 /*
 * Application
@@ -104,18 +224,9 @@ button:hover{
 	width: 100%;
 }
 
-.footer {
-	background-color: #dee2e6;
-	border: 2px solid #f8f9fa;
-	bottom: 0;
-	height: 2rem;
-	max-height: 2rem;
-	padding: 0rem 0.75rem 0rem 0.75rem;
-	position: sticky;
-}
-
 /** sidebar and content tabs */
 .appcontent{
+	overflow: hidden;
 	flex-grow: 9;
 }
 
@@ -206,18 +317,21 @@ button:hover{
 	border-top-left-radius: 0.375rem;
 	border-top-right-radius: 0.375rem;
 	padding: 0.5rem 1rem 0.5rem 1rem;
+	user-select: none;
 }
 
 /** on hover not active tab */
 .tab-item:hover {
 	border-color: #ccf #ccf #fff;
 	color: #5AF;
+	cursor:pointer;
 }
 
 /** on hover active tab, no info*/
 .tab-item.active:hover {
 	border-color: #ddd #ddd #fff;
 	color: #555;
+	cursor:context-menu !important;
 }
 
 /**
@@ -241,9 +355,155 @@ button:hover{
 *   FEATURES CONTENT
 *
 */
-.feature{
+.features{
 	height: 100%;
 	overflow: auto;
 }
 
+.feature.active{
+	height: 100%;
+	display: block;
+}
 
+.feature{
+	height:0;
+	display:none;
+}
+
+
+
+/**
+* ACTIONS ICONS
+*/
+.action-item{
+	border: 0.1rem solid #aaa;
+	border-radius:0.375rem;
+	padding: 0.4rem;
+	margin : 0rem 0.15rem;
+	height: 100%;
+	display:flex;
+	align-items: center;
+}
+
+.action-item img{
+	height:1.5rem;
+	width:auto;
+}
+
+
+
+.dandholder{
+	background-color:rgba(0,0,0,0.5);
+	height:100%;
+	left:0;
+	position: absolute;
+	top:0;
+	width:100%;
+}
+
+
+
+/**
+* Breadcrumb
+*/
+.breadcrumb {
+	margin: 0.5rem 0.25rem;
+}
+
+.bread-item {
+	border-bottom:0.1rem solid transparent;
+	margin-left: 0.5rem;
+}
+
+.bread-item.activable {
+	color:blue;
+	cursor:pointer;
+}
+
+.bread-item.activable:hover {
+	border-bottom:0.1rem solid #ccc
+}
+
+
+
+/**
+* Breakpoint for small app
+*/
+
+.mini {
+	height:0;
+	width:0;
+	visibility:hidden;
+}
+
+
+@media only screen and (max-width: 720px) {
+	.appcontent {
+		flex-direction:column;
+	}
+
+	.sidebar .column{
+		flex-direction:row;
+	}
+
+	.maxi {
+		display: none;
+	}
+
+	.mini {
+		height:auto;
+		width:auto;
+		visibility:visible;
+	}
+
+	.nav-link img {
+		height:1.5rem;
+	}
+
+	.adddoc {
+		height:2rem;
+	}
+
+}
+
+
+/*
+* FOOTER 
+*/
+.footer {
+	background-color: #dee2e6;
+	border: 2px solid #f8f9fa;
+	bottom: 0;
+	height: 4.25rem;
+	max-height: 4.25rem;
+	overflow-y:scroll;
+	padding: 0rem 0.75rem 0rem 0.75rem;
+	position: sticky;
+	z-index: 100;
+}
+
+.bordered-object {
+	background-color: #eee;
+	border: 0.1rem solid #aaa;
+	border-radius: 1rem;
+	cursor: pointer;
+	margin: 0.2rem 0.2rem;
+	padding: 0.2rem 1rem;
+}
+
+.bordered-object img{
+	margin-right: 0.2rem;
+}
+
+.bordered-object:hover{
+	background-color: #333;
+	color: #fff;
+}
+
+.bordered-object:hover img{
+	filter: invert(80%);
+}
+
+.bordered-object img:hover{
+	filter: invert(100%);
+}

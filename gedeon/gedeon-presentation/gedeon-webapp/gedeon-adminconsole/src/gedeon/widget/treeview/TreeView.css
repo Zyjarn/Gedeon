@@ -1,0 +1,61 @@
+.treeview{
+	font-size:1.1rem;
+	padding:0.5rem;
+}
+
+.treeview_holder {
+	/*overflow:auto;*/
+	padding: 0.5rem;
+}
+
+.treeview ul {
+	list-style-type: none;
+	margin:0;
+	white-space: nowrap;
+}
+
+.tree-item {
+	padding: 0.2rem;
+	margin: 0.2rem;
+	border: 0.1rem solid transparent;
+}
+
+.tree-item:hover {
+	border-bottom: 0.1rem solid #aaa;
+	cursor:pointer;
+}
+
+.treeview .dropdown::before {
+	content: "\25B6";
+	color:black;
+	display: inline-block;
+	margin-right: 0.5rem;
+}
+
+.treeview .dropdown:hover {
+	filter:invert(50%);
+}
+
+.treeview .dropdown.active::before {
+	rotate:90deg;
+}
+
+.treeview .childs {
+	height:0;
+	visibility:hidden;
+}
+
+.treeview .childs.active {
+	height:100%;
+	visibility:visible;
+}
+
+/* hide all component */
+.treeview .childs.down *{
+	height:0 !important; 
+	visibility:hidden !important;
+}
+
+.treeview .selected {
+	color:blue;
+}

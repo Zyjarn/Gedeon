@@ -2,11 +2,20 @@
 	background:#fff;
 	max-height: 100%;
 	margin: auto;
+	overflow-y: auto;
 	padding: 0.5rem;
 }
 
 .gedeonproperties .title{
 	padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+}
+
+.gedeonproperties .propertiesactions{
+	bottom:-0.5rem;
+	background:#fff;
+	margin:-0.5rem ;
+	padding: 0.5rem 0rem;
+	position:sticky;
 }
 
 .gedeonproperties .propertiesfield{
@@ -137,25 +146,7 @@
 
 
 
-.textSizeS {
-	font-size:0.75rem;
-}
 
-.textSizeXS {
-	font-size:0.6rem;
-}
-
-.textSizeL {
-	font-size:1.25rem;
-}
-
-.textSizeXL {
-	font-size:1.5rem;
-}
-
-.bold{
-	font-weight: bold;
-}
 
 
 

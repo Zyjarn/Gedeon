@@ -1,14 +1,19 @@
 import {useState} from 'react';
 
 import './App.css';
-import GedeonHeader from "./gedeon/layout/GedeonHeader"
+import GedeonHeader from "./gedeon/layout/GedeonHeader";
+import Footer from "./gedeon/layout/Footer";
 
 import Favorites from './gedeon/features/Favorites';
-import Search from './gedeon/features/Search';
+import useSearch from './gedeon/features/useSearch';
+import useFeature from './gedeon/features/useFeature';
 
 import GedeonContentList from './gedeon/widget/contentlist/GedeonContentList';
+import DocumentProperties from './gedeon/widget/docproperties/DocProperties.js';
 
 import ConfigAPI from './gedeon/api/ConfigAPI';
+import CacheTabManager from './gedeon/utils/CacheTabManager';
+
 
 import ICON_FAVORITES from './images/favorites.svg';
 import ICON_FOLDER from './images/folder.svg';
@@ -19,24 +24,7 @@ import ICON_SETTINGS from './images/settings.svg';
 import ICON_CLOSE from './images/close.svg';
 
 function App() {
-	/*const [state,setState] = useState({loading:true,tabs:[]});
-	/*const [tabs,setTabs] = useState([]);
 	
-	let tabs = state.tabs;*/
-	
-	function handleGetConfig(config) {
-		/*setState({
-			loading:false,
-			tabs: [config.appViewsConfig[config.appViews[0].name]]
-		})*/
-		/*isLoading(false);
-		tabs = [config.appViewsConfig[config.appViews[0].name]];*/
-	}
-
-	/*if(state.loading){
-		ConfigAPI.getConfig("toto", handleGetConfig);
-	}
-*/
 	
 	//TODO To externalize
 	//List of configured app view
@@ -64,36 +52,32 @@ function App() {
 			appViewsConfig : {
 				"favorites":{
 					"name":"favorites",
+					"cache":"favorites",
 					"icon":ICON_FAVORITES,
 					"isActive":true,
 					"isOpenNewTab":false,
-					"isClosable":false,
-					"content": <Favorites />
+					"isClosable":false
 				},
 				"folder":{
 					"name":"folder",
 					"icon":ICON_FOLDER,
 					"isOpenNewTab":false,
-					"isClosable":false,
-					"content": <GedeonContentList />
+					"isClosable":false
 				},
 				"search":{
 					"name":"search",
 					"icon":ICON_SEARCH,
-					"isOpenNewTab":true,
-					"content": <Search />
+					"isOpenNewTab":true
 				},
 				"treeview":{
 					"name":"treeview",
 					"icon":ICON_TREEVIEW,
-					"isOpenNewTab":true,
-					"content": <GedeonContentList />
+					"isOpenNewTab":true
 				},
 				"settings" : {
 					"name":"settings",
 					"icon":ICON_SETTINGS,
-					"isOpenNewTab":false,
-					"content": <GedeonContentList />
+					"isOpenNewTab":false
 				}
 			},
 		
@@ -104,79 +88,94 @@ function App() {
 				}
 			]
 		};
+
+	const [cacheTab, setCacheTab] = useState(new CacheTabManager({cache:{"favorites":config.appViewsConfig["favorites"]}}));
+	const [reducedElements, setReducedElements] = useState([]);
+	const [propertiesElement, setPropertiesElement] = useState();
 	
-
-
-	const [state,setState] = useState({loading:true,tabs:[config.appViewsConfig[config.appViews[0].name]]});
-	/*const [tabs,setTabs] = useState([]);*/
-	
-	let tabs = state.tabs;
-
-
-	
-	function addTab(appView){
-		console.log("addTab");
+	/**
+	* Handle click on feature in navigation pane
+	*/
+	const addTab = (appView) => {
 		let tabconfig = config.appViewsConfig[appView];
 		let add = true;
-		let index = 0;
 		let count = 0;
-		let newTabs = tabs.map((x) => x)
-		for(var i in newTabs){
-			//Disaable active on all tabs
-			newTabs[i].isActive = false
-			if(newTabs[i].name === tabconfig.name){
-				//check if tab must be added or re-open
-				add = tabconfig.isOpenNewTab;
-				//if tab must be re-open keep track of index key
-				index = i;
-				count++;
-			}
-		}
-		
+		let sameTypeTabs = [];
+
 		tabconfig.label = tabconfig.name;
 		
-		if(add){
-			tabconfig.isActive = true;
-			newTabs.push(tabconfig);
-			if(count > 0){
-				tabconfig.label += " ("+count+")";
+
+		let newCacheTab = new CacheTabManager(cacheTab);
+		let allTabs = newCacheTab.get()
+		for(var i in allTabs){
+			//Disaable active on all tabs
+			
+			if(allTabs[i].name === tabconfig.name){
+				//check if tab must be added or re-open
+				add = tabconfig.isOpenNewTab;
+				allTabs[i].isActive = !add;				
+				sameTypeTabs.push(allTabs[i]);
+			} else {
+				allTabs[i].isActive = false;
 			}
-		} else {
-			newTabs[index].isActive = true;
 		}
-		setState({
-			loading:false,
-			tabs: newTabs
-		})
+
+
+		if(add){
+			tabconfig.id = 0;
+			tabconfig.isActive = true;
+			if(sameTypeTabs.length > 0){
+				tabconfig.id = Math.max(...sameTypeTabs.map(obj => obj.id))+1;
+				tabconfig.label += " ("+tabconfig.id+")";
+			}
+			tabconfig.cache = tabconfig.name+tabconfig.id;
+			
+			//Update state			
+			newCacheTab.update(tabconfig.cache,tabconfig);
+			
+		} 
+		setCacheTab(newCacheTab);
 	}
 	
-	function onSelectTab(index){
-		console.log("onSelect");
-		let newTabs = tabs.map((x,i) => {x.isActive = i===index;return x;})
-		setState({
-			loading:false,
-			tabs: newTabs
-		})
+	/**
+	* Event OnClick on Tab Feature
+	*/
+	const onSelectTab = (obj) => {
+		let newCacheTab = new CacheTabManager(cacheTab);
+		newCacheTab.get().forEach(obj => obj.isActive = false);
+		newCacheTab.get(obj.cache).isActive = true;
+		setCacheTab(newCacheTab);		
 	}
 	
-	
-	function onCloseTab(index){
-		console.log("onClose");
-		let newTabs = state.tabs;
-		let deletedTab = newTabs.splice(index,1)[0];
-		if(deletedTab.isActive){
-			newTabs.forEach((x) => x.isActive = false);
-			newTabs[index-1].isActive = true;
+	/**
+	* Event onClose Feature Tab
+	*/
+	const onCloseTab = (obj) => {
+		let newCacheTab = new CacheTabManager(cacheTab);
+		// remove selected tab
+		newCacheTab.remove(obj.cache);
+		// if delete active tab, select a new one
+		if(obj.isActive){
+			Object.values(newCacheTab.cache)[0].isActive = true;
 		}
-		setState({
-			loading:false,
-			tabs: newTabs
-		})
+		setCacheTab(newCacheTab);
 	}
+
+
+	const handleUpdateFeatureProps = (updatedProps) => {
+		let newCacheTab = new CacheTabManager(cacheTab);
+		newCacheTab.update(updatedProps.cache,updatedProps);
+		setCacheTab(newCacheTab);
+	}
+
+
+	
+
+
 	
 	
-		/**
-	* Get an image node with for the navigation bar 36x36
+	/**
+	* Get an image node for the navigation bar
 	*
 	* @param appViewDef	AppViewDef( @param name	feature name, @param icon	imported svg or target image file)
 	*/
@@ -208,16 +207,70 @@ function App() {
 		adminAppViewLinks.push(getAppViewLink(obj))
 	));
 
-console.log("render");
-console.log(tabs);
-console.log("---------");
 
-	let selectedTab = null;
-	for(var i in state.tabs){
-		if(state.tabs[i].isActive){
-			selectedTab = state.tabs[i];
+	let selectedFeature = null;
+	let tabsProps = {};
+	let tabsConfigs = cacheTab.get();
+	
+	for(var i in tabsConfigs){
+		if(tabsConfigs[i].isActive){
+			selectedFeature = tabsConfigs[i];
+			selectedFeature.onUpdateState = handleUpdateFeatureProps;
 		}
 	}
+
+	/**
+	 * Properties view management
+	 */
+	const handleCloseProperties = () => {
+		let propertiesModal = document.getElementsByClassName("gedeonproperties_holder")[0];
+		if(propertiesModal !== undefined){
+			propertiesModal.classList.remove("active");
+		}
+	}
+
+	const handleReduceProperties = (elt) => {
+		console.log("reduce");
+		console.log(elt);
+		console.log(reducedElements);
+		// Add element to footer if doesn't already exists
+		if(!reducedElements.some(obj => obj.widgetId === elt.widgetId)){
+			let newReducedElements = reducedElements.map(x => x);
+			newReducedElements.push(elt);
+			setReducedElements(newReducedElements);
+			setPropertiesElement(null);
+		}
+		
+		// reduce modal properties
+		let propertiesModal = document.getElementsByClassName("gedeonproperties_holder")[0];
+		if(propertiesModal !== undefined){
+			propertiesModal.classList.remove("active");
+		}
+	}
+
+	/*
+	* Footer management
+	*/
+	const handleCloseFooterElement = (elt) => {
+		console.log("close");
+		console.log(elt);
+		console.log(reducedElements);
+		let newReducedElements = reducedElements.map(x => x);
+		newReducedElements = newReducedElements.filter(x => x.widgetId !== elt.widgetId);
+		setReducedElements(newReducedElements);
+	}
+
+	const handleOpenFooterElement = (elt) => {
+		console.log("open");
+		console.log(elt);
+		console.log(reducedElements);
+		setPropertiesElement(elt);
+		let propertiesModal = document.getElementsByClassName("gedeonproperties_holder")[0];
+		if(propertiesModal !== undefined){
+			propertiesModal.classList.add("active");
+		}
+	}
+
 
 	return (
 		<div className="App">
@@ -227,7 +280,7 @@ console.log("---------");
 				</div>
 				<div className="appcontent flex">
 					<aside className="sidebar">
-						<div className="navbar hcolumn">
+						<div className="navbar h column">
 							<div className="column">
 								{appViewLinks}
 							</div>
@@ -237,25 +290,26 @@ console.log("---------");
 							</div>
 						</div>
 					</aside>
-					<main className="content hflex" >
+					<main className="content h flex" >
 						<div className="tabs flex" role="tablist">
 						{
-							tabs.map((obj,index) => {
+							cacheTab.get().map((obj,index) => {
 								let active = obj.isActive;
 								let label = obj.label === undefined ? obj.name : obj.label;
 								let close = null;
 								if(obj.isClosable === undefined || obj.isClosable){
 									close = (<img
-												alt=""
+												alt="X"
+												title="close tab"
 												src={ICON_CLOSE}
 												className="activeIcon"
-												onClick={() => onCloseTab(index)}
+												onClick={(e) => {e.stopPropagation();onCloseTab(obj)}}
 											/>);
 								}
 								return (
-									<div key={index}>
+									<div key={index} onClick={() => onSelectTab(obj)}>
 										<span className={"tab-item"+(active ? " active" : "")}>
-											<span id={"gedeon-tab-"+index} onClick={() => onSelectTab(index)}>
+											<span id={"gedeon-tab-"+index}>
 												{label}
 											</span>
 											{close}
@@ -266,14 +320,22 @@ console.log("---------");
 							})
 						}
 						</div>
-						<div className="feature">
-							{selectedTab.content}
-						</div>
+						{useFeature(selectedFeature)}
 					</main>
 				</div>
 				<div className="footer">
-					footer
+					<Footer 
+							reducedElements={reducedElements} 
+							onCloseElement={handleCloseFooterElement} 
+							onOpenElement={handleOpenFooterElement}/>
 				</div>
+			</div>
+			{/* Properties modal */}
+			<div className="gedeonproperties_holder">
+				<DocumentProperties 
+					item={propertiesElement}
+					onCloseProperties={handleCloseProperties}
+					onReduceProperties={handleReduceProperties}/>
 			</div>
 		</div>
 	);

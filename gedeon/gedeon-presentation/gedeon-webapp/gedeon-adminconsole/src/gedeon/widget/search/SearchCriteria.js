@@ -9,7 +9,7 @@ export function SearchCriteria(props) {
 		<div className="searchCriteria">
 			<span className="label">{props.criteria.label}</span>
 			<input type="text" className="value" 
-				onChange={event => props.onChange(props.criteria.criteria, event.target.value)}
+				onChange={event => props.onChange(props.criteria, event.target.value)}
 				value={props.criteria.value}
 			/>
 			<img

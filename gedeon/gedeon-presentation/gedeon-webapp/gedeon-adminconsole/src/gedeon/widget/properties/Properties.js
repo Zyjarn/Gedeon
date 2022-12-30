@@ -307,14 +307,14 @@ export function Properties(props) {
 				</div>
 				
 				
-				<div className="actions">
-					<button>Cancel</button>
-					<button>Save</button>
-				</div>
+				
 				
 				
 			</div>
-			
+			<div className="propertiesactions">
+					<button>Cancel</button>
+					<button>Save</button>
+				</div>
 		</div>
 	);
 	

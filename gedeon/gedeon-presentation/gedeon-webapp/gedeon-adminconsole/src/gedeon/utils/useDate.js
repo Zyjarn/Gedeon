@@ -11,7 +11,7 @@ function useDate(props){
 			setDate(new Date());
 		},  1000);
 		return () => {
-		clearInterval(timer); // Return a funtion to clear the timer so that it will stop being called on unmount
+			clearInterval(timer); // Return a funtion to clear the timer so that it will stop being called on unmount
 		}
 	}, []);
 	
