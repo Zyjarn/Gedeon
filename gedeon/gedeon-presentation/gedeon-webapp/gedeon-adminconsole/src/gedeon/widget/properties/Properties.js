@@ -34,9 +34,11 @@ export function Properties(props) {
 
 	return (
 		<div className="gedeonproperties">
+			<div className="propertiesfield title textSizeXL bold">{isAddition ? "Add document" : "Properties"}</div>
+
 			<div className="content">
 			
-				<div className="propertiesfield title textSizeXL bold">{isAddition ? "Add document" : "Properties"}</div>
+				
 				
 				<div>
 				

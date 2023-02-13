@@ -42,6 +42,8 @@ function GedeonHeader() {
 					<span>0.0.1-SNAPSHOT</span>
 					<CurrentTime locale="en"/>
 				</div>
+
+				<div className="space"/>
 				
 				<div className="header-item">
 					<button title="Add document(s)" onClick={() => handleAddDocument()}>

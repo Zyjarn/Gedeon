@@ -2,53 +2,63 @@ package com.vten.gedeon.ws;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vten.gedeon.api.GedFactory;
-import com.vten.gedeon.api.GedeonCollection;
-import com.vten.gedeon.api.PersistableObject;
-import com.vten.gedeon.api.property.Property;
-import com.vten.gedeon.api.utils.GedId;
-import com.vten.gedeon.exception.GedeonRuntimeException;
-import com.vten.gedeon.utils.SaveMode;
+import com.vten.gedeon.ws.entities.ObjectProperty;
+import com.vten.gedeon.ws.entities.RequestGetObject;
 import com.vten.gedeon.ws.entities.ResponseDelete;
+import com.vten.gedeon.ws.entities.ResponseGetObject;
+import com.vten.gedeon.ws.entities.Status;
 
 import io.swagger.annotations.ApiOperation;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/document")
 @ApiOperation("Gedeon API")
-public class GedeonRestController {
+public class DocumentRestController {
 
-	/*@Autowired
-	private GedFactory factory;*/
-
-	@PostMapping("/delete")
-	public ResponseDelete deleteObject(@RequestParam(value = "collection") String collectionName,
-			@RequestParam(value = "id") String id,
+	@DeleteMapping("/id/{id}/delete")
+	public ResponseDelete deleteObject(
+			@PathVariable(value = "id") String id,
+			@RequestParam(value = "collection") String collection,
 			@RequestParam(value = "allVersions",required = false, defaultValue = "false") Boolean allVersions){
 
-		return null;
+		ResponseDelete response = new ResponseDelete();
+		Status status = new Status("GWS000","No Error");
+		response.setStatus(status);
+		
+		return response;
 	}
 
 
-	@GetMapping("/getObject")
-	public void getObject(@RequestParam(value = "collection", required = true) String collectionName,
-			@RequestParam(value = "className", required = true) String className,
-			@RequestParam(value = "id", required = true) String id) {
-		/*GedeonCollection collection = factory.getGedCollection(collectionName);
-		return factory.getGedDocument(collection, new GedId(id));*/
+	@GetMapping("/id/{id}")
+	public ResponseGetObject getObject(
+			@PathVariable(value = "id") String id,
+			@RequestBody(required = false) RequestGetObject request){
+
+		ResponseGetObject response = new ResponseGetObject();
+		Status status = new Status("GWS000","No Error");
+		response.setStatus(status);
+
+		ObjectProperty propertyName = new ObjectProperty();
+		propertyName.setName("Name");
+		propertyName.setType("string");
+		propertyName.setValue("Test");
+		response.getProperties().put("Name",propertyName);
+		
+		return response;
 	}
+
 
 	@PostMapping(path = "/saveObject", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public int saveObject(@RequestParam(value = "collection", required = true) String collectionName,

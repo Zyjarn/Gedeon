@@ -10,6 +10,10 @@
 	padding: 0.25rem 0.5rem 0.5rem 0.5rem;
 }
 
+.gedeonproperties .content{
+	padding-top: 0.5rem;
+}
+
 .gedeonproperties .propertiesactions{
 	bottom:-0.5rem;
 	background:#fff;
