@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>com.vten.zeus</groupId>
+		<artifactId>zeus</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>zeus-app</artifactId>
+	<packaging>jar</packaging>
+
+	<properties>
+	</properties>
+
+		<dependencies>
+			<dependency>
+			    <groupId>com.badlogicgames.gdx</groupId>
+			    <artifactId>gdx</artifactId>
+			</dependency>
+			<dependency>
+			    <groupId>com.badlogicgames.gdx</groupId>
+			     <artifactId>gdx-backend-lwjgl3</artifactId>
+			</dependency>
+			<dependency>
+			    <groupId>com.badlogicgames.gdx</groupId>
+			    <artifactId>gdx-platform</artifactId>
+			    <version>1.11.0</version>
+			    <type>pom</type>
+			</dependency>
+
+		</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>flatten-maven-plugin</artifactId>
+					<version>${flatten-maven-plugin.version}</version>
+					<configuration>
+						<updatePomFile>true</updatePomFile>
+					</configuration>
+					<executions>
+						<execution>
+							<id>flatten</id>
+							<phase>process-resources</phase>
+							<goals>
+								<goal>flatten</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>flatten.clean</id>
+							<phase>clean</phase>
+							<goals>
+								<goal>clean</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- OWASP for CVE check -->
+				<plugin>
+					<groupId>org.owasp</groupId>
+					<artifactId>dependency-check-maven</artifactId>
+					<version>${dependency-check-maven.version}</version>
+					<inherited>false</inherited>
+					<executions>
+						<execution>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- Flatten pom to manage revision property -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>
